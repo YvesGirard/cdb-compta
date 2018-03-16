@@ -1,0 +1,9 @@
+<h3>Utilisateurs</h3>
+<div class="grid grid-pad">
+    <div *ngFor="let user of users" (click)="gotoDetail(user)" class="col-1-4">
+        <div class="module hero">
+            <h4>{{user.email}}</h4>
+        </div>
+    </div>
+</div>
+<hero-search></hero-search>

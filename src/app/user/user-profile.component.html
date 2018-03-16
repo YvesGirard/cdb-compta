@@ -1,0 +1,52 @@
+<div class="profil-text-styling">
+	<div class="header">
+		<h1>Profil</h1>
+	</div>
+	<div class="heading">
+		<h2>Obligatoire</h2>
+	</div>
+
+<form role="form" [formGroup]="userForm" (ngSubmit)="save()">
+	<fieldset>
+	<div class="cdb-list-separator col">
+          <mat-form-field class="cdb-input-full-width" dividerColor="primary">
+            <input matInput #postalCode formControlName="email" placeholder="Email" name="email">
+            <mat-hint align="end">
+              <mat-icon>mode_edit</mat-icon>
+              <span aria-live="polite">Nous ne partagerons pas votre adresse e-mail privée avec d'autres utilisateurs.</span>
+            </mat-hint>
+          </mat-form-field>
+	</div>
+
+	<div class="cdb-list-separator">
+		<mat-form-field class="cdb-input-full-width" dividerColor="primary">
+				<mat-select placeholder="Civilité" formControlName="title" name="title">
+						<mat-option *ngFor="let title of titles" [value]="title.id">
+						  {{ title.title }}
+						</mat-option>
+				</mat-select>
+		</mat-form-field>
+		<mat-form-field class="cdb-input-full-width" dividerColor="primary">
+			<input matInput formControlName="given_name"  placeholder="Prénom" name="given-name">
+		</mat-form-field>
+		<mat-form-field class="cdb-input-full-width" dividerColor="primary">
+				<input matInput formControlName="family_name" placeholder="Nom" name="family-name" >
+		</mat-form-field>
+ 	</div>
+	 
+  <div class="cdb-list-separator">
+		<!--<mat-form-field>
+				<input matInput [matDatepicker]="picker" placeholder="Date de naissance" [(ngModel)]="userProfile.birthday" name="birthday" > 
+				<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+				<mat-datepicker #picker></mat-datepicker>
+		</mat-form-field>-->
+  </div>
+</fieldset>
+</form>
+
+  <div class="cdb-list-separator">
+	  <button mat-button (click)="save()" [disabled]="userForm.pristine">Enregistrer</button>
+ </div>
+
+
+</div>

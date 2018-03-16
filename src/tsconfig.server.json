@@ -1,0 +1,20 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/app",
+    "baseUrl": "./",
+    "module": "commonjs",
+    "types": [
+      "node"
+    ]
+  },
+  "exclude": [
+    "test.ts",
+    "server.ts",
+    "./api/*",
+    "./config/*",
+    "**/*.spec.ts",
+    "**/*mdl-upgrade-element.directive.ts",
+    "**/*setup.component.ts"
+  ]
+}

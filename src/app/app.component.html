@@ -1,0 +1,51 @@
+<!--<header class="nav-transparent mdl-layout__header mdl-layout__header--transparent">
+	<div class="mdl-layout__header-row">
+		
+		<span class="mdl-layout-title">{{title}}</span>
+	
+		<div class="mdl-layout-spacer"></div>
+
+		<nav class="mdl-navigation">
+			<a routerLink="/dashboard" class="mdl-navigation__link" routerLinkActive="active">Tableau de bord</a>
+			<a routerLink="/profile" class="mdl-navigation__link" routerLinkActive="active" *ngIf="auth.loggedIn">Profile</a>
+			<a routerLink="/setup" class="mdl-navigation__link" routerLinkActive="active" *ngIf="auth.loggedIn">Administration</a>
+			<a class="mdl-navigation__link" (click)="auth.login()" *ngIf="!auth.loggedIn">Log In</a>
+			<a class="mdl-navigation__link" (click)="auth.logout()" *ngIf="auth.loggedIn">Log Out</a>
+		</nav>
+	</div>
+
+
+
+</header>-->
+<mat-toolbar class="cdb-toolbar" color="primary">
+	<mat-toolbar-row class="cdb-toolbar-row">
+		<div class="cdb-inner">
+			<span class="cdb-display1">CDB Gestion</span>
+
+			<span class="example-spacer"></span>
+			<mat-icon>home</mat-icon>
+			<nav class="">
+				<a routerLink="/dashboard" class="" routerLinkActive="active">Tableau de bord</a>
+				<a routerLink="/members" class="" routerLinkActive="active" *ngIf="AuthService.authenticated && AuthService.isAdmin">Adhérents</a>
+				<a routerLink="/profile" class="" routerLinkActive="active" *ngIf="AuthService.authenticated">Profile</a>
+				<a routerLink="/setup" class="" routerLinkActive="active" *ngIf="AuthService.authenticated && AuthService.isAdmin">Administration</a>
+				<a class="" (click)="AuthService.login()" *ngIf="!AuthService.authenticated">Log In</a>
+				<a class="" (click)="AuthService.logout()" *ngIf="AuthService.authenticated">Log Out</a>
+			</nav>
+		</div>
+	</mat-toolbar-row>
+</mat-toolbar>
+<!--
+<div class="mdl-layout__drawer">
+	<span class="mdl-layout-title">{{title}}</span>
+	<nav class="mdl-navigation">
+		<a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+		<a routerLink="/competitors" routerLinkActive="active">Compétiteurs</a>
+		<a routerLink="/profile" routerLinkActive="active" *ngIf="auth.loggedIn">Profile</a>
+	</nav>
+</div>
+-->
+
+<main class="">
+	<router-outlet></router-outlet>
+</main>

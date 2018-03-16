@@ -1,0 +1,16 @@
+@import '~@angular/material/theming';
+
+/* Create a config with the default typography levels.*/
+$config: mat-typography-config();
+
+/* Custom header that uses only the Material `font-size` and `font-family`. */
+.cdb-header {
+  font-size: mat-font-size($config, headline);
+  font-family: mat-font-family($config);
+}
+
+.cdb-display1 {
+    font-size: mat-font-size($config, headline);
+    font-family: mat-font-family($config);
+    font-weight: 700;
+  }

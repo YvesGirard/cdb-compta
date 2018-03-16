@@ -1,0 +1,4 @@
+// config/db.ts
+export = {
+
+}

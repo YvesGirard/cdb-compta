@@ -1,0 +1,22 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../src",
+    "baseUrl": "./",
+    "module": "commonjs",
+    "lib" : ["es2015", "es2017", "dom"],
+    "types": [
+      "node"
+    ]
+  },
+  "exclude": [
+    "test.ts",
+    "./app/*",
+    "main.server.ts",
+    "main.ts",
+    "polyfills.ts",
+    "**/*.spec.ts",
+    "**/*mdl-upgrade-element.directive.ts",
+    "**/*setup.component.ts"
+  ]
+}

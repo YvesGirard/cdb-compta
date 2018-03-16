@@ -1,0 +1,137 @@
+
+.profil-text-styling h1 {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    height: auto;
+    margin-bottom: 8px;
+}
+
+.profil-text-styling .heading {
+    border-bottom: 1px solid rgba(0,0,0,.05);
+    margin-bottom: 30px;
+}
+
+.profil-text-styling h2 {
+    font-size: 16px;
+    color: rgba(0,0,0,.54);
+    font-weight: 500;
+    text-transform: none;
+    margin-top:5px;
+    margin-bottom:0px;
+}
+
+.profil-text-styling {
+    margin: 0 auto;
+    max-width: 700px;
+}
+
+.cdb-input-hint {
+    font-size: 14px;
+    margin-right: 20px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,.44);
+}
+
+.cdb-list-separator {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    display: flex;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.cdb-list-separator.col {
+    flex-direction: column;
+}
+
+.item-container .md-list-item {
+    align-items: center;
+    justify-content: flex-start;
+    display: flex;
+    min-height: 30px;
+    width:100%;
+}
+
+.list-item {
+    align-items: center;
+    display: flex;
+    flex: 0 1 auto;
+    /*overflow: hidden;*/
+}
+
+.list-item.checkmark {
+    justify-content: center;
+    height: 30px;
+    width: 30px;
+}
+
+.list-item.text {
+    /*margin-bottom: 5px;*/
+    margin-left: 10px;
+}
+
+
+md-list .list-body .list-item {
+    font-size: 14px;
+    color: rgba(0,0,0,.87);
+    font-weight: 400;
+}
+md-list .list-header .list-item {
+    font-size: 13px;
+    color: rgba(0,0,0,.54);
+    font-weight: 500;
+        height: 60px;
+}
+md-list.admin-list {
+    padding-top: 0px;
+}
+
+md-list.admin-list .list-header .md-list-item {
+        height: 60px;
+}
+
+md-list.admin-list md-list-item .md-list-item {
+    height: 35px;
+}
+
+md-list.admin-list md-list-item .md-list-item:hover {
+    background-color: #EEEEEE;
+}
+
+md-list.admin-list md-list-item {
+    border-bottom:1px solid #e0e0e0;
+}
+
+md-list.admin-list {
+    border-top: 1px solid #e0e0e0;
+}
+/*
+md-list.admin-list >>> .md-checkbox-inner-container {
+        height: 18px;
+        width: 18px;
+}
+
+
+md-list.admin-list >>> md-checkbox label {
+    margin-bottom: 0px; 
+}*/
+
+
+
+md-card {
+        padding: 0px;
+}
+
+md-card-title {
+    margin-right:24px;
+    margin-left:24px;
+    margin-top:24px;
+}
+
+cdb-item {
+    display: flex;
+}
+
+ 

@@ -1,0 +1,37 @@
+.mat-simple-snackbar {
+  display: flex;
+  justify-content: space-between;
+  line-height: 20px;
+  opacity: 1;
+}
+
+.mat-simple-snackbar-action {
+    webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    outline: 0;
+    border: none;
+    -webkit-tap-highlight-color: transparent;
+    background: 0 0;
+    flex-shrink: 0;
+    margin-left: 48px;
+}
+
+.mat-simple-snackbar-action {
+    color: #ff4081;
+}
+
+.mat-simple-snackbar-action {
+    line-height: 1;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: 500;
+}
+
+span {
+    height: 20px;
+    width: 100%;
+    display: inline-block;
+}
