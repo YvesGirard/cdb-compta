@@ -1,4 +1,0 @@
-// config/db.ts
-export = {
-
-}

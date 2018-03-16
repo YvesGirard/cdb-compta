@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import { HttpParams } from '@angular/common/http';
 
 import 'rxjs/add/operator/toPromise';
-
+import { Observable } from 'rxjs/Observable';
 import { Member } from '../model/member';
 import { Service } from '../services/service';
 import { LoggerSnackbarService } from '../services/logger-snackbar.service';
@@ -12,18 +13,24 @@ import { AuthHttp } from 'angular2-jwt';
 export class MemberService extends Service {
   private memberUrl = 'api/members';  // URL to web api
 
-  constructor( protected http: Http
-    ,public snackBarService: LoggerSnackbarService
-    ,private authHttp: AuthHttp) {
+  constructor(protected http: Http
+    , public snackBarService: LoggerSnackbarService
+    , private authHttp: AuthHttp) {
     super(http, snackBarService);
     this.url = this.memberUrl;
   }
 
-  getMembers(): Promise<Member[]> {
-    return this.authHttp.get(this.memberUrl)
-      .toPromise()
-      .then(response => (response.json().data as Member[]))
-      .catch(this.handleError);
+  getMembers(filter = '', sortOrder = 'asc',
+    pageNumber = 0, pageSize = 3): Observable<Member[]> {
+    return this.authHttp.get(this.memberUrl, {
+      params: new HttpParams()
+        .set('filter', filter)
+        .set('sortOrder', sortOrder)
+        .set('pageNumber', pageNumber.toString())
+        .set('pageSize', pageSize.toString())
+    }).map((res) => {
+      return res.json().data as Member[];
+    });
   }
 
   create(member: Member): Promise<Member> {

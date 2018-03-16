@@ -8,6 +8,8 @@ import { MemberAddDialog } from '../entry/member-add-dialog.component';
 
 import { Member } from '../model/member';
 import { MemberService } from '../services/member.service';
+import { MemberDataSource } from '../datasource/member.data-source';
+
 
 @Component({
   moduleId: module.id,
@@ -19,11 +21,12 @@ import { MemberService } from '../services/member.service';
 export class MembersComponent implements OnInit {
 
   members: Member[];
-  displayedColumns = ['position', 'name'];
-  dataSource = new MatTableDataSource(this.members);
+  displayedColumns = ['seqNo', 'Nom'];
+  dataSource : MemberDataSource;
 
   ngOnInit(): void {
-    this.getMembers();
+    this.dataSource = new MemberDataSource(this.memberService);
+    this.dataSource.loadMembers();
   }
 
   constructor(
@@ -35,14 +38,7 @@ export class MembersComponent implements OnInit {
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
-  }
-
-  getMembers(): void {    
-   this.memberService.getMembers().then(members => {
-      console.log(members);
-      this.members = members
-      });
+   // this.dataSource.filter = filterValue;
   }
 
   add(member: Member): void {
