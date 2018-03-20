@@ -43,10 +43,7 @@ export class MembersComponent implements OnInit {
 
   add(member: Member): void {
     if (!member) { return; }
-    this.memberService.create(member)
-      .then(member => {
-        this.members.push(member);
-      });
+    this.dataSource.creatMember(member);
   }
 
   openDialog(): void {

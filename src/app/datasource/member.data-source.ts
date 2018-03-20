@@ -8,34 +8,50 @@ import { of } from 'rxjs/observable/of';
 
 export class MemberDataSource implements DataSource<Member> {
 
-  private membersSubject = new BehaviorSubject<Member[]>([]);
-  private loadingSubject = new BehaviorSubject<boolean>(false);
+    private membersSubject = new BehaviorSubject<Member[]>([]);
+    private loadingSubject = new BehaviorSubject<boolean>(false);
 
-  public loading$ = this.loadingSubject.asObservable();
+    public loading$ = this.loadingSubject.asObservable();
 
-  constructor(private memberService: MemberService) {}
+    constructor(private memberService: MemberService) { }
 
-  connect(collectionViewer: CollectionViewer): Observable<Member[]> {
-      return this.membersSubject.asObservable();
-  }
+    connect(collectionViewer: CollectionViewer): Observable<Member[]> {
+        return this.membersSubject.asObservable();
+    }
 
-  disconnect(collectionViewer: CollectionViewer): void {
-      this.membersSubject.complete();
-      this.loadingSubject.complete();
-  }
+    disconnect(collectionViewer: CollectionViewer): void {
+        this.membersSubject.complete();
+        this.loadingSubject.complete();
+    }
 
-  loadMembers(filter = '',
-              sortDirection = 'asc', pageIndex = 0, pageSize = 3) {
+    loadMembers(filter = '',
+        sortDirection = 'asc', pageIndex = 0, pageSize = 3) {
 
-      this.loadingSubject.next(true);
+        this.loadingSubject.next(true);
 
-      this.memberService.getMembers(filter, sortDirection,
-          pageIndex, pageSize).pipe(
-          catchError(() => of([])),
-          finalize(() => this.loadingSubject.next(false))
-      )
-      .subscribe(members => {
-        console.log(members)
-        this.membersSubject.next(members)});
-  }    
+        this.memberService.getMembers(filter, sortDirection,
+            pageIndex, pageSize).pipe(
+                catchError(() => of([])),
+                finalize(() => this.loadingSubject.next(false))
+            )
+            .subscribe(members => {
+                console.log(members)
+                this.membersSubject.next(members)
+            });
+    }
+
+    creatMember(member: Member) {
+
+        this.loadingSubject.next(true);
+
+        this.memberService.create(member).pipe(
+            catchError(() => of([])),
+            finalize(() => this.loadingSubject.next(false))
+        )
+            .subscribe(members => {
+                var tmp = this.membersSubject.getValue();
+                tmp.push(members as Member);
+                this.membersSubject.next(tmp);
+            });
+    }
 }

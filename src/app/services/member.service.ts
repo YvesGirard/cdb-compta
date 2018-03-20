@@ -33,12 +33,12 @@ export class MemberService extends Service {
     });
   }
 
-  create(member: Member): Promise<Member> {
-    return this.http
+  create(member: Member): Observable<Member> {
+    return this.authHttp
       .post(this.memberUrl, JSON.stringify(member), { headers: this.headers })
-      .toPromise()
-      .then(res => res.json().data)
-      .catch(this.handleError);
+      .map((res) => {
+        return res.json().data as Member;
+      });;
   }
 
   protected handleError(error: any): Promise<any> {
