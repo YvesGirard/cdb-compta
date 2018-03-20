@@ -3,7 +3,7 @@ import * as express from "express";
 import { IMember } from "../app/model/imember";
 import * as Member from "./mongoose/member";
 
-export function members(app: express.Express, authCheck: any) {
+export function members(app: express.Express, authCheck: any, checkScopes: any) {
 
     // server routes ===========================================================
     // handle things like api calls
@@ -15,7 +15,7 @@ export function members(app: express.Express, authCheck: any) {
     );
 
     // sample api route
-    app.get('/api/members', authCheck, function (req, res) {
+    app.get('/api/members', authCheck, checkScopes, function (req, res) {
         // use mongoose to get all users in the database
         Member.find(function (err, members) {
 

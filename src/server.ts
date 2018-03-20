@@ -17,6 +17,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 var jwt = require('express-jwt');
 var jwksRsa = require('jwks-rsa');
+const jwtAuthz = require('express-jwt-authz');
 
 // Authentication middleware provided by express-jwt.
 // This middleware will check incoming requests for a valid
@@ -51,10 +52,12 @@ checkJwt = jwt({
   
     // Validate the audience and the issuer.
     audience: auth.AUDIENCE,
-    issuer: `https://yvesgirard.eu.auth0.com/`,
+    issuer: `https://cdbcompta.com/api/v2/`,
     algorithms: ['RS256']
   });
 }
+
+const checkScopes = jwtAuthz([ 'read:member' ]);
 
 // Faster server renders w/ Prod mode (dev mode never needed)
 //enableProdMode();
@@ -108,7 +111,7 @@ import * as user from "./api/user";
 user.users(app, checkJwt);
 
 import * as member from "./api/member";
-member.members(app, checkJwt);
+member.members(app, checkJwt, checkScopes);
 
 console.log(__dirname)
 
