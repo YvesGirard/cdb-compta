@@ -14,6 +14,19 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
     }
     );
 
+    app.get('/api/members/:id', authCheck, checkScopes, function (req, res) {
+        var _id = req.params.id;
+        Member.findById(_id, function (err, member) {
+
+            // if there is an error retrieving, send the error. 
+            // nothing after res.send(err) will execute
+            if (err)
+                res.json({ info: 'error finding members', error: err });
+
+            res.json({ info: 'members found successfully', data: member }); // return all users in JSON format
+        });
+      });
+
     // sample api route
     app.get('/api/members', authCheck, checkScopes, function (req, res) {
         // use mongoose to get all users in the database

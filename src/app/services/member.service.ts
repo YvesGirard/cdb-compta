@@ -33,6 +33,16 @@ export class MemberService extends Service {
     });
   }
 
+  getMember(id: number): Promise<Member> {
+    return this.authHttp.get(this.memberUrl, {
+      params: new HttpParams()
+        .set('_id', id.toString())
+    })
+    .toPromise()
+    .then(response => (response.json().data as Member))
+    .catch(this.handleError);
+  }
+
   create(member: Member): Observable<Member> {
     return this.authHttp
       .post(this.memberUrl, JSON.stringify(member), { headers: this.headers })

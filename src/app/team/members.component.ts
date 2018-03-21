@@ -42,7 +42,7 @@ export class MembersComponent implements OnInit {
   }
 
   add(member: Member): void {
-    if (!member) { return; }
+    if (!member || !member.name) { return; }
     this.dataSource.creatMember(member);
   }
 
@@ -53,13 +53,18 @@ export class MembersComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      console.log('The dialog was closed' + result);
+
       const tmpMember = new Member();
       Object.assign(tmpMember, result);
       this.add(tmpMember);
     });
   }
 
+  gotoDetail(member: Member): void {
+    let link = ['/member', member._id];
+    this.router.navigate(link);
+  }
   //members: Member[];
   //selectedHero: Hero;
 

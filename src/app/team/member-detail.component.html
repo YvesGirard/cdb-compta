@@ -1,0 +1,22 @@
+<div *ngIf="member">
+
+  <div class="content-text-styling">
+    <div class="header">
+      <h1>Détail de {{member.name}} !</h1>
+    </div>
+
+
+    <div>
+      <label>id: </label>{{member._id}}</div>
+    <div>
+      <label>Nom: </label>
+      <input matInput [(ngModel)]="member.name" placeholder="Nom" name="name">
+    </div>
+
+    <div class="cdb-list-separator">
+      <button mat-button (click)="goBack()">Retour</button>
+      <button mat-button (click)="save()">Save</button>
+    </div>
+    
+  </div>
+</div>

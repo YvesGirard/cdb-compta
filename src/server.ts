@@ -12,7 +12,7 @@ import * as mongoose from "mongoose";
 
 
 if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').load();
+  require('dotenv').load();
 }
 
 var jwt = require('express-jwt');
@@ -35,11 +35,15 @@ console.log("auth secret :" + auth.SECRET);
     algorithms: ['HS256'],
   });*/
 var checkJwt = (req, res, next) => {
-                    next();
-                };
-                
-if (!process.env.ITOKEN)  {
-checkJwt = jwt({
+  next();
+};
+
+var checkScopes = (req, res, next) => {
+  next();
+};
+
+if (!process.env.ITOKEN) {
+  checkJwt = jwt({
     // Dynamically provide a signing key
     // based on the kid in the header and 
     // the signing keys provided by the JWKS endpoint.
@@ -49,15 +53,17 @@ checkJwt = jwt({
       jwksRequestsPerMinute: 5,
       jwksUri: `https://yvesgirard.eu.auth0.com/.well-known/jwks.json`
     }),
-  
+
     // Validate the audience and the issuer.
     audience: auth.AUDIENCE,
     issuer: `https://cdbcompta.com/api/v2/`,
     algorithms: ['RS256']
   });
+
+  checkScopes = jwtAuthz(['read:member']);
 }
 
-const checkScopes = jwtAuthz([ 'read:member' ]);
+
 
 // Faster server renders w/ Prod mode (dev mode never needed)
 //enableProdMode();
@@ -68,41 +74,41 @@ const app = express();
 //app.use(morgan('combined'))
 //const { auth0 } = require('auth0-js');
 
-var bodyParser     = require('body-parser');
+var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 
 // configuration ===========================================
-    
+
 // config files
 //var db = require('./config/db');
 
 // set our port
-var port = process.env.PORT || 8080; 
+var port = process.env.PORT || 8080;
 
 // connect to our mongoDB database 
 // (uncomment after you enter in your own credentials in config/db.js)
 console.log(process.env.MONGODB_URI || process.env.DB_URL)
-mongoose.connect(process.env.MONGODB_URI || process.env.DB_URL); 
+mongoose.connect(process.env.MONGODB_URI || process.env.DB_URL);
 
 // get all data/stuff of the body (POST) parameters
 // parse application/json 
-app.use(bodyParser.json()); 
+app.use(bodyParser.json());
 
 // parse application/vnd.api+json as json
-app.use(bodyParser.json({ type: 'application/vnd.api+json' })); 
+app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // override with the X-HTTP-Method-Override header in the request. simulate DELETE/PUT
-app.use(methodOverride('X-HTTP-Method-Override')); 
+app.use(methodOverride('X-HTTP-Method-Override'));
 
 // set the static files location /public/img will be /img for users
-app.use(express.static(__dirname + '/')); 
+app.use(express.static(__dirname + '/'));
 
 // start app ===============================================
 // startup our app at http://localhost:8080
-app.listen(port);               
+app.listen(port);
 
 // routes ==================================================
 import * as dancer from "./api/dancer";
@@ -118,8 +124,8 @@ console.log(__dirname)
 
 // frontend routes =========================================================
 // route to handle all angular requests
-app.get('*', function(req, res) {
-    res.sendFile('index.html', {"root": __dirname}); // load our public/index.html file
+app.get('*', function (req, res) {
+  res.sendFile('index.html', { "root": __dirname }); // load our public/index.html file
 });
 
 

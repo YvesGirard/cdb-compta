@@ -19,7 +19,7 @@
 		<ng-container matColumnDef="Nom">
 			<mat-header-cell *matHeaderCellDef>Nom</mat-header-cell>
 			<mat-cell class="description-cell"
-					  *matCellDef="let member">{{member.name}}</mat-cell>
+					  *matCellDef="let member"><a (click)="gotoDetail(member)">{{member.name}}</a></mat-cell>
 	
 		</ng-container>
 	

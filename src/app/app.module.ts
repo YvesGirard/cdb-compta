@@ -14,6 +14,7 @@ import './rxjs-extensions';
 import { AppComponent } from './app.component';
 import { HeroesComponent } from './team/heroes.component';
 import { MembersComponent } from './team/members.component';
+import { MemberDetailComponent } from './team/member-detail.component';
 import { HeroDetailComponent } from './team/hero-detail.component';
 import { HeroService } from './services/hero.service';
 import { MemberService } from './services/member.service';
@@ -70,6 +71,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     UserProfileComponent,
     CallbackComponent,
     MemberAddDialog,
+    MemberDetailComponent,
     //MdlUpgradeElementDirective,
    // SetupComponent,
    // CdbItem,
