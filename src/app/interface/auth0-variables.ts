@@ -19,7 +19,7 @@ export class AUTH_CONFIG implements AuthConfig  {
   constructor(){
     this.CLIENT_ID = 'r2Y8BGhSsDqsHt7uUg1eGGAlTotfRuaC';
     this.CLIENT_DOMAIN= 'yvesgirard.eu.auth0.com';
-    this.AUDIENCE= 'https://yvesgirard.eu.auth0.com/api/v2/';
+    this.AUDIENCE= 'https://cdbcompta.com/api/v2/';
     this.REDIRECT= (typeof document == 'undefined')?'':document.location.origin + '/callback';
     this.SCOPE= 'openid  email profile';
   }

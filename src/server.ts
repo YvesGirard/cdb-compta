@@ -56,7 +56,7 @@ if (!process.env.ITOKEN) {
 
     // Validate the audience and the issuer.
     audience: auth.AUDIENCE,
-    issuer: `https://cdbcompta.com/api/v2/`,
+    issuer: `https://yvesgirard.eu.auth0.com/`,
     algorithms: ['RS256']
   });
 
@@ -127,6 +127,7 @@ console.log(__dirname)
 app.get('*', function (req, res) {
   res.sendFile('index.html', { "root": __dirname }); // load our public/index.html file
 });
+
 
 
 // shoutout to the user                     
