@@ -18,6 +18,7 @@ import { MemberDetailComponent } from './team/member-detail.component';
 import { HeroDetailComponent } from './team/hero-detail.component';
 import { HeroService } from './services/hero.service';
 import { MemberService } from './services/member.service';
+import { MembersResolver } from './services/member.resolver';
 import { UserService } from './services/user.service';
 import { Service } from './services/service';
 import { LoggerSnackbarComponent } from './entry/logger-snackbar.component';
@@ -78,11 +79,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   //  AddDialog,
   ],
   bootstrap: [AppComponent],
-  providers: [
+  providers: [MembersResolver,
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
-      deps: [ Http, RequestOptions ]
+      deps: [ Http, RequestOptions ],
     },
     Service,
     HeroService,

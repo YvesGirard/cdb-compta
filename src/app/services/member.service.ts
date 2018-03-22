@@ -22,25 +22,26 @@ export class MemberService extends Service {
 
   getMembers(filter = '', sortOrder = 'asc',
     pageNumber = 0, pageSize = 3): Observable<Member[]> {
+
+    const params = new HttpParams().set('filter', filter).set('sortOrder', sortOrder);
+    console.log(params.toString());
+
     return this.authHttp.get(this.memberUrl, {
       params: new HttpParams()
         .set('filter', filter)
         .set('sortOrder', sortOrder)
         .set('pageNumber', pageNumber.toString())
-        .set('pageSize', pageSize.toString())
+        .set('pageSize', pageSize.toString()).toString()
     }).map((res) => {
       return res.json().data as Member[];
     });
   }
 
   getMember(id: number): Promise<Member> {
-    return this.authHttp.get(this.memberUrl, {
-      params: new HttpParams()
-        .set('_id', id.toString())
-    })
-    .toPromise()
-    .then(response => (response.json().data as Member))
-    .catch(this.handleError);
+    return this.authHttp.get(`${this.memberUrl}/${id}`)
+      .toPromise()
+      .then(response => (response.json().data as Member))
+      .catch(this.handleError);
   }
 
   create(member: Member): Observable<Member> {
@@ -49,6 +50,30 @@ export class MemberService extends Service {
       .map((res) => {
         return res.json().data as Member;
       });;
+  }
+
+  public update(member: Member): Promise<Member> {
+    const url = `${this.url}/${member._id}`;
+
+    return this.authHttp
+      .put(url, JSON.stringify(member), { headers: this.headers })
+      .toPromise()
+      .then((member) => {
+        return member;
+      })
+      .catch(this.handleError);
+  }
+
+  public delete(member: Member): Promise<Member> {
+    const url = `${this.url}/${member._id}`;
+
+    return this.authHttp
+      .delete(url, { headers: this.headers })
+      .toPromise()
+      .then((member) => {
+        return member;
+      })
+      .catch(this.handleError);
   }
 
   protected handleError(error: any): Promise<any> {

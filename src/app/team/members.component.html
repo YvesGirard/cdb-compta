@@ -1,33 +1,48 @@
 <div class="content-text-styling">
-	<div class="header">
-		<h1>Mes adhérents</h1>
-	</div>
-    
-	<button mat-raised-button color="warn" (click)="openDialog()"><mat-icon>add</mat-icon>Créer adhérent</button>
-	
+	<mat-grid-list cols="2" rowHeight="100px">
+
+		<mat-grid-tile class="flex-left">
+			<div class="header">
+				<h1>Adhérents</h1>
+			</div>
+		</mat-grid-tile>
+
+		<mat-grid-tile class="flex-right">
+			<button mat-raised-button color="warn" (click)="openDialog()">
+				<mat-icon>add</mat-icon>Créer adhérent</button>
+		</mat-grid-tile>
+	</mat-grid-list>
+
+
+
+
 
 	<div class="spinner-container" *ngIf="dataSource.loading$ | async">
-        <mat-spinner></mat-spinner>
+		<mat-spinner></mat-spinner>
 	</div>
-	
+
 	<mat-table class="lessons-table mat-elevation-z8" [dataSource]="dataSource">
 		<ng-container matColumnDef="seqNo">
 			<mat-header-cell *matHeaderCellDef>#</mat-header-cell>
 			<mat-cell *matCellDef="let member">{{member._id}}</mat-cell>
 		</ng-container>
-	
+
 		<ng-container matColumnDef="Nom">
 			<mat-header-cell *matHeaderCellDef>Nom</mat-header-cell>
-			<mat-cell class="description-cell"
-					  *matCellDef="let member"><a (click)="gotoDetail(member)">{{member.name}}</a></mat-cell>
-	
+			<mat-cell class="description-cell" *matCellDef="let member">
+				<a (click)="gotoDetail(member)">{{member.name}}</a>
+			</mat-cell>
+
 		</ng-container>
-	
-	
-	
+
+
+
 		<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-	
+
 		<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 	</mat-table>
-	
+
+	<mat-paginator [length]="course?.lessonsCount" [pageSize]="3"
+	[pageSizeOptions]="[3, 5, 50]"></mat-paginator>
+
 </div>

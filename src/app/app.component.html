@@ -23,14 +23,16 @@
 			<span class="cdb-display1">CDB Gestion</span>
 
 			<span class="example-spacer"></span>
-			<mat-icon>home</mat-icon>
+			<!--<mat-icon>home</mat-icon>-->
 			<nav class="">
 				<a routerLink="/dashboard" class="" routerLinkActive="active">Tableau de bord</a>
 				<a routerLink="/members" class="" routerLinkActive="active" *ngIf="AuthService.authenticated && AuthService.isAdmin">Adhérents</a>
 				<a routerLink="/profile" class="" routerLinkActive="active" *ngIf="AuthService.authenticated">Profile</a>
 				<a routerLink="/setup" class="" routerLinkActive="active" *ngIf="AuthService.authenticated && AuthService.isAdmin">Administration</a>
 				<a class="" (click)="AuthService.login()" *ngIf="!AuthService.authenticated">Log In</a>
-				<a class="" (click)="AuthService.logout()" *ngIf="AuthService.authenticated">Log Out</a>
+				<a href="" class="" (click)="AuthService.logout()" *ngIf="AuthService.authenticated">
+						<mat-icon>arrow_forward</mat-icon>
+					Log Out</a>
 			</nav>
 		</div>
 	</mat-toolbar-row>

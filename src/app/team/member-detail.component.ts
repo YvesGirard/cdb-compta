@@ -39,4 +39,11 @@ export class MemberDetailComponent {
       .then(() => this.snackBarService.info("Enregistré"));
   }
 
+  delete(): void {
+    this.memberService.delete(this.member)
+      .then(() => {
+        this.snackBarService.info("Supprimé");
+        this.location.back();
+      });
+  }
 }

@@ -14,6 +14,7 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
     }
     );
 
+
     app.get('/api/members/:id', authCheck, checkScopes, function (req, res) {
         var _id = req.params.id;
         Member.findById(_id, function (err, member) {
@@ -25,12 +26,23 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
 
             res.json({ info: 'members found successfully', data: member }); // return all users in JSON format
         });
-      });
+    });
 
     // sample api route
     app.get('/api/members', authCheck, checkScopes, function (req, res) {
         // use mongoose to get all users in the database
-        Member.find(function (err, members) {
+        var sortOrder = req.param("sortOrder");
+        var sortField = req.param("sortField") || 'name';
+        var pageSize = Number(req.param("pageSize"));
+        var pageSkip = Number(req.param("pageNumber")) * pageSize;
+
+        console.log(sortOrder);
+        /*  .set('filter', filter)
+          .set('sortOrder', sortOrder)
+          .set('pageNumber', pageNumber.toString())
+          .set('pageSize', pageSize.toString())*/
+
+        Member.find().sort({ sortField: sortOrder }).skip(pageSkip).limit(pageSize).exec(function (err, members) {
 
             // if there is an error retrieving, send the error. 
             // nothing after res.send(err) will execute
@@ -92,6 +104,20 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
                         res.json({ info: 'member updated successfully', data: result });
                     }
                 });
+        });
+    });
+
+    app.delete('/api/members/:id', authCheck, checkScopes, function (req, res) {
+
+        var _id = req.params.id;
+        Member.findByIdAndRemove(_id, function (err, member) {
+
+            // if there is an error retrieving, send the error. 
+            // nothing after res.send(err) will execute
+            if (err)
+                res.json({ info: 'error finding members', error: err });
+
+            res.json({ info: 'members deleted successfully', data: member }); // return all users in JSON format
         });
     });
 

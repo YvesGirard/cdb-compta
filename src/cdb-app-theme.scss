@@ -12,5 +12,5 @@ $config: mat-typography-config();
 .cdb-display1 {
     font-size: mat-font-size($config, headline);
     font-family: mat-font-family($config);
-    font-weight: 700;
+    font-weight: normal;
   }

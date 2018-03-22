@@ -20,9 +20,33 @@ body {
     font-weight: 400;
     font-style: normal;
     justify-content: center;
-    z-index:99999999999999;
+    z-index:900;
 }
 
+.cdb-toolbar a {
+    color: rgba(0,0,0,0.86);
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 28px;
+    padding-top: 11px;
+    padding-bottom: 11px;
+    text-decoration: none;
+}
+
+.cdb-toolbar a mat-icon {
+    opacity: .6;
+    transition: opacity .2s ease-in-out;
+    font-size: 15px;
+    height: 28px;
+    line-height: 28px;
+    vertical-align: middle;
+    width: 13px;
+}
+
+.cdb-toolbar a:hover mat-icon,
+.cdb-toolbar a:focus mat-icon{
+    opacity: 1;
+}
 
 .cdb-inner {
     max-width: 1000px;
@@ -49,10 +73,14 @@ body {
 
 
 .content-text-styling h1 {
-    padding-top: 40px;
-    padding-bottom: 40px;
+    /*padding-top: 40px;
+    padding-bottom: 40px;*/
     height: auto;
-    margin-bottom: 8px;
+   /* margin-bottom: 8px;*/
+    font-family: Roboto;
+    font-weight: normal;
+    padding:0px;
+    margin: 0px;
 }
 
 .content-text-styling .heading {
@@ -71,5 +99,33 @@ body {
 
 .content-text-styling {
     margin: 0 auto;
-    max-width: 700px;
+    max-width: 1000px;
+    padding-top:50px;
+}
+
+.mat-button-wrapper {
+    text-transform: uppercase;
+    font-weight: normal;
+}
+
+
+
+.mat-button-wrapper .mat-icon {
+    height: 23px;
+    width: 20px;
+}
+.mat-button-wrapper .material-icons {
+    font-family: 'Material Icons';
+    font-weight: 100;
+    font-style: normal;
+    font-size: 20px;
+}
+
+
+.flex-left .mat-figure {
+    justify-content: flex-start !important;
+}
+
+.flex-right .mat-figure {
+    justify-content: flex-end !important;
 }

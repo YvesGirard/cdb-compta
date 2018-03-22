@@ -8,6 +8,7 @@ import { MemberDetailComponent }   from './team/member-detail.component';
 import { UserProfileComponent }   from './user/user-profile.component';
 //import { SetupComponent }   from './setup/setup.component';
 import { CallbackComponent } from './services/callback.component';
+import { MembersResolver } from './services/member.resolver';
 
 const appRoutes: Routes = [
   {
@@ -17,7 +18,10 @@ const appRoutes: Routes = [
   },
   {
     path: 'members',
-    component: MembersComponent
+    component: MembersComponent,
+    resolve: {
+      courses: MembersResolver
+    }
   },
   {
     path: 'dashboard',
