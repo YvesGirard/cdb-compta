@@ -31,7 +31,7 @@ export class MembersComponent implements AfterViewInit, OnInit {
     this.dataSource = new MemberDataSource(this.memberService);
     this.dataSource.loadMembers('', 'asc', 0, 3);
 
-    this.membersCount = this.route.snapshot.data["course"];
+    this.membersCount = this.route.snapshot.data["membersCount"];
   }
 
   constructor(

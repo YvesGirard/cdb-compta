@@ -30,6 +30,9 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
 
     // sample api route
     app.get('/api/members', authCheck, checkScopes, function (req, res) {
+
+        var count = req.param("count");
+
         // use mongoose to get all users in the database
         var sortOrder = req.param("sortOrder");
         var sortField = req.param("sortField") || 'name';
@@ -41,16 +44,28 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
           .set('sortOrder', sortOrder)
           .set('pageNumber', pageNumber.toString())
           .set('pageSize', pageSize.toString())*/
+        if (!count) {
+            Member.find().sort({ sortField: sortOrder }).skip(pageSkip).limit(pageSize).exec(function (err, members) {
 
-        Member.find().sort({ sortField: sortOrder }).skip(pageSkip).limit(pageSize).exec(function (err, members) {
+                // if there is an error retrieving, send the error. 
+                // nothing after res.send(err) will execute
+                if (err)
+                    res.json({ info: 'error finding members', error: err });
 
-            // if there is an error retrieving, send the error. 
-            // nothing after res.send(err) will execute
-            if (err)
-                res.json({ info: 'error finding members', error: err });
+                res.json({ info: 'members found successfully', data: members }); // return all users in JSON format
+            });
+        }
+        else {
+            Member.find().count({}, function( err, count) {
 
-            res.json({ info: 'members found successfully', data: members }); // return all users in JSON format
-        });
+                // if there is an error retrieving, send the error. 
+                // nothing after res.send(err) will execute
+                if (err)
+                    res.json({ info: 'error finding members', error: err });
+
+                res.json({ info: 'members found successfully', data: count }); // return all users in JSON format
+            });           
+        }
     });
 
     // route create user

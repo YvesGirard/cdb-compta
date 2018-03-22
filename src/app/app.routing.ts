@@ -20,7 +20,7 @@ const appRoutes: Routes = [
     path: 'members',
     component: MembersComponent,
     resolve: {
-      courses: MembersResolver
+      membersCount: MembersResolver
     }
   },
   {

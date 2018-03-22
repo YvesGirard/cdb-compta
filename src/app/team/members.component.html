@@ -42,7 +42,7 @@
 		<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 	</mat-table>
 
-	<mat-paginator [length]="course?.lessonsCount" [pageSize]="3"
+	<mat-paginator [length]="membersCount" [pageSize]="3"
 	[pageSizeOptions]="[3, 5, 50]"></mat-paginator>
 
 </div>
