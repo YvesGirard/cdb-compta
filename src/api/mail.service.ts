@@ -3,6 +3,8 @@ import * as express from "express";
 import * as mailgun from "mailgun-js";
 
 export function mails(app: express.Express, authCheck: any, checkScopes: any) {
+// test : curl -d "param1=value1&param2=value2" -X POST http://localhost:8080/api/mails/verification
+// test : curl -d "param1=value1&param2=value2" -X POST https://cdb-eugenie.herokuapp.com/api/mails/verification
 
   // server routes ===========================================================
   // handle things like api calls
@@ -13,7 +15,7 @@ export function mails(app: express.Express, authCheck: any, checkScopes: any) {
   }
   );
 
-  app.post('/api/mails/verification', authCheck, checkScopes, function (req, res) {
+  app.post('/api/mails/verification', function (req, res) {
     var _id = req.params.id;
     console.log(req);
     console.log(process.env.api_key)
