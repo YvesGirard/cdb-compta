@@ -120,6 +120,9 @@ user.users(app, checkJwt);
 import * as member from "./api/member";
 member.members(app, checkJwt, checkScopes);
 
+import * as mails from "./api/mail.service";
+mails.mails(app, checkJwt, checkScopes);
+
 console.log(__dirname)
 
 // frontend routes =========================================================
