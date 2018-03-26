@@ -21,7 +21,14 @@ export function mails(app: express.Express, authCheck: any, checkScopes: any) {
 
     var api_key = process.env.MAILGUN_API_KEY;
     var DOMAIN = process.env.MAILGUN_DOMAIN;
-    var mailgun = require('mailgun-js')({apiKey: api_key, domain: DOMAIN, proxy: "http://127.0.0.1:3128"});
+    var port = process.env.PORT || 8080;
+    var config = {apiKey: api_key, domain: DOMAIN};
+
+    if (process.env.PROXY)
+      config["proxy"]= "http://127.0.0.1:3128";
+
+
+    var mailgun = require('mailgun-js')(config);
     
     var data = {
       from: 'Excited User <yv.girard@gmail.com>',
