@@ -17,16 +17,14 @@ export function mails(app: express.Express, authCheck: any, checkScopes: any) {
 
   app.post('/api/mails/verification', function (req, res) {
     var _id = req.params.id;
-    console.log(req);
-    console.log(process.env.api_key)
-    console.log(process.env.DOMAIN)
+  //  console.log(req);
 
-    var api_key = process.env.api_key;
-    var DOMAIN = process.env.DOMAIN;
-    var mailgun = require('mailgun-js')({apiKey: api_key, domain: DOMAIN});
+    var api_key = process.env.MAILGUN_API_KEY;
+    var DOMAIN = process.env.MAILGUN_DOMAIN;
+    var mailgun = require('mailgun-js')({apiKey: api_key, domain: DOMAIN, proxy: "http://127.0.0.1:3128"});
     
     var data = {
-      from: 'Excited User <me@samples.mailgun.org>',
+      from: 'Excited User <yv.girard@gmail.com>',
       to: 'yv.girard@gmail.com',
       subject: 'Hello',
       text: 'Testing some Mailgun awesomness!'
