@@ -31,7 +31,8 @@ export class MemberService extends Service {
         .set('filter', filter)
         .set('sortOrder', sortOrder)
         .set('pageNumber', pageNumber.toString())
-        .set('pageSize', pageSize.toString()).toString()
+        .set('pageSize', pageSize.toString())
+        .toString()
     }).map((res) => {
       return res.json().data as Member[];
     });
