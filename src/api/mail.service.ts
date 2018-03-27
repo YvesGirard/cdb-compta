@@ -17,7 +17,7 @@ export function mails(app: express.Express, authCheck: any, checkScopes: any) {
 
   app.post('/api/mails/verification', function (req, res) {
     var _id = req.params.id;
-  //  console.log(req);
+    console.log(req);
 
     var api_key = process.env.MAILGUN_API_KEY;
     var DOMAIN = process.env.MAILGUN_DOMAIN;
