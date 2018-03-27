@@ -15,7 +15,33 @@ export function mails(app: express.Express, authCheck: any, checkScopes: any) {
   }
   );
 
-  app.post('/api/mails/verification', function (req, res) {
+  var jwt = require('express-jwt');
+  var jwksRsa = require('jwks-rsa');
+  const jwtAuthz = require('express-jwt-authz');
+
+  var checkJwt = jwt({
+    // Dynamically provide a signing key
+    // based on the kid in the header and 
+    // the signing keys provided by the JWKS endpoint.
+    secret: jwksRsa.expressJwtSecret({
+      cache: true,
+      rateLimit: true,
+      jwksRequestsPerMinute: 5,
+      jwksUri: `https://yvesgirard.eu.auth0.com/.well-known/jwks.json`
+    }),
+
+    // Validate the audience and the issuer.
+    audience: 'https://cdbmail.com/api/v2/',
+    issuer: `https://yvesgirard.eu.auth0.com/`,
+    algorithms: ['RS256']
+  });
+
+  var checkScopes = jwtAuthz(['send:verification']);
+
+  app.post('/api/mails/verification', checkJwt, function (req, res) {
+
+
+
     var _id = req.params.id;
     console.log(req);
 
