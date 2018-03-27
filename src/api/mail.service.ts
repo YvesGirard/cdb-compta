@@ -38,7 +38,7 @@ export function mails(app: express.Express, authCheck: any, checkScopes: any) {
 
   var checkScopes = jwtAuthz(['send:verification']);
 
-  app.post('/api/mails/verification', checkJwt, function (req, res) {
+  app.post('/api/mails/verification', checkJwt, checkScopes, function (req, res) {
 
 
 
