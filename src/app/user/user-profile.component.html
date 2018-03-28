@@ -12,8 +12,8 @@
           <mat-form-field class="cdb-input-full-width" dividerColor="primary">
             <input matInput #postalCode formControlName="email" placeholder="Email" name="email">
             <mat-hint align="end">
-              <mat-icon>mode_edit</mat-icon>
-              <span aria-live="polite">Nous ne partagerons pas votre adresse e-mail privée avec d'autres utilisateurs.</span>
+              <!--<mat-icon>mode_edit</mat-icon>-->
+              <span aria-live="polite">(non vérifiée)</span>
             </mat-hint>
           </mat-form-field>
 	</div>
@@ -45,7 +45,7 @@
 </form>
 
   <div class="cdb-list-separator">
-	  <button mat-button (click)="save()" [disabled]="userForm.pristine">Enregistrer</button>
+			<button mat-raised-button (click)="save()" [disabled]="userForm.pristine" color="primary">Enregistrer</button>	
  </div>
 
 

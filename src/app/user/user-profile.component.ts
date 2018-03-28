@@ -47,7 +47,7 @@ export class UserProfileComponent implements OnInit {
         given_name: '',
         birthday: null,
       });
-      this.userForm.get('email').disable();
+     // this.userForm.get('email').disable();
     }
 
   ngOnInit(): void {
@@ -68,6 +68,8 @@ export class UserProfileComponent implements OnInit {
     console.log("userFiltered");
     console.log(userFiltered);  
     this.userForm.setValue(userFiltered);
+    console.log(this.userForm.value);
+    console.log(Object.is(this.userForm.value, userFiltered));
   }
   
   handleFormChange(): void {

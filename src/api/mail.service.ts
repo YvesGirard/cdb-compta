@@ -40,7 +40,7 @@ export function mails(app: express.Express, authCheck: any, checkScopes: any) {
 
   app.post('/api/mails/verification', checkJwt, checkScopes, function (req, res) {
 
-
+// curl -X POST  -H "Content-Type: application/json" -d '{"user_id":"google-oauth2|1234","client_id":""}' https://yvesgirard.eu.auth0.com/api/v2/jobs/verification-email
 
     var _id = req.params.id;
     console.log(req);
