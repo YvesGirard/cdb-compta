@@ -11,10 +11,10 @@
 	<div class="cdb-list-separator col">
           <mat-form-field class="cdb-input-full-width" dividerColor="primary">
             <input matInput #postalCode formControlName="email" placeholder="Email" name="email">
-            <mat-hint align="end">
-              <!--<mat-icon>mode_edit</mat-icon>-->
-              <span aria-live="polite">(non vérifiée)</span>
-            </mat-hint>
+						<mat-hint align="end">
+							<mat-icon *ngIf="userProfile.email_verified">done</mat-icon>
+							{{userProfile.email_verified ? '(vérifiée)' : '(non vérifiée)'}}
+						</mat-hint>
           </mat-form-field>
 	</div>
 
@@ -45,7 +45,9 @@
 </form>
 
   <div class="cdb-list-separator">
-			<button mat-raised-button (click)="save()" [disabled]="userForm.pristine" color="primary">Enregistrer</button>	
+			<button mat-raised-button (click)="save()" [disabled]="userForm.pristine || loading" color="primary">
+				{{!loading ? 'Enregistrer' : 'Enregistrement...'}}
+			</button>	
  </div>
 
 

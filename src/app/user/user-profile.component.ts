@@ -6,6 +6,7 @@ import { User, UserMetaData } from '../model/user';
 import { UserService } from '../services/user.service';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoggerSnackbarService } from '../services/logger-snackbar.service';
+import * as deepEqual from 'deep-equal';
 
 const TITLES = [
   { id: 'MR', title: 'Monsieur' },
@@ -22,9 +23,13 @@ const TITLES = [
 
 export class UserProfileComponent implements OnInit {
   userProfile: User;
+  userFiltered: any;
+
   titles = TITLES;
 
   userForm: FormGroup;
+  private loading : boolean=false;
+
 
   constructor(
     private AuthService: AuthService,
@@ -56,8 +61,13 @@ export class UserProfileComponent implements OnInit {
     }
 
     this.userProfile = this.AuthService.getUserProfile();
-    console.log(this.userProfile);
-    var userFiltered = Object.keys(this.userProfile.user_metadata).filter(
+    this.rebuildForm();
+    
+  }
+  
+  rebuildForm():void {
+
+    this.userFiltered = Object.keys(this.userProfile.user_metadata).filter(
       (key) => {
         return this.userForm.get(key);
       }).reduce((obj, key) => {
@@ -65,17 +75,21 @@ export class UserProfileComponent implements OnInit {
         return obj;
       }, {});
      
-    console.log("userFiltered");
-    console.log(userFiltered);  
-    this.userForm.setValue(userFiltered);
-    console.log(this.userForm.value);
-    console.log(Object.is(this.userForm.value, userFiltered));
+
+    this.userForm.reset(this.userFiltered);
   }
-  
+
   handleFormChange(): void {
     const given_nameControl = this.userForm.get('given_name');
     const family_nameControl = this.userForm.get('family_name');
     
+    this.userForm.valueChanges.subscribe((data) => {
+      if (deepEqual(this.userForm.value, this.userFiltered)) {
+        this.userForm.markAsPristine();
+        this.userForm.markAsUntouched();
+      }
+    });
+
     given_nameControl.valueChanges.forEach(
       (value: string) => this.userForm.patchValue({name: value + " " + this.userForm.value.family_name})
     );
@@ -86,15 +100,20 @@ export class UserProfileComponent implements OnInit {
 
   }
 
+
   save(): void {
+    this.loading = true;
 
     var metadata = Object.assign(new UserMetaData(this.userProfile.user_metadata),this.userForm.value);
 
     this.AuthService.updateUserProfile(metadata).then(user => {
       this.snackBarService.info("Enregistré");
-     // this.userProfile = user
+      this.loading = false;
+      this.userProfile = user;
+      this.rebuildForm();
       })
       .catch((error) => {
+        this.loading = false;
         console.error(error)
         if (error.service) {
           this.snackBarService.info("Erreur lors de l'enregistrement");
@@ -102,6 +121,8 @@ export class UserProfileComponent implements OnInit {
         }
       });
   }
+
+
 
   gotoRoot(): void {
     let link = ['/'];

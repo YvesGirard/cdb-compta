@@ -27,6 +27,7 @@ export class AuthService {
   loggedIn: boolean;
   loggedIn$ = new BehaviorSubject<boolean>(this.loggedIn);
 
+
   userProfile: User;
   
   constructor(private router: Router, private userService: UserService) {
@@ -81,6 +82,7 @@ export class AuthService {
   }
 
   updateUserProfile(metadata: UserMetaData): Promise<User> {
+
 
   return new Promise<User>((resolve, reject) => {
       // do some async stuff

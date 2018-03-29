@@ -19,8 +19,8 @@ export class UserMetaData implements IUserMetaData {
   email: string;
   birthday: Date;
 
-  constructor(metadata: any) {
-    var _metadata = metadata || {};
+  constructor(_metadata= {}) {
+    //var _metadata = metadata || {};
 
     this.given_name=_metadata["given_name"] || '';
     this.gender=_metadata["gender"] || '';
@@ -54,8 +54,7 @@ export class AppMetaData implements IAppMetaData {
   roles: Array<string>;
 
 
-  constructor(metadata: any) {
-    var _metadata = metadata || {};
+  constructor(_metadata= {}) {
 
     this.roles=_metadata["roles"] || [];
 

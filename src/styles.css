@@ -129,3 +129,7 @@ body {
 .flex-right .mat-figure {
     justify-content: flex-end !important;
 }
+
+fieldset {
+    border: none;
+}
