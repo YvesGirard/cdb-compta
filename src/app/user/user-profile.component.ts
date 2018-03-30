@@ -33,7 +33,7 @@ export class UserProfileComponent implements OnInit {
 
   constructor(
     private AuthService: AuthService,
-    private UserService: UserService,
+    private userService: UserService,
     private router: Router,
     private fb: FormBuilder,
     private snackBarService: LoggerSnackbarService,
@@ -62,7 +62,7 @@ export class UserProfileComponent implements OnInit {
 
     this.userProfile = this.AuthService.getUserProfile();
     this.rebuildForm();
-    
+
   }
   
   rebuildForm():void {
@@ -104,9 +104,13 @@ export class UserProfileComponent implements OnInit {
   save(): void {
     this.loading = true;
 
-    var metadata = Object.assign(new UserMetaData(this.userProfile.user_metadata),this.userForm.value);
+    var updatedUser = Object.assign({},this.userProfile);
 
-    this.AuthService.updateUserProfile(metadata).then(user => {
+    updatedUser.user_metadata = Object.assign(new UserMetaData(this.userProfile.user_metadata),this.userForm.value);
+
+    updatedUser.email = updatedUser.user_metadata.email;
+
+    this.userService.update(updatedUser).then(user => {
       this.snackBarService.info("Enregistré");
       this.loading = false;
       this.userProfile = user;
@@ -120,6 +124,21 @@ export class UserProfileComponent implements OnInit {
           this.ngOnInit();
         }
       });
+
+    /*this.AuthService.updateUserProfile(metadata).then(user => {
+      this.snackBarService.info("Enregistré");
+      this.loading = false;
+      this.userProfile = user;
+      this.rebuildForm();
+      })
+      .catch((error) => {
+        this.loading = false;
+        console.error(error)
+        if (error.service) {
+          this.snackBarService.info("Erreur lors de l'enregistrement");
+          this.ngOnInit();
+        }
+      });*/
   }
 
 

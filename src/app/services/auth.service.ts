@@ -6,12 +6,18 @@ import { tokenNotExpired } from 'angular2-jwt';
 import { User, UserMetaData } from '../model/user';
 import { UserService } from '../services/user.service';
 import { fromPromise } from 'rxjs/observable/fromPromise';
+import { AuthHttp } from 'angular2-jwt';
+import { Observable } from 'rxjs/Observable';
 
 // Avoid name not found warnings
 declare var auth0: any;
 
 @Injectable()
 export class AuthService {
+
+  private mailApiUrl = '/api/v2/mails';  // URL to web api
+  protected headers = new Headers({ 'Content-Type': 'application/json' });
+  
   AUTH_CONFIG = new AUTH_CONFIG();
 
   // Create Auth0 web auth instance
@@ -30,7 +36,7 @@ export class AuthService {
 
   userProfile: User;
   
-  constructor(private router: Router, private userService: UserService) {
+  constructor(private router: Router, private userService: UserService, private authHttp: AuthHttp) {
     // If authenticated, set local profile property and update login status subject
     if (this.authenticated) {
       this.userProfile = new User(JSON.parse(localStorage.getItem('profile')));
@@ -61,6 +67,17 @@ export class AuthService {
       scope: this.AUTH_CONFIG.SCOPE
     });
   }
+
+  sendVerificationEmail(): Observable<boolean> {
+    const url = `${this.mailApiUrl}/verification/${this.userProfile._id}`;
+
+    return this.authHttp.post(url, { headers: this.headers })
+    .map((res) => {
+      console.log(res);
+      return res.json().data as boolean;
+    });
+  }
+
 
   handleAuth() {
     // When Auth0 hash parsed, get profile

@@ -60,12 +60,135 @@ export function users(app: express.Express, authCheck: any) {
             return next();
         }
 
-        // get the existing product
+        // get the existing user
         User.findOne({
             _id: tmp._id
         }, function (err, data) {
-            // merge req.params/user with the server/user
 
+            // Get a token to update user data
+            var request = require("request");
+
+            var options = {
+                method: 'POST',
+                url: process.env.AUTH0_TOKEN_URL,
+                headers: { 'content-type': 'application/json' },
+                body:
+                    {
+                        grant_type: 'client_credentials',
+                        client_id: process.env.MAIL_CLIENT_ID,
+                        client_secret: process.env.MAIL_CLIENT_SECRET,
+                        audience: process.env.MAIL_CLIENT_AUDIENCE
+                    },
+                json: true
+            };
+
+            if (process.env.PROXY) {
+                var HttpsProxyAgent = require('https-proxy-agent');
+                var agent = new HttpsProxyAgent(process.env.PROXY);
+                options["agent"] = agent;
+            }
+
+            request(options, function (error, response, body) {
+                if (error) throw new Error(error);
+                console.log("token");
+                console.log(req.params.id);
+                console.log(body);
+                //body.access_token
+                requestUpdateUser(data, tmp, body.access_token, () => { });
+            });
+
+            function getUpdatedUser(object, source) {
+
+
+                var test = Object.keys(object).filter(
+                    (key) => {
+                        if (Object.isExtensible(object[key])) {
+                            object[key] = getUpdatedUser(object[key], source);
+                            return true;
+                        }
+                        else {
+                            console.log("filter") 
+                            console.log(key) 
+                            console.log(source[key])
+                            console.log(object[key]) 
+                            return (source[key] != object[key]);
+                        }
+                    }).reduce((obj, key) => {
+                        console.log(" reduce") 
+                        console.log(obj[key])
+                        console.log(source[key])
+                        obj[key] = source[key];
+                        return obj;
+                    }, {});
+                    console.log(" t getUpdatedUser")  
+                console.log(test)
+               return test;
+            }
+
+            function requestUpdateUser(user, updatedUser, access_token, callback) {
+                console.log("requestUpdateUser");
+                console.log(user);
+                console.log(updatedUser);
+
+                var updUser = {
+                    name: "",
+                    email: "",
+                    user_metadata: {
+                        given_name: "",
+                        gender: "",
+                        family_name: "",
+                        name: "",
+                        title: "",
+                        email: "",
+                        birthday: ""
+                    }
+                }
+                var test = Object.keys(updUser).filter(
+                    (key) => {
+                        updUser[key]=updatedUser[key];
+                });
+
+                console.log("Object.assign(updUser,updatedUser)");
+                console.log(updUser);
+                console.log("start getUpdatedUser(updUser,tmp)");
+                console.log(getUpdatedUser(updUser,user));
+                console.log("end getUpdatedUser(updUser,tmp)");
+
+                //Can use many more fields
+                //var updUser = new User(); // updated user 
+
+                var test = Object.keys(updatedUser).filter(
+                    (key) => {
+                        console.log(key)
+                        return true;
+                    });
+
+                /*
+                _id
+                name
+                email
+                email_verified
+                birthday
+                sub
+                user_metadata
+                app_metadata*/
+
+                // logic similar to jQuery.extend(); to merge 2 objects.
+                for (var n in user) {
+                    updUser[n] = user[n];
+                }
+                for (var n in updatedUser) {
+                    updUser[n] = updatedUser[n];
+                }
+
+                console.log(updUser);
+            }
+
+            // merge req.params/user with the server/user
+            // email changes
+
+
+/*
             var updUser = new User(); // updated user 
             // logic similar to jQuery.extend(); to merge 2 objects.
             for (var n in data) {
@@ -85,7 +208,8 @@ export function users(app: express.Express, authCheck: any) {
                     } else {
                         res.json({ info: 'user updated successfully', data: result });
                     }
-                });
+                });*/
+
         });
     });
 
