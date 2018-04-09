@@ -103,7 +103,11 @@ export function users(app: express.Express, authCheck: any) {
                 var test = Object.keys(object).filter(
                     (key) => {
                         if (Object.isExtensible(object[key])) {
-                            object[key] = getUpdatedUser(object[key], source);
+                            console.log("isExtensible")
+                            console.log(key)
+                            object[key] = getUpdatedUser(object[key], source[key]);
+                            console.log("end isExtensible")
+                            console.log(object[key])
                             return true;
                         }
                         else {
@@ -114,10 +118,12 @@ export function users(app: express.Express, authCheck: any) {
                             return (source[key] != object[key]);
                         }
                     }).reduce((obj, key) => {
-                        console.log(" reduce") 
-                        console.log(obj[key])
+                        console.log(" reduce:"+key) 
+                        console.log(object[key])
                         console.log(source[key])
-                        obj[key] = source[key];
+                        
+                        obj[key] = object[key];
+                        
                         return obj;
                     }, {});
                     console.log(" t getUpdatedUser")  
@@ -151,17 +157,44 @@ export function users(app: express.Express, authCheck: any) {
                 console.log("Object.assign(updUser,updatedUser)");
                 console.log(updUser);
                 console.log("start getUpdatedUser(updUser,tmp)");
-                console.log(getUpdatedUser(updUser,user));
+                //console.log(getUpdatedUser(updUser,user));
                 console.log("end getUpdatedUser(updUser,tmp)");
+
+                var updUser2 = getUpdatedUser(updUser,user);
+
+                // /api/v2/users/{id}
+                //curl -X PATCH  -H "Content-Type: application/json" -d '{"email":"tit4@coucou.fr"}' https://yvesgirard.eu.auth0.com/api/v2/users/432432432ll
+                
+                // Get a token to update user data
+                var request = require("request");
+
+                var options = {
+                    method: 'PATCH',
+                    url: process.env.AUTH0_URL + '/api/v2/users/'+user._id,
+                    headers: { authorization: 'Bearer ' + access_token,
+                    'content-type': 'application/json' },
+                    body:updUser2,
+                    json: true
+                };
+
+                if (process.env.PROXY) {
+                    var HttpsProxyAgent = require('https-proxy-agent');
+                    var agent = new HttpsProxyAgent(process.env.PROXY);
+                    options["agent"] = agent;
+                }
+
+                request(options, function (error, response, body) {
+                    if (error) throw new Error(error);
+                    console.log("update user");
+                    console.log(req.params.id);
+                    console.log(body);
+                    //body.access_token
+                   // requestUpdateUser(data, tmp, body.access_token, () => { });
+                });
+
 
                 //Can use many more fields
                 //var updUser = new User(); // updated user 
-
-                var test = Object.keys(updatedUser).filter(
-                    (key) => {
-                        console.log(key)
-                        return true;
-                    });
 
                 /*
                 _id
@@ -173,15 +206,6 @@ export function users(app: express.Express, authCheck: any) {
                 user_metadata
                 app_metadata*/
 
-                // logic similar to jQuery.extend(); to merge 2 objects.
-                for (var n in user) {
-                    updUser[n] = user[n];
-                }
-                for (var n in updatedUser) {
-                    updUser[n] = updatedUser[n];
-                }
-
-                console.log(updUser);
             }
 
             // merge req.params/user with the server/user
