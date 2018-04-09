@@ -75,9 +75,9 @@ export function users(app: express.Express, authCheck: any) {
                 body:
                     {
                         grant_type: 'client_credentials',
-                        client_id: process.env.MAIL_CLIENT_ID,
-                        client_secret: process.env.MAIL_CLIENT_SECRET,
-                        audience: process.env.MAIL_CLIENT_AUDIENCE
+                        client_id: process.env.API_CLIENT_ID,
+                        client_secret: process.env.API_CLIENT_SECRET,
+                        audience: process.env.API_CLIENT_AUDIENCE
                     },
                 json: true
             };
@@ -121,7 +121,13 @@ export function users(app: express.Express, authCheck: any) {
                         console.log(" reduce:"+key) 
                         console.log(object[key])
                         console.log(source[key])
-                        
+                       /* if (key="email") {
+                            obj["verify_email"]=true;
+                            obj["connection"]="Username-Password-Authentication";
+                            obj["email_verified"]=false;
+                            obj["client_id"]=process.env.API_CLIENT_ID;
+                        }*/
+
                         obj[key] = object[key];
                         
                         return obj;
@@ -162,6 +168,13 @@ export function users(app: express.Express, authCheck: any) {
 
                 var updUser2 = getUpdatedUser(updUser,user);
 
+                if (updUser2["email"]) {
+                    updUser2["verify_email"]=true;
+                    updUser2["connection"]="Username-Password-Authentication";
+                    updUser2["email_verified"]=false;
+                    updUser2["client_id"]=process.env.API_CLIENT_ID;      
+                }
+
                 // /api/v2/users/{id}
                 //curl -X PATCH  -H "Content-Type: application/json" -d '{"email":"tit4@coucou.fr"}' https://yvesgirard.eu.auth0.com/api/v2/users/432432432ll
                 
@@ -170,7 +183,7 @@ export function users(app: express.Express, authCheck: any) {
 
                 var options = {
                     method: 'PATCH',
-                    url: process.env.AUTH0_URL + '/api/v2/users/'+user._id,
+                    url: process.env.AUTH0_URL + '/api/v2/users/'+ encodeURI(user.sub),
                     headers: { authorization: 'Bearer ' + access_token,
                     'content-type': 'application/json' },
                     body:updUser2,
@@ -190,6 +203,33 @@ export function users(app: express.Express, authCheck: any) {
                     console.log(body);
                     //body.access_token
                    // requestUpdateUser(data, tmp, body.access_token, () => { });
+/*
+                   var options = {
+                    method: 'POST',
+                    url: process.env.AUTH0_URL + '/api/v2/jobs/verification-email',
+                    headers: { authorization: 'Bearer ' + access_token,
+                    'content-type': 'application/json' },
+                    body:{"user_id":user.sub},
+                    json: true
+                    };
+
+                    if (process.env.PROXY) {
+                        var HttpsProxyAgent = require('https-proxy-agent');
+                        var agent = new HttpsProxyAgent(process.env.PROXY);
+                        options["agent"] = agent;
+                    }
+
+                    if (!body.email_verified && updUser2["verify_email"]) {
+                        request(options, function (error, response, body) {
+                            if (error) throw new Error(error);
+                            console.log("mail user");
+                            console.log(req.params.id);
+                            console.log(body);
+                        });
+                    }
+                    */
+                    //curl -X POST  -H "Content-Type: application/json" -d '{"user_id":"google-oauth2|1234","client_id":""}' https://yvesgirard.eu.auth0.com/api/v2/jobs/verification-email
+               
                 });
 
 
