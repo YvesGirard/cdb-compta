@@ -2,6 +2,7 @@
 import * as express from "express";
 import { IUser } from "../app/model/iuser";
 import * as User from "./mongoose/user";
+import * as mongoose from "mongoose";
 
 export function users(app: express.Express, authCheck: any) {
 
@@ -64,7 +65,7 @@ export function users(app: express.Express, authCheck: any) {
         User.findOne({
             _id: tmp._id
         }, function (err, data) {
-
+            
             // Get a token to update user data
             var request = require("request");
 
@@ -94,7 +95,7 @@ export function users(app: express.Express, authCheck: any) {
                 console.log(req.params.id);
                 console.log(body);
                 //body.access_token
-                requestUpdateUser(data, tmp, body.access_token, () => { });
+                requestUpdateUser(data, new User(tmp), body.access_token, () => { });
             });
 
             function getUpdatedUser(object, source) {
@@ -137,12 +138,12 @@ export function users(app: express.Express, authCheck: any) {
                return test;
             }
 
-            function requestUpdateUser(user, updatedUser, access_token, callback) {
+            function requestUpdateUser(user: mongoose.Document, updatedUser: mongoose.Document, access_token, callback) {
                 console.log("requestUpdateUser");
-                console.log(user);
+                console.log(user.);
                 console.log(updatedUser);
 
-                var updUser = {
+                var allowedFields = {
                     name: "",
                     email: "",
                     user_metadata: {
@@ -155,9 +156,9 @@ export function users(app: express.Express, authCheck: any) {
                         birthday: ""
                     }
                 }
-                var test = Object.keys(updUser).filter(
+                var test = Object.keys(allowedFields).filter(
                     (key) => {
-                        updUser[key]=updatedUser[key];
+                        allowedFields[key]=updatedUser[key];
                 });
 
                 console.log("Object.assign(updUser,updatedUser)");
@@ -201,35 +202,7 @@ export function users(app: express.Express, authCheck: any) {
                     console.log("update user");
                     console.log(req.params.id);
                     console.log(body);
-                    //body.access_token
-                   // requestUpdateUser(data, tmp, body.access_token, () => { });
-/*
-                   var options = {
-                    method: 'POST',
-                    url: process.env.AUTH0_URL + '/api/v2/jobs/verification-email',
-                    headers: { authorization: 'Bearer ' + access_token,
-                    'content-type': 'application/json' },
-                    body:{"user_id":user.sub},
-                    json: true
-                    };
 
-                    if (process.env.PROXY) {
-                        var HttpsProxyAgent = require('https-proxy-agent');
-                        var agent = new HttpsProxyAgent(process.env.PROXY);
-                        options["agent"] = agent;
-                    }
-
-                    if (!body.email_verified && updUser2["verify_email"]) {
-                        request(options, function (error, response, body) {
-                            if (error) throw new Error(error);
-                            console.log("mail user");
-                            console.log(req.params.id);
-                            console.log(body);
-                        });
-                    }
-                    */
-                    //curl -X POST  -H "Content-Type: application/json" -d '{"user_id":"google-oauth2|1234","client_id":""}' https://yvesgirard.eu.auth0.com/api/v2/jobs/verification-email
-               
                 });
 
 
@@ -287,3 +260,34 @@ export function users(app: express.Express, authCheck: any) {
 
 
 };
+
+
+                    //body.access_token
+                   // requestUpdateUser(data, tmp, body.access_token, () => { });
+/*sendemail
+                   var options = {
+                    method: 'POST',
+                    url: process.env.AUTH0_URL + '/api/v2/jobs/verification-email',
+                    headers: { authorization: 'Bearer ' + access_token,
+                    'content-type': 'application/json' },
+                    body:{"user_id":user.sub},
+                    json: true
+                    };
+
+                    if (process.env.PROXY) {
+                        var HttpsProxyAgent = require('https-proxy-agent');
+                        var agent = new HttpsProxyAgent(process.env.PROXY);
+                        options["agent"] = agent;
+                    }
+
+                    if (!body.email_verified && updUser2["verify_email"]) {
+                        request(options, function (error, response, body) {
+                            if (error) throw new Error(error);
+                            console.log("mail user");
+                            console.log(req.params.id);
+                            console.log(body);
+                        });
+                    }
+                    */
+                    //curl -X POST  -H "Content-Type: application/json" -d '{"user_id":"google-oauth2|1234","client_id":""}' https://yvesgirard.eu.auth0.com/api/v2/jobs/verification-email
+               

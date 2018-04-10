@@ -49,6 +49,7 @@
     "gulp": "^3.9.1",
     "gulp-nodemon": "^2.2.1",
     "jwks-rsa": "^1.2.1",
+    "lodash": "^4.17.5",
     "mailgun-js": "^0.16.0",
     "material": "^0.2.6",
     "method-override": "^2.3.10",
