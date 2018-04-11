@@ -3,6 +3,9 @@ import * as express from "express";
 import { IUser } from "../app/model/iuser";
 import * as User from "./mongoose/user";
 import * as mongoose from "mongoose";
+import { IUserModel } from "./mongoose/iuser-model"
+
+var _ = require('lodash');
 
 export function users(app: express.Express, authCheck: any) {
 
@@ -65,7 +68,7 @@ export function users(app: express.Express, authCheck: any) {
         User.findOne({
             _id: tmp._id
         }, function (err, data) {
-            
+
             // Get a token to update user data
             var request = require("request");
 
@@ -98,52 +101,34 @@ export function users(app: express.Express, authCheck: any) {
                 requestUpdateUser(data, new User(tmp), body.access_token, () => { });
             });
 
-            function getUpdatedUser(object, source) {
 
-
-                var test = Object.keys(object).filter(
-                    (key) => {
-                        if (Object.isExtensible(object[key])) {
-                            console.log("isExtensible")
-                            console.log(key)
-                            object[key] = getUpdatedUser(object[key], source[key]);
-                            console.log("end isExtensible")
-                            console.log(object[key])
-                            return true;
-                        }
-                        else {
-                            console.log("filter") 
-                            console.log(key) 
-                            console.log(source[key])
-                            console.log(object[key]) 
-                            return (source[key] != object[key]);
-                        }
-                    }).reduce((obj, key) => {
-                        console.log(" reduce:"+key) 
-                        console.log(object[key])
-                        console.log(source[key])
-                       /* if (key="email") {
-                            obj["verify_email"]=true;
-                            obj["connection"]="Username-Password-Authentication";
-                            obj["email_verified"]=false;
-                            obj["client_id"]=process.env.API_CLIENT_ID;
-                        }*/
-
-                        obj[key] = object[key];
-                        
-                        return obj;
-                    }, {});
-                    console.log(" t getUpdatedUser")  
-                console.log(test)
-               return test;
-            }
-
-            function requestUpdateUser(user: mongoose.Document, updatedUser: mongoose.Document, access_token, callback) {
+            function requestUpdateUser(user: IUserModel, updatedUser: IUserModel, access_token, callback) {
                 console.log("requestUpdateUser");
-                console.log(user.);
+                console.log(user);
                 console.log(updatedUser);
 
-                var allowedFields = {
+                function filterdeep(object, base, filter) {
+                    function changes(object, base, filter) {
+                        return _.transform(object, function (result, value, key) {
+                            if (!_.isEqual(value, base[key]) && _.has(filter, key)) {
+                                result[key] = (_.isObject(value) && _.isObject(base[key])) ? changes(value, base[key], filter[key]) : value;
+                            }
+                        });
+                    }
+                    return changes(object, base, filter);
+                }
+                /*
+                                _.mixin({
+                                    deeply: function (map) {
+                                        return function(obj, fn) {
+                                            return map(_.mapValues(obj, function (v) {
+                                                return _.isPlainObject(v) ? _.deeply(map)(v, fn) : v;
+                                            }), fn);
+                                        }
+                                    },
+                                });*/
+
+                var test = filterdeep(updatedUser.toObject(), user.toObject(), {
                     name: "",
                     email: "",
                     user_metadata: {
@@ -155,39 +140,45 @@ export function users(app: express.Express, authCheck: any) {
                         email: "",
                         birthday: ""
                     }
-                }
-                var test = Object.keys(allowedFields).filter(
-                    (key) => {
-                        allowedFields[key]=updatedUser[key];
                 });
 
-                console.log("Object.assign(updUser,updatedUser)");
-                console.log(updUser);
-                console.log("start getUpdatedUser(updUser,tmp)");
-                //console.log(getUpdatedUser(updUser,user));
-                console.log("end getUpdatedUser(updUser,tmp)");
+                var obj = _.forEach({
+                    name: "username",
+                }, function (value, key) {
+                    var v = _.get(test, key)
+                    if (v) {
+                        _.unset(test, key);
+                        _.set(test, value, v);
+                    }
+                });
 
-                var updUser2 = getUpdatedUser(updUser,user);
+                if (_.has(test, "email")) {
+                    _.set(test, "verify_email", true);
+                    _.set(test, "connection", "Username-Password-Authentication");
+                    _.set(test, "email_verified", false);
+                    _.set(test, "client_id", process.env.API_CLIENT_ID);              
+                }   
+                
+                if (_.has(test, "username")) {
+                    _.set(test, "connection", "Username-Password-Authentication");       
+                }    
 
-                if (updUser2["email"]) {
-                    updUser2["verify_email"]=true;
-                    updUser2["connection"]="Username-Password-Authentication";
-                    updUser2["email_verified"]=false;
-                    updUser2["client_id"]=process.env.API_CLIENT_ID;      
-                }
+                console.log(test);
 
                 // /api/v2/users/{id}
                 //curl -X PATCH  -H "Content-Type: application/json" -d '{"email":"tit4@coucou.fr"}' https://yvesgirard.eu.auth0.com/api/v2/users/432432432ll
-                
+
                 // Get a token to update user data
                 var request = require("request");
 
                 var options = {
                     method: 'PATCH',
-                    url: process.env.AUTH0_URL + '/api/v2/users/'+ encodeURI(user.sub),
-                    headers: { authorization: 'Bearer ' + access_token,
-                    'content-type': 'application/json' },
-                    body:updUser2,
+                    url: process.env.AUTH0_URL + '/api/v2/users/' + encodeURI(user.sub),
+                    headers: {
+                        authorization: 'Bearer ' + access_token,
+                        'content-type': 'application/json'
+                    },
+                    body: test,
                     json: true
                 };
 
@@ -197,13 +188,15 @@ export function users(app: express.Express, authCheck: any) {
                     options["agent"] = agent;
                 }
 
-                request(options, function (error, response, body) {
-                    if (error) throw new Error(error);
-                    console.log("update user");
-                    console.log(req.params.id);
-                    console.log(body);
+                res.json({ info: 'user updated successfully', data: { updatedUser } });
 
-                });
+                /* request(options, function (error, response, body) {
+                     if (error) throw new Error(error);
+                     console.log("update user");
+                     console.log(req.params.id);
+                     console.log(body);
+ 
+                 });*/
 
 
                 //Can use many more fields
@@ -225,27 +218,27 @@ export function users(app: express.Express, authCheck: any) {
             // email changes
 
 
-/*
-            var updUser = new User(); // updated user 
-            // logic similar to jQuery.extend(); to merge 2 objects.
-            for (var n in data) {
-                updUser[n] = data[n];
-            }
-            for (var n in tmp) {
-                updUser[n] = tmp[n];
-            }
-
-            User.update({
-                _id: tmp._id
-            }, tmp, {
-                    multi: false
-                }, function (err, result) {
-                    if (err) {
-                        res.json({ info: 'error during user update', error: err });
-                    } else {
-                        res.json({ info: 'user updated successfully', data: result });
-                    }
-                });*/
+            /*
+                        var updUser = new User(); // updated user 
+                        // logic similar to jQuery.extend(); to merge 2 objects.
+                        for (var n in data) {
+                            updUser[n] = data[n];
+                        }
+                        for (var n in tmp) {
+                            updUser[n] = tmp[n];
+                        }
+            
+                        User.update({
+                            _id: tmp._id
+                        }, tmp, {
+                                multi: false
+                            }, function (err, result) {
+                                if (err) {
+                                    res.json({ info: 'error during user update', error: err });
+                                } else {
+                                    res.json({ info: 'user updated successfully', data: result });
+                                }
+                            });*/
 
         });
     });
@@ -290,4 +283,4 @@ export function users(app: express.Express, authCheck: any) {
                     }
                     */
                     //curl -X POST  -H "Content-Type: application/json" -d '{"user_id":"google-oauth2|1234","client_id":""}' https://yvesgirard.eu.auth0.com/api/v2/jobs/verification-email
-               
+

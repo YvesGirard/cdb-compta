@@ -1,20 +1,20 @@
 // app/models/dancer.js
 // grab the mongoose module
 import * as mongoose from "mongoose";
-import { IUser } from "../../app/model/iuser"
-
-interface IUserModel extends IUser, mongoose.Document {
-  _id: string;
-}
+import { IUserModel } from "./iuser-model"
 
 var userSchema = new mongoose.Schema({
   _id: String,
   name: String,
-  email: String,
+  email: { type: String, default: "" },
   email_verified: Boolean,
   birthday: Date,
   sub: String,
-  logins_count:Number,
+  logins_count: Number,
+  identities: [{
+    user_id: String,
+    connection: String,
+  }],
   user_metadata: {
     given_name: String,
     gender: String,
@@ -23,7 +23,7 @@ var userSchema = new mongoose.Schema({
     title: String,
     email: String,
     birthday: String
-  },app_metadata: { roles: [String] },
+  }, app_metadata: { roles: [String] },
 }, { _id: false });
 
 var User = mongoose.model<IUserModel>("User", userSchema);

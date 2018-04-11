@@ -75,6 +75,25 @@ export class AppMetaData implements IAppMetaData {
   } 
 }
 
+
+export interface Iidentities {
+  user_id: string;
+  connection: string;
+}
+
+export class Identities implements Iidentities {
+  user_id: string;
+  connection: string;
+
+  constructor(_identities= {}) {
+
+    this.user_id=_identities["user_id"] || '';
+    this.connection=_identities["connection"] || '';
+
+  }
+
+}
+
 export class User implements IUser {
   _id: string;
   name: string;
@@ -87,16 +106,17 @@ export class User implements IUser {
   sub: string;
   user_metadata: UserMetaData;
   app_metadata: AppMetaData;
+  identities: Array<Identities>;
 
   constructor(profile: any) {
     
     this._id = profile.sub.split('|')[1];
-    this.name = profile.name;
-    this.email = profile.email;
+    this.name = profile.name || '';
+    this.email = profile.email || '';
     this.email_verified = profile.email_verified;
-    this.family_name = profile.family_name;
-    this.gender = profile.gender;
-    this.given_name = profile.given_name;
+    this.family_name = profile.family_name || '';
+    this.gender = profile.gender || '';
+    this.given_name = profile.given_name || '';
     this.birthday = null;
     this.sub = profile.sub;
     
@@ -105,7 +125,15 @@ export class User implements IUser {
 
     this.user_metadata = new UserMetaData(profile.user_metadata);
 
-    this.app_metadata = new AppMetaData(profile.app_metadata);   
+    this.app_metadata = new AppMetaData(profile.app_metadata);  
+    
+    var identities = new Array();
+
+    profile.identities.forEach((element) =>
+      identities.push(new Identities(element))
+    ); 
+
+    this.identities = identities;
   }
 
   dbmerge(user: User) {
