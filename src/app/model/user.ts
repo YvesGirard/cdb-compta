@@ -113,7 +113,7 @@ export class User implements IUser {
     this._id = profile.sub.split('|')[1];
     this.name = profile.name || '';
     this.email = profile.email || '';
-    this.email_verified = profile.email_verified;
+    this.email_verified = (profile.email_verified && profile.email) || false;
     this.family_name = profile.family_name || '';
     this.gender = profile.gender || '';
     this.given_name = profile.given_name || '';

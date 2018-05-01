@@ -6,7 +6,8 @@
     "module": "commonjs",
     "lib" : ["es2015", "es2017", "dom"],
     "types": [
-      "node"
+      "node",
+      "multer"
     ]
   },
   "exclude": [

@@ -10,6 +10,10 @@
 		<mat-grid-tile class="flex-right">
 			<button mat-raised-button color="warn" (click)="openDialog()">
 				<mat-icon>add</mat-icon>Créer adhérent</button>
+				<button mat-icon-button (click)="excelFileInput.click()">
+					<mat-icon aria-label="File">file_upload</mat-icon>
+					<input hidden id="file_input_file" #excelFileInput (change)="fileChange($event)" type="file" />
+				  </button>
 		</mat-grid-tile>
 	</mat-grid-list>
 
@@ -42,7 +46,6 @@
 		<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 	</mat-table>
 
-	<mat-paginator [length]="membersCount" [pageSize]="3"
-	[pageSizeOptions]="[3, 5, 50]"></mat-paginator>
+	<mat-paginator [length]="membersCount" [pageSize]="3" [pageSizeOptions]="[3, 5, 50]"></mat-paginator>
 
 </div>

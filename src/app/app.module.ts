@@ -41,6 +41,7 @@ import { MaterialModule } from './material.module';
 import { CallbackComponent } from './services/callback.component';
 import { Http, RequestOptions } from '@angular/http';
 import { provideAuth, AuthHttp, AuthConfig } from 'angular2-jwt';
+import { HttpClientModule } from '@angular/common/http';  // replaces previous Http service
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp( new AuthConfig({}), http, options);
@@ -55,6 +56,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     routing,
     HttpModule,    
     MaterialModule,
+    HttpClientModule,
    // MaterialModule.forRoot(),
     CdbSelectModule.forRoot(),
     //, InMemoryWebApiModule.forRoot(InMemoryDataService)

@@ -143,7 +143,8 @@ export class AuthService {
     this.auth0Manage.getUser(profile.sub, (err,data) => {
 
       Object.assign(data, profile);
-      console.log(data)
+      console.log("AUTH0")
+      console.log(data);
       this.userProfile = new User(data);
       
 

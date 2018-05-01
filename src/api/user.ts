@@ -3,8 +3,9 @@ import * as express from "express";
 import { IUser } from "../app/model/iuser";
 import * as User from "./mongoose/user";
 import * as mongoose from "mongoose";
-import { IUserModel } from "./mongoose/iuser-model"
+import { IUserModel } from "./mongoose/iuser-model";
 
+var async = require('async');
 var _ = require('lodash');
 
 export function users(app: express.Express, authCheck: any) {
@@ -101,6 +102,16 @@ export function users(app: express.Express, authCheck: any) {
                 requestUpdateUser(data, new User(tmp), body.access_token, () => { });
             });
 
+            function callAPI(option, callback) {
+                request(options, function (error, response, body) {
+                    if (error) throw new Error(error);
+                    console.log("update user");
+                    console.log(req.params.id);
+                    console.log(body);
+
+                    res.json({ info: 'user updated successfully', data: { response } });
+                });
+            }
 
             function requestUpdateUser(user: IUserModel, updatedUser: IUserModel, access_token, callback) {
                 console.log("requestUpdateUser");
@@ -128,8 +139,7 @@ export function users(app: express.Express, authCheck: any) {
                                     },
                                 });*/
 
-                var test = filterdeep(updatedUser.toObject(), user.toObject(), {
-                    name: "",
+                var test = filterdeep(updatedUser, user, {
                     email: "",
                     user_metadata: {
                         given_name: "",
@@ -142,7 +152,7 @@ export function users(app: express.Express, authCheck: any) {
                     }
                 });
 
-                var obj = _.forEach({
+                /*var obj = _.forEach({
                     name: "username",
                 }, function (value, key) {
                     var v = _.get(test, key)
@@ -150,32 +160,17 @@ export function users(app: express.Express, authCheck: any) {
                         _.unset(test, key);
                         _.set(test, value, v);
                     }
-                });
+                });*/
 
-                if (_.has(test, "email")) {
-                    _.set(test, "verify_email", true);
-                    _.set(test, "connection", "Username-Password-Authentication");
-                    _.set(test, "email_verified", false);
-                    _.set(test, "client_id", process.env.API_CLIENT_ID);              
-                }   
-                
-                if (_.has(test, "username")) {
-                    _.set(test, "connection", "Username-Password-Authentication");       
-                }    
-
-                console.log(test);
-
-                // /api/v2/users/{id}
-                //curl -X PATCH  -H "Content-Type: application/json" -d '{"email":"tit4@coucou.fr"}' https://yvesgirard.eu.auth0.com/api/v2/users/432432432ll
-
-                // Get a token to update user data
                 var request = require("request");
+
+                console.log(access_token);
 
                 var options = {
                     method: 'PATCH',
                     url: process.env.AUTH0_URL + '/api/v2/users/' + encodeURI(user.sub),
                     headers: {
-                        authorization: 'Bearer ' + access_token,
+                        'authorization': 'Bearer ' + access_token,
                         'content-type': 'application/json'
                     },
                     body: test,
@@ -188,15 +183,71 @@ export function users(app: express.Express, authCheck: any) {
                     options["agent"] = agent;
                 }
 
-                res.json({ info: 'user updated successfully', data: { updatedUser } });
+                var asyncTasks = [];
 
-                /* request(options, function (error, response, body) {
-                     if (error) throw new Error(error);
-                     console.log("update user");
-                     console.log(req.params.id);
-                     console.log(body);
- 
-                 });*/
+                if (_.has(test, "email")) {
+                    //var updateMailBody = {};
+                    _.set(test, "verify_email", true);
+                    _.set(test, "connection", user.identities[0].connection);
+                    _.set(test, "email_verified", false);
+                    _.set(test, "client_id", process.env.API_CLIENT_ID);
+                    console.log()
+                }
+
+                var optionRequest = _.cloneDeep(options);
+
+                _.set(optionRequest, "body", test);
+
+
+                asyncTasks.push((callback) => {
+                    console.log("optionRequest")
+                    console.log(optionRequest)
+                    request(optionRequest, function (error, response, body) {
+                        if (err) { callback(error); }
+                        else {
+                            console.log("update user 1");
+                            console.log(req.params.id);
+                            console.log(body);
+                            callback(null, { info: 'user updated successfully', data: { response } });
+                        }
+                    });
+                });
+
+                asyncTasks.push((res, callback) => {
+                    User.update({
+                        _id: user._id
+                    }, test, {
+                            multi: false
+                        }, function (err, result) {
+                            if (err) {
+                                callback(err);
+                            } else {
+                                callback(null, { info: 'user updated successfully', data: { result } });
+                            }
+                        });
+                });
+
+                async.waterfall(asyncTasks, function (err, data) {
+                    console.log("series")
+                    console.log(data)
+                    console.log(err)
+                    console.log("series end")
+                    //  All tasks are done now
+                    res.json({ info: 'user updated successfully', data: { data } });
+                });
+
+
+
+
+                // /api/v2/users/{id}
+                //curl -X PATCH  -H "Content-Type: application/json" -d '{"email":"tit4@coucou.fr"}' https://yvesgirard.eu.auth0.com/api/v2/users/432432432ll
+
+                // Get a token to update user data
+
+
+
+
+
 
 
                 //Can use many more fields
