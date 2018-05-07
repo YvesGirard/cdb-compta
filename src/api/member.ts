@@ -47,12 +47,20 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
                     return res.json({ error_code: 1, err_desc: err, data: null });
                 }
 
+                const map = {
+                    nom: "family_name",
+                    prénom: "given_name"
+                }
+
+                const key = "";
+
                 let col = _(result).filter((o, i) => {
                     return i > 0;
                 }).map((row) => {
 
                     return _(row).mapKeys((value, key) => {
-                        return (result[0][key]).toLowerCase().trim();
+                        key = (result[0][key]).toLowerCase().trim();
+                        return map[key] || key;
                     }).mapValues((value, key) => {
                         if (value.charAt(0) == "$")
                             return value.substr(1);
@@ -62,14 +70,39 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
 
                 }).value();
 
-                // parcourir col et mettre à jour
-                console.log(col[0])
-                Member.find({ given_name: col[0].nom, family_name: col[0].prénom }, function (err, data) {
-                    console.log(err)
-                    console.log(data)
+
+                const bulkOps = [];
+                _.forEach(col, (row) => {
+
+                    bulkOps.push({
+                        updateOne: {
+                            filter: { given_name: row.given_name, family_name: row.family_name },
+                            update: {
+                                name: row.given_name + " " + row.family_name,
+                                email: row.email,
+                            },
+                            upsert: true,
+                        }
+                    });
                 });
 
-                res.json({ error_code: 0, err_desc: null, data: col });
+                Member.bulkWrite(bulkOps).then((bulkWriteOpResult) => {
+                    if (bulkWriteOpResult.ok!=1) {
+                        res.json({ info: 'error finding members', error: err });
+                    }
+
+                    Member.find().count({}, function (err, count) {
+
+                        // if there is an error retrieving, send the error. 
+                        // nothing after res.send(err) will execute
+                        if (err) {
+                            res.json({ info: 'error finding members', error: err });
+                        }
+                        res.json({ info: 'members found successfully', data: count }); // return all users in JSON format
+                    });
+
+                });
+
             });
         }
     });

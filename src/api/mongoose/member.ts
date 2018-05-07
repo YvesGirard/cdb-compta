@@ -9,6 +9,7 @@ var MemberSchema = new mongoose.Schema({
   name: String,
   given_name: String,
   family_name: String,
+  email: String,
 });
 
 var Member = mongoose.model<IMemberModel>("Member", MemberSchema);

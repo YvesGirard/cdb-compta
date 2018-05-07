@@ -10,8 +10,11 @@ export class MemberDataSource implements DataSource<Member> {
 
     private membersSubject = new BehaviorSubject<Member[]>([]);
     private loadingSubject = new BehaviorSubject<boolean>(false);
+    private countSubject = new BehaviorSubject<Number>(0);
 
+    public count$ = this.countSubject.asObservable();
     public loading$ = this.loadingSubject.asObservable();
+    public members$ = this.membersSubject.asObservable();
 
     constructor(private memberService: MemberService) { }
 
@@ -22,6 +25,7 @@ export class MemberDataSource implements DataSource<Member> {
     disconnect(collectionViewer: CollectionViewer): void {
         this.membersSubject.complete();
         this.loadingSubject.complete();
+        this.countSubject.complete();
     }
 
     loadMembers(filter = '',
@@ -36,8 +40,14 @@ export class MemberDataSource implements DataSource<Member> {
             )
             .subscribe(members => {
                 console.log(members)
+                length = members.length;
                 this.membersSubject.next(members)
             });
+    }
+
+    len(): number {
+        //return this.length;
+        return 0;
     }
 
     creatMember(member: Member) {
@@ -51,7 +61,20 @@ export class MemberDataSource implements DataSource<Member> {
             .subscribe(members => {
                 var tmp = this.membersSubject.getValue();
                 tmp.push(members as Member);
+                this.countSubject.next(tmp.length);
                 this.membersSubject.next(tmp);
             });
+    }
+
+
+    public updateMembers(formData: FormData) {
+        return this.memberService.uploadFile(formData).pipe(
+            catchError(() => of('')),
+            finalize(() => console.log("OK"))
+        ).subscribe((data: Number) => {
+            this.loadMembers();
+            this.countSubject.next(data);
+        });
+
     }
 }

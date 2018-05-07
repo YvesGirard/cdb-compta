@@ -27,7 +27,7 @@ import { of } from 'rxjs/observable/of';
 export class MembersComponent implements AfterViewInit, OnInit {
 
   members: Member[];
-  displayedColumns = ['seqNo', 'Nom'];
+  displayedColumns = ['seqNo', 'Nom', 'email'];
   dataSource: MemberDataSource;
   membersCount: Number;
 
@@ -36,7 +36,10 @@ export class MembersComponent implements AfterViewInit, OnInit {
   ngOnInit(): void {
     this.dataSource = new MemberDataSource(this.memberService);
     this.dataSource.loadMembers('', 'asc', 0, 3);
-
+    this.dataSource.count$.subscribe((data) => {
+      this.membersCount = data;
+      this.paginator.pageIndex = 0;
+    });
     this.membersCount = this.route.snapshot.data["membersCount"];
   }
 
@@ -51,6 +54,7 @@ export class MembersComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
+
     this.paginator.page
       .pipe(
         tap(() => this.loadMembersPage())
@@ -104,6 +108,7 @@ export class MembersComponent implements AfterViewInit, OnInit {
 
     let fileList: FileList = event.target.files;
     console.log(event.target.files)
+
     if (fileList.length > 0) {
       let file: File = fileList[0];
       let formData: FormData = new FormData();
@@ -116,45 +121,9 @@ export class MembersComponent implements AfterViewInit, OnInit {
 
       console.log("request")
 
-      this.uploadFile(formData).pipe(
-        catchError(() => of('')),
-        finalize(() => console.log("OK"))
-      )
-        .subscribe(data => {
-            console.log(data);
-        });
+      this.dataSource.updateMembers(formData);
 
-     /* let req = this.http
-        .get(uploadMemberUrl, httpOptions)
-        .map((res) => {
-          console.log(res);
-        });;
-*/
-      /* let options = new RequestOptions({ headers: headers });
-       this.http.post(`${this.apiEndPoint}`, formData, options)
-         .map(res => res.json())
-         .catch(error => Observable.throw(error))
-         .subscribe(
-           data => console.log('success'),
-           error => console.log(error)
-         )*/
     }
-  }
-
-  uploadFile(formData: FormData): Observable<String> {
-    let uploadMemberUrl = '/api/members/upload';
-    /*const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'multipart/form-data',
-        'Accept': 'application/json'
-      })
-    };*/
-
-    return this.http
-      .post(uploadMemberUrl, formData)
-      .map((res) => {
-        return 'success';
-      });;
   }
 
 }
