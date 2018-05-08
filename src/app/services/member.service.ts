@@ -25,7 +25,7 @@ export class MemberService {
   }
 
   getMembers(filter = '', sortOrder = 'asc',
-    pageNumber = 0, pageSize = 3): Observable<Member[]> {
+    pageNumber = 0, pageSize = 10): Observable<any> {
 
     const params = new HttpParams().set('filter', filter).set('sortOrder', sortOrder);
     console.log(params.toString());
@@ -38,7 +38,7 @@ export class MemberService {
         .set('pageSize', pageSize.toString())
         .toString()
     }).map((res) => {
-      return res.json().data as Member[];
+      return res.json().data;
     });
   }
 
@@ -89,13 +89,13 @@ export class MemberService {
       .pipe(map(res => Number(res.json().data)));
   }
 
-  public uploadFile(formData: FormData): Observable<Number> {
+  public uploadFile(formData: FormData): Observable<Object> {
     let uploadMemberUrl = '/api/members/upload';
 
     return this.http
       .post(uploadMemberUrl, formData)
       .pipe(map((res) => {
-        return Number(res['data']);
+        return res['data'];
       }
       ));
   }

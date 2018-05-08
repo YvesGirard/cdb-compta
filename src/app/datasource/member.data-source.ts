@@ -10,7 +10,7 @@ export class MemberDataSource implements DataSource<Member> {
 
     private membersSubject = new BehaviorSubject<Member[]>([]);
     private loadingSubject = new BehaviorSubject<boolean>(false);
-    private countSubject = new BehaviorSubject<Number>(0);
+    private countSubject = new BehaviorSubject<number>(0);
 
     public count$ = this.countSubject.asObservable();
     public loading$ = this.loadingSubject.asObservable();
@@ -29,7 +29,7 @@ export class MemberDataSource implements DataSource<Member> {
     }
 
     loadMembers(filter = '',
-        sortDirection = 'asc', pageIndex = 0, pageSize = 3) {
+        sortDirection = 'asc', pageIndex = 0, pageSize = 10) {
 
         this.loadingSubject.next(true);
 
@@ -38,10 +38,9 @@ export class MemberDataSource implements DataSource<Member> {
                 catchError(() => of([])),
                 finalize(() => this.loadingSubject.next(false))
             )
-            .subscribe(members => {
-                console.log(members)
-                length = members.length;
-                this.membersSubject.next(members)
+            .subscribe(data => {
+                this.membersSubject.next(data['members']);   
+                this.countSubject.next(data['count']);
             });
     }
 
@@ -61,7 +60,7 @@ export class MemberDataSource implements DataSource<Member> {
             .subscribe(members => {
                 var tmp = this.membersSubject.getValue();
                 tmp.push(members as Member);
-                this.countSubject.next(tmp.length);
+                this.countSubject.next((this.countSubject.getValue() as number) + 1);
                 this.membersSubject.next(tmp);
             });
     }
@@ -71,9 +70,9 @@ export class MemberDataSource implements DataSource<Member> {
         return this.memberService.uploadFile(formData).pipe(
             catchError(() => of('')),
             finalize(() => console.log("OK"))
-        ).subscribe((data: Number) => {
-            this.loadMembers();
-            this.countSubject.next(data);
+        ).subscribe((data: Object) => {
+            this.membersSubject.next(data['members']);   
+            this.countSubject.next(data['count']);
         });
 
     }

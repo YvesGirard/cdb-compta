@@ -2,6 +2,7 @@
 import * as express from "express";
 import { IMember } from "../app/model/imember";
 import * as Member from "./mongoose/member";
+import { forkJoin } from 'rxjs/observable/forkJoin';
 
 const multer = require('multer')
 const xlsxtojson = require("xlsx-to-json-lc")
@@ -87,7 +88,7 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
                 });
 
                 Member.bulkWrite(bulkOps).then((bulkWriteOpResult) => {
-                    if (bulkWriteOpResult.ok!=1) {
+                    if (bulkWriteOpResult.ok != 1) {
                         res.json({ info: 'error finding members', error: err });
                     }
 
@@ -98,7 +99,17 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
                         if (err) {
                             res.json({ info: 'error finding members', error: err });
                         }
-                        res.json({ info: 'members found successfully', data: count }); // return all users in JSON format
+
+
+                        Member.find().sort({ 'name': 'asc' }).skip(0).limit(10).exec(function (err, members) {
+
+                            // if there is an error retrieving, send the error. 
+                            // nothing after res.send(err) will execute
+                            if (err)
+                                res.json({ info: 'error finding members', error: err });
+
+                            res.json({ info: 'members found successfully', data: { members: members, count: count } }); // return all users in JSON format
+                        });
                     });
 
                 });
@@ -126,18 +137,39 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
         var count = req.param("count");
 
         // use mongoose to get all users in the database
+        var filter = req.param("filter");
         var sortOrder = req.param("sortOrder");
         var sortField = req.param("sortField") || 'name';
         var pageSize = Number(req.param("pageSize"));
         var pageSkip = Number(req.param("pageNumber")) * pageSize;
 
         console.log(sortOrder);
+        let regex = {}
+        if (filter) {
+            //{ sortField: { $regex: /pattern/, $options: '<options>' } }
+            _.set(regex, sortField, new RegExp(filter, 'i'));
+        }
+        let sort = {}
+        _.set(sort, sortField, sortOrder);
+        console.log(sort);
+        console.log(pageSkip);
+        console.log(pageSize);
         /*  .set('filter', filter)
           .set('sortOrder', sortOrder)
           .set('pageNumber', pageNumber.toString())
           .set('pageSize', pageSize.toString())*/
         if (!count) {
-            Member.find().sort({ sortField: sortOrder }).skip(pageSkip).limit(pageSize).exec(function (err, members) {
+            /*var promise = query.exec();
+            assert.ok(promise instanceof Promise);
+        
+            promise.then(function (doc) {
+              // use doc
+            });*/
+
+
+            let query1 = Member.find(regex).sort(sort).skip(pageSkip).limit(pageSize);
+            let query2 = Member.find(regex).count();
+            /*.exec(function (err, members) {
 
                 // if there is an error retrieving, send the error. 
                 // nothing after res.send(err) will execute
@@ -145,7 +177,16 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
                     res.json({ info: 'error finding members', error: err });
 
                 res.json({ info: 'members found successfully', data: members }); // return all users in JSON format
-            });
+            });*/
+
+            const example = forkJoin(
+                query1.exec().then((val) => {return val}),
+                query2.exec().then((val) => {return val}),
+              );
+
+              const subscribe = example.subscribe(val => {
+                res.json({ info: 'members found successfully', data: { members: val[0], count: val[1] } });
+              });
         }
         else {
             Member.find().count({}, function (err, count) {

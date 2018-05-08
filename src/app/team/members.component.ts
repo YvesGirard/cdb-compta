@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { OnInit, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -14,8 +14,9 @@ import { Headers, Http } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { catchError, finalize } from 'rxjs/operators';
+import { catchError, finalize, debounceTime, distinctUntilChanged  } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
+import { fromEvent } from 'rxjs/observable/fromEvent';
 
 @Component({
   moduleId: module.id,
@@ -32,13 +33,15 @@ export class MembersComponent implements AfterViewInit, OnInit {
   membersCount: Number;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild('search') search: ElementRef;
 
   ngOnInit(): void {
     this.dataSource = new MemberDataSource(this.memberService);
-    this.dataSource.loadMembers('', 'asc', 0, 3);
+    this.dataSource.loadMembers();
     this.dataSource.count$.subscribe((data) => {
-      this.membersCount = data;
-      this.paginator.pageIndex = 0;
+      if (this.membersCount != data)
+            this.membersCount = data;
+      //this.paginator.pageIndex = 0;
     });
     this.membersCount = this.route.snapshot.data["membersCount"];
   }
@@ -55,6 +58,18 @@ export class MembersComponent implements AfterViewInit, OnInit {
 
   ngAfterViewInit() {
 
+    // server-side search
+    fromEvent(this.search.nativeElement, 'keyup')
+      .pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+        tap(() => {
+          this.paginator.pageIndex = 0;
+          this.loadMembersPage();
+        })
+      )
+      .subscribe();
+
     this.paginator.page
       .pipe(
         tap(() => this.loadMembersPage())
@@ -64,7 +79,7 @@ export class MembersComponent implements AfterViewInit, OnInit {
 
   loadMembersPage() {
     this.dataSource.loadMembers(
-      '',
+      this.search.nativeElement.value,
       'asc',
       this.paginator.pageIndex,
       this.paginator.pageSize);

@@ -25,16 +25,41 @@
 		<mat-spinner></mat-spinner>
 	</div>-->
 
+	<form class="js-users-search advanced-search-control">
+		<span class="search-area">
+		  <i class="icon-budicon-489"></i>
+		  <input class="js-user-input user-input" type="text" placeholder="Recherche" spellcheck="false" #search>
+		</span>
+  
+		<span class="controls pull-right">
+  
+		  
+		  <div class="js-select custom-select">
+			<span>Recherche </span><span class="truncate" data-select-value="">Utilisateur</span> <i class="icon-budicon-460"></i>
+			<select data-mode="">
+			  <option value="name" selected="selected">Nom</option>
+			  <option value="email">Email</option>
+
+			</select>
+		  </div>
+		  
+  
+		  <button type="reset">Reset <i class="icon-budicon-471"></i></button>
+		</span>
+	  </form>
+
 	<mat-table class="lessons-table mat-elevation-z8" [dataSource]="dataSource">
 		<ng-container matColumnDef="seqNo">
 			<mat-header-cell *matHeaderCellDef>#</mat-header-cell>
-			<mat-cell *matCellDef="let member">{{member._id}}</mat-cell>
+			<mat-cell *matCellDef="let member">
+				<a (click)="gotoDetail(member)">{{member._id}}</a>
+			</mat-cell>
 		</ng-container>
 
 		<ng-container matColumnDef="Nom">
 			<mat-header-cell *matHeaderCellDef>Nom</mat-header-cell>
 			<mat-cell class="description-cell" *matCellDef="let member">
-				<a (click)="gotoDetail(member)">{{member.name}}</a>
+				{{member.name}}
 			</mat-cell>
 
 		</ng-container>
@@ -51,6 +76,11 @@
 		<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 	</mat-table>
 
+	<!--
+	<div class="spinner-container" *ngIf="dataSource.loading$ | async">
+		<mat-spinner></mat-spinner>
+	</div>
+-->
 	<mat-paginator [length]="membersCount" [pageSize]="10" [pageSizeOptions]="[10, 50, 100]"></mat-paginator>
 
 </div>

@@ -1,24 +1,35 @@
-<div *ngIf="member">
+<div class="content-text-styling">
 
-  <div class="content-text-styling">
+  <div *ngIf="member">
+
+    <div class="content-text-styling">
       <div class="cdb-list-separator">
-    <div class="header">
-      <h1>Détail de {{member.name}} !</h1>
-      <button mat-raised-button color="warn" (click)="delete()">Supprimer</button>
-    </div>
-  </div>
+        <div class="header">
+          <h1>Détail de {{member.given_name}} {{member.family_name}} !</h1>
+          <button mat-raised-button color="warn" (click)="delete()">Supprimer</button>
+        </div>
+      </div>
 
-    <div>
-      <label>id: </label>{{member._id}}</div>
-    <div>
-      <label>Nom: </label>
-      <input matInput [(ngModel)]="member.name" placeholder="Nom" name="name">
-    </div>
+      <div>
+        <label>id: </label>{{member._id}}
+      </div>
 
-    <div class="cdb-list-separator">
-      <button mat-button (click)="goBack()">Retour</button>
-      <button mat-button (click)="save()">Save</button>
-    </div>
+      <div class="cdb-list-separator">
+        <div class="cdb-list-separator">
+          <mat-form-field class="cdb-input-full-width" dividerColor="primary">
+            <input matInput [(ngModel)]="member.given_name"  placeholder="Prénom" name="given_name">
+          </mat-form-field>
+          <mat-form-field class="cdb-input-full-width" dividerColor="primary">
+              <input matInput [(ngModel)]="member.family_name" placeholder="Nom" name="family_name" >
+          </mat-form-field>
+         </div>
+      </div>
 
+      <div class="cdb-list-separator">
+        <button mat-button (click)="goBack()">Retour</button>
+        <button mat-button (click)="save()">Save</button>
+      </div>
+
+    </div>
   </div>
 </div>
