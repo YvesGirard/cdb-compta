@@ -112,6 +112,7 @@ export class MembersComponent implements AfterViewInit, OnInit {
   }
 
   gotoDetail(member: Member): void {
+    this.memberService.mailing().subscribe(val => console.log(val));
     let link = ['/member', member._id];
     this.router.navigate(link);
   }

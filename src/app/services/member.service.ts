@@ -100,6 +100,17 @@ export class MemberService {
       ));
   }
 
+  public mailing(): Observable<Object> {
+    let uploadMemberUrl = '/api/mails/v2/verification';
+
+    return this.authHttp
+      .post(uploadMemberUrl, "test")
+      .pipe(map((res) => {
+        return res['data'];
+      }
+      ));
+  }
+
   protected handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);

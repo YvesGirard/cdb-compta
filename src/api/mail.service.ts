@@ -71,6 +71,54 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
     res.json({ info: 'error finding members', data: "Hello" });
   });
 
+  app.post('/api/mails/v2/verification', function (req, res) {
+
+    // curl -X POST  -H "Content-Type: application/json" -d '{"user_id":"google-oauth2|1234","client_id":""}' https://yvesgirard.eu.auth0.com/api/v2/jobs/verification-email
+
+    var _id = req.params.id;
+    console.log(req);
+
+    var api_key = process.env.MAILGUN_API_KEY;
+    var DOMAIN = process.env.MAILGUN_DOMAIN;
+    var port = process.env.PORT || 8080;
+    var config = { apiKey: api_key, domain: DOMAIN };
+
+    if (process.env.PROXY)
+      config["proxy"] = "http://127.0.0.1:3128";
+
+
+    var mailgun = require('mailgun-js')(config);
+
+    var data = {
+      from: 'secretariat@carnetdebals.com',
+      to: 'conseil@carnetdebals.com',
+      subject: 'Hello',
+      text: 'Testing some Mailgun awesomness!'
+    };
+
+    mailgun.messages().send(data, function (error, body) {
+      console.log(error || body);
+    });
+
+
+    res.json({ info: 'error finding members', data: "Hello" });
+  });
+
+  app.post('/api/mails/v2/store', function (req, res) {
+
+    // curl -X POST  -H "Content-Type: application/json" -d '{"user_id":"google-oauth2|1234","client_id":""}' https://yvesgirard.eu.auth0.com/api/v2/jobs/verification-email
+
+    var _id = req.params.id;
+    console.log(req);
+
+    var api_key = process.env.MAILGUN_API_KEY;
+    var DOMAIN = process.env.MAILGUN_DOMAIN;
+    var port = process.env.PORT || 8080;
+    var config = { apiKey: api_key, domain: DOMAIN };
+
+
+    res.json({ info: 'error finding members', data: "Hello" });
+  });
 
   app.post('/api/v2/mails/verification/:id', authCheck, function (req, res) {
 
