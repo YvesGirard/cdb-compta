@@ -88,7 +88,7 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
                 });
 
                 Member.bulkWrite(bulkOps).then((bulkWriteOpResult) => {
-                    if (bulkWriteOpResult.ok != 1) {
+                    if (bulkWriteOpResult['ok'] != 1) {
                         res.json({ info: 'error finding members', error: err });
                     }
 
