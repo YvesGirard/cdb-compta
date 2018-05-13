@@ -161,6 +161,7 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
       from: 'Excited User <yv.girard@gmail.com>',
       to: 'yv.girard@gmail.com',
       subject: message["Subject"],
+      text: "",
       message: message['body-mime']
     };
 
