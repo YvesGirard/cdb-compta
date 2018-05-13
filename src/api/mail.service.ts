@@ -110,7 +110,7 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
     // curl -X POST  -H "Content-Type: application/json" -d '{"user_id":"google-oauth2|1234","client_id":""}' https://yvesgirard.eu.auth0.com/api/v2/jobs/verification-email
  
     let data = [message.timestamp, message.token].join();
-    let signaturecdb =  crypto.createHmac("sha256", process.env.MG_API_KEY_STORE).update(data).digest("hex");
+    let signaturecdb =  crypto.createHmac("sha256", process.env.MG_API_KEY_STORE.toString()).update(data).digest("hex");
 
     console.log("compare");
     console.log(signaturecdb == message.signature);
