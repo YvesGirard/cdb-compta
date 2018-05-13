@@ -133,18 +133,39 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
     console.log("body")
     console.log(message);
     console.log("end body")
-    let data = message.timestamp + message.token;
-    let signaturecdb = crypto.createHmac("sha256", process.env.MG_API_KEY_STORE).update(data).digest("hex");
+    let token = message.timestamp + message.token;
+    let signaturecdb = crypto.createHmac("sha256", process.env.MG_API_KEY_STORE).update(token).digest("hex");
 
     if (signaturecdb != message.signature)
       return res.end();
 
-    let decodedMessage = {
+  /*  let decodedMessage = {
       from: message.From,
       to: message.To,
       subject: message.Subject,
       text: 'Testing some Mailgun awesomness!'
-    }
+    }*/
+
+    var api_key = process.env.MAILGUN_API_KEY;
+    var DOMAIN = process.env.MAILGUN_DOMAIN;
+    var port = process.env.PORT || 8080;
+    var config = { apiKey: api_key, domain: DOMAIN };
+
+    if (process.env.PROXY)
+      config["proxy"] = "http://127.0.0.1:3128";
+
+
+    var mailgun = require('mailgun-js')(config);
+
+    var data = {
+      from: 'Excited User <yv.girard@gmail.com>',
+      to: 'yv.girard@gmail.com',
+      message: message['body-mime']
+    };
+
+    mailgun.messages().send(data, function (error, body) {
+      console.log(error || body);
+    });
 
 
     res.json({ info: 'error finding members', data: "Hello" });
