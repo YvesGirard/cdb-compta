@@ -126,6 +126,30 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
     res.json({ info: 'error finding members', data: "Hello" });
   });
 
+  app.post('/api/mails/v2/store/mime', function (req, res) {
+    let message = req.body;
+    console.log("req")
+    console.log(req);
+    console.log("body")
+    console.log(message);
+    console.log("end body")
+    let data = message.timestamp + message.token;
+    let signaturecdb = crypto.createHmac("sha256", process.env.MG_API_KEY_STORE).update(data).digest("hex");
+
+    if (signaturecdb != message.signature)
+      return res.end();
+
+    let decodedMessage = {
+      from: message.From,
+      to: message.To,
+      subject: message.Subject,
+      text: 'Testing some Mailgun awesomness!'
+    }
+
+
+    res.json({ info: 'error finding members', data: "Hello" });
+  });
+
   app.post('/api/v2/mails/verification/:id', authCheck, function (req, res) {
 
     // curl -X POST  -H "Content-Type: application/json" -d '{"user_id":"google-oauth2|1234","client_id":""}' https://yvesgirard.eu.auth0.com/api/v2/jobs/verification-email
