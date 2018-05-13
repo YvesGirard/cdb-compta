@@ -1,6 +1,7 @@
 // app/routes.js
 import * as express from "express";
 import * as mailgun from "mailgun-js";
+import * as crypto from 'crypto';
 
 export function mails(app: express.Express, authCheck: any, authScopes: any) {
   // test : curl -d "param1=value1&param2=value2" -X POST http://localhost:8080/api/mails/verification
@@ -105,11 +106,19 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
   });
 
   app.post('/api/mails/v2/store', function (req, res) {
-
+    let message = req.body;
     // curl -X POST  -H "Content-Type: application/json" -d '{"user_id":"google-oauth2|1234","client_id":""}' https://yvesgirard.eu.auth0.com/api/v2/jobs/verification-email
+ 
+    let data = [message.timestamp, message.token].join();
+    let signaturecdb =  crypto.createHmac("sha256", process.env.MG_API_KEY_STORE).update(data).digest("hex");
+
+    console.log("compare");
+    console.log(signaturecdb == message.signature);
+
+    //signature == OpenSSL::HMAC.hexdigest(digest, api_key, data)
 
     var _id = req.params.id;
-    console.log(req);
+    console.log(req.body);
 
     var api_key = process.env.MAILGUN_API_KEY;
     var DOMAIN = process.env.MAILGUN_DOMAIN;
