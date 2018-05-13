@@ -107,6 +107,7 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
 
   app.post('/api/mails/v2/store', function (req, res) {
     let message = req.body;
+    console.log(message);
     let data = message.timestamp + message.token;
     let signaturecdb = crypto.createHmac("sha256", process.env.MG_API_KEY_STORE).update(data).digest("hex");
 
