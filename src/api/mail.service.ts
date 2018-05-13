@@ -106,26 +106,19 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
   });
 
   app.post('/api/mails/v2/store', function (req, res) {
-    console.log(req.headers);
     let message = req.body;
-    // curl -X POST  -H "Content-Type: application/json" -d '{"user_id":"google-oauth2|1234","client_id":""}' https://yvesgirard.eu.auth0.com/api/v2/jobs/verification-email
- 
-    let data = [message.timestamp, message.token].join();
-    console.log(data)
-    let signaturecdb =  crypto.createHmac("sha256", process.env.MG_API_KEY_STORE.toString()).update(data).digest("hex");
+    let data = message.timestamp + message.token;
+    let signaturecdb = crypto.createHmac("sha256", process.env.MG_API_KEY_STORE).update(data).digest("hex");
 
-    console.log("compare");
-    console.log(signaturecdb == message.signature);
+    if (signaturecdb != message.signature)
+      return res.end();
 
-    //signature == OpenSSL::HMAC.hexdigest(digest, api_key, data)
-
-    var _id = req.params.id;
-    console.log(req.body);
-
-    var api_key = process.env.MAILGUN_API_KEY;
-    var DOMAIN = process.env.MAILGUN_DOMAIN;
-    var port = process.env.PORT || 8080;
-    var config = { apiKey: api_key, domain: DOMAIN };
+    let decodedMessage = {
+      from: message.From,
+      to: message.To,
+      subject: message.Subject,
+      text: 'Testing some Mailgun awesomness!'
+    }
 
 
     res.json({ info: 'error finding members', data: "Hello" });
