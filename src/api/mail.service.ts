@@ -139,12 +139,12 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
     if (signaturecdb != message.signature)
       return res.end();
 
-  /*  let decodedMessage = {
-      from: message.From,
-      to: message.To,
-      subject: message.Subject,
-      text: 'Testing some Mailgun awesomness!'
-    }*/
+    /*  let decodedMessage = {
+        from: message.From,
+        to: message.To,
+        subject: message.Subject,
+        text: 'Testing some Mailgun awesomness!'
+      }*/
     const simpleParser = require('mailparser').simpleParser;
 
     var api_key = process.env.MAILGUN_API_KEY;
@@ -158,23 +158,48 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
 
     var mailgun = require('mailgun-js')(config);
 
-    var data = {
-      from: 'Excited User <yv.girard@gmail.com>',
-      to: 'yv.girard@gmail.com',
-      subject: message["Subject"],
-      message: message['body-mime']
-    };
 
-    mailgun.messages().sendMime(data, function (error, body) {
-      console.log(error || body);
-    });
 
-    simpleParser(message['body-mime']).then(mail=>{
-      console.log("mail")     
+    simpleParser(message['body-mime']).then(mail => {
+      console.log("mail")
       console.log(mail)
+      mail.from = {
+        value: [
+          {
+            address: 'yves.girard@carnetdebals.com',
+            name: 'Yves Girard'
+          }
+        ]
+      }
+
+      mail.to = {
+        value: [
+          {
+            address: 'yv.girard@gmail.com',
+            name: 'Yves Girard'
+          }
+        ]
+      }
       console.log("end mail")
-      res.json({ info: 'error finding members', data: "Hello" });
-    }).catch(err=>{
+
+      const MailComposer = require('nodemailer/lib/mail-composer');
+      var mail = new MailComposer(mail);
+
+      mail.compile().build(function (err, message) {
+
+        var data = {
+          to: 'yv.girard@gmail.com',
+          message: message.toString('ascii')
+        };
+
+        mailgun.messages().sendMime(data, function (error, body) {
+          console.log(error || body);
+          res.json({ info: 'error finding members', data: "Hello" });
+        });
+  
+      });
+
+    }).catch(err => {
       console.log(err)
       res.json({ info: 'error finding members', data: err });
     })
