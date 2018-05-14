@@ -145,6 +145,8 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
       subject: message.Subject,
       text: 'Testing some Mailgun awesomness!'
     }*/
+    const simpleParser = require('mailparser').simpleParser;
+    simpleParser(message['body-mime']).then(mail=>{console.log(mail)}).catch(err=>{})
 
     var api_key = process.env.MAILGUN_API_KEY;
     var DOMAIN = process.env.MAILGUN_DOMAIN;
