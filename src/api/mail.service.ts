@@ -146,7 +146,6 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
       text: 'Testing some Mailgun awesomness!'
     }*/
     const simpleParser = require('mailparser').simpleParser;
-    simpleParser(message['body-mime']).then(mail=>{console.log(mail)}).catch(err=>{})
 
     var api_key = process.env.MAILGUN_API_KEY;
     var DOMAIN = process.env.MAILGUN_DOMAIN;
@@ -170,8 +169,17 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
       console.log(error || body);
     });
 
+    simpleParser(message['body-mime']).then(mail=>{
+      console.log("mail")     
+      console.log(mail)
+      console.log("end mail")
+      res.json({ info: 'error finding members', data: "Hello" });
+    }).catch(err=>{
+      console.log(err)
+      res.json({ info: 'error finding members', data: err });
+    })
 
-    res.json({ info: 'error finding members', data: "Hello" });
+
   });
 
   app.post('/api/v2/mails/verification/:id', authCheck, function (req, res) {
