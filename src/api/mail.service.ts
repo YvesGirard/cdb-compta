@@ -163,27 +163,27 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
     simpleParser(message['body-mime']).then(mail => {
       console.log("mail")
       console.log(mail)
-      mail.from = {
-        value: [
-          {
-            address: 'yves.girard@carnetdebals.com',
-            name: 'Yves Girard'
-          }
-        ]
-      }
 
-      mail.to = {
-        value: [
-          {
-            address: 'yv.girard@gmail.com',
-            name: 'Yves Girard'
-          }
-        ]
-      }
       console.log("end mail")
 
       const MailComposer = require('nodemailer/lib/mail-composer');
-      var mail = new MailComposer(mail);
+
+      var mailOptions = {
+        from: {
+          address: 'yves.girard@carnetdebals.com',
+          name: 'Yves Girard'
+        },
+        to: {
+          address: 'yv.girard@gmail.com',
+          name: 'Yves Girard'
+        },
+        subject: mail.subject,
+        text: mail.text,
+        html: mail.html,
+        attachments:   mail.attachments
+      };
+
+      var mail = new MailComposer(mailOptions);
 
       mail.compile().build(function (err, message) {
 
