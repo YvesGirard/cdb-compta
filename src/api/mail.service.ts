@@ -128,10 +128,10 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
 
   app.post('/api/mails/v2/store/mime', function (req, res) {
     let message = req.body;
-    console.log("req")
-    console.log(req);
-    console.log("body")
-    console.log(message);
+    //console.log("req")
+    //console.log(req);
+    //console.log("body")
+    //console.log(message);
     console.log("end body")
     let token = message.timestamp + message.token;
     let signaturecdb = crypto.createHmac("sha256", process.env.MG_API_KEY_STORE).update(token).digest("hex");
@@ -162,9 +162,13 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
 
     simpleParser(message['body-mime']).then(mail => {
       console.log("mail")
-      console.log(mail)
+      //console.log(mail)
 
       console.log("end mail")
+      console.log("TO")
+      console.log(mail.to)
+      console.log("FROM")
+      console.log(mail.from)
 
       const MailComposer = require('nodemailer/lib/mail-composer');
 
