@@ -173,14 +173,14 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
       const MailComposer = require('nodemailer/lib/mail-composer');
 
       var mailOptions = {
-        from: {
+        from: mail.from.value/*{
           address: 'yves.girard@carnetdebals.com',
           name: 'Yves Girard'
-        },
-        to: {
+        }*/,
+        to: mail.to.value/*{
           address: 'yv.girard@gmail.com',
           name: 'Yves Girard'
-        },
+        }*/,
         subject: mail.subject,
         text: mail.text,
         html: mail.html,
