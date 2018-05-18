@@ -42,6 +42,8 @@ import { CallbackComponent } from './services/callback.component';
 import { Http, RequestOptions } from '@angular/http';
 import { provideAuth, AuthHttp, AuthConfig } from 'angular2-jwt';
 import { HttpClientModule } from '@angular/common/http';  // replaces previous Http service
+import { MailResolver } from './services/mail.resolver';
+import { MailsComponent }      from './workflow/mails.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp( new AuthConfig({}), http, options);
@@ -67,6 +69,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     DashboardComponent,
     HeroesComponent,
     MembersComponent,
+    MailsComponent,    
     HeroDetailComponent,
     HeroSearchComponent,
     HighlightDirective,
@@ -82,6 +85,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   ],
   bootstrap: [AppComponent],
   providers: [MembersResolver,
+    MailResolver,
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,

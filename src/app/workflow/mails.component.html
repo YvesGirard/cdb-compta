@@ -1,0 +1,103 @@
+<div class="content-text-styling">
+	<mat-grid-list cols="2" rowHeight="100px">
+
+		<mat-grid-tile class="flex-left">
+			<div class="header">
+				<h1>Gestion e-mailing</h1>
+			</div>
+		</mat-grid-tile>
+
+		<!--<mat-grid-tile class="flex-right">
+			<button mat-raised-button color="warn" (click)="openDialog()">
+				<mat-icon>add</mat-icon>Créer adhérent</button>
+				<button mat-icon-button (click)="excelFileInput.click()">
+					<mat-icon aria-label="File">file_upload</mat-icon>
+					<input hidden id="file_input_file" #excelFileInput (change)="fileChange($event)" type="file" />
+				  </button>
+		</mat-grid-tile>-->
+	</mat-grid-list>
+
+
+
+
+
+	<!--<div class="spinner-container" *ngIf="dataSource.loading$ | async">
+		<mat-spinner></mat-spinner>
+	</div>-->
+
+	<form class="js-users-search advanced-search-control">
+		<span class="search-area">
+		  <i class="icon-budicon-489"></i>
+		  <input class="js-user-input user-input" type="text" placeholder="Recherche" spellcheck="false" #search>
+		</span>
+  
+		<span class="controls pull-right">
+  
+		  
+		  <div class="js-select custom-select">
+			<span>Recherche </span><span class="truncate" data-select-value="">Mail</span> <i class="icon-budicon-460"></i>
+			<select data-mode="">
+			  <option value="name" selected="selected">Nom</option>
+			  <option value="email">Email</option>
+
+			</select>
+		  </div>
+		  
+  
+		  <button type="reset">Reset <i class="icon-budicon-471"></i></button>
+		</span>
+	  </form>
+
+	<mat-table class="lessons-table mat-elevation-z8" [dataSource]="dataSource">
+		<ng-container matColumnDef="_id">
+			<mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+			<mat-cell *matCellDef="let mail">
+				{{mail._id}}
+			</mat-cell>
+		</ng-container>
+
+		<ng-container matColumnDef="from">
+			<mat-header-cell *matHeaderCellDef>De</mat-header-cell>
+			<mat-cell class="description-cell" *matCellDef="let mail">
+				{{mail.from}}
+			</mat-cell>
+
+		</ng-container>
+
+		<ng-container matColumnDef="to">
+			<mat-header-cell *matHeaderCellDef>A</mat-header-cell>
+			<mat-cell class="description-cell" *matCellDef="let mail">
+				{{mail.to}}
+			</mat-cell>
+
+		</ng-container>
+
+		<ng-container matColumnDef="subject">
+			<mat-header-cell *matHeaderCellDef>Objet</mat-header-cell>
+			<mat-cell class="description-cell" *matCellDef="let mail">
+				{{mail.subject}}
+			</mat-cell>
+
+		</ng-container>
+
+		<ng-container matColumnDef="html">
+			<mat-header-cell *matHeaderCellDef>Message</mat-header-cell>
+			<mat-cell class="description-cell" *matCellDef="let mail">
+				{{mail.html}}
+			</mat-cell>
+
+		</ng-container>
+
+		<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+		<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+	</mat-table>
+
+	<!--
+	<div class="spinner-container" *ngIf="dataSource.loading$ | async">
+		<mat-spinner></mat-spinner>
+	</div>
+-->
+	<mat-paginator [length]="mailsCount" [pageSize]="10" [pageSizeOptions]="[10, 50, 100]"></mat-paginator>
+
+</div>

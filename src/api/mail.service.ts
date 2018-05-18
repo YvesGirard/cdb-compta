@@ -2,6 +2,10 @@
 import * as express from "express";
 import * as mailgun from "mailgun-js";
 import * as crypto from 'crypto';
+import * as Mail from "./mongoose/mail";
+import * as _ from "lodash";
+import { forkJoin } from 'rxjs/observable/forkJoin';
+
 
 export function mails(app: express.Express, authCheck: any, authScopes: any) {
   // test : curl -d "param1=value1&param2=value2" -X POST http://localhost:8080/api/mails/verification
@@ -105,6 +109,55 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
     res.json({ info: 'error finding members', data: "Hello" });
   });
 
+  // sample api route
+  app.get('/api/mails', authCheck, checkScopes, function (req, res) {
+
+    var count = req.param("count");
+
+    // use mongoose to get all users in the database
+    var filter = req.param("filter");
+    var sortOrder = req.param("sortOrder");
+    var sortField = req.param("sortField") || 'name';
+    var pageSize = Number(req.param("pageSize"));
+    var pageSkip = Number(req.param("pageNumber")) * pageSize;
+
+    console.log(sortOrder);
+    let regex = {}
+    if (filter) {
+      //{ sortField: { $regex: /pattern/, $options: '<options>' } }
+      _.set(regex, sortField, new RegExp(filter, 'i'));
+    }
+    let sort = {}
+    _.set(sort, sortField, sortOrder);
+
+    if (!count) {
+
+      let query1 = Mail.find(regex).sort(sort).skip(pageSkip).limit(pageSize);
+      let query2 = Mail.find(regex).count();
+
+      const example = forkJoin(
+        query1.exec().then((val) => { return val }),
+        query2.exec().then((val) => { return val }),
+      );
+
+      const subscribe = example.subscribe(val => {
+        res.json({ info: 'mails found successfully', data: { mails: val[0], count: val[1] } });
+      });
+    }
+    else {
+      Mail.find().count({}, function (err, count) {
+
+        // if there is an error retrieving, send the error. 
+        // nothing after res.send(err) will execute
+        if (err)
+          res.json({ info: 'error finding mail', error: err });
+
+        res.json({ info: 'mails found successfully', data: count }); // return all users in JSON format
+      });
+    }
+  });
+
+
   app.post('/api/mails/v2/store', function (req, res) {
     let message = req.body;
     console.log(req);
@@ -170,8 +223,6 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
       console.log("FROM")
       console.log(mail.from)
 
-      const MailComposer = require('nodemailer/lib/mail-composer');
-
       var mailOptions = {
         from: mail.from.value/*{
           address: 'yves.girard@carnetdebals.com',
@@ -184,28 +235,39 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
         subject: mail.subject,
         text: mail.text,
         html: mail.html,
-        attachments:   mail.attachments
+        attachments: mail.attachments
       };
 
-      var mail = new MailComposer(mailOptions);
-
-      mail.compile().build(function (err, message) {
-
-        var data = {
-          to: 'yv.girard@gmail.com',
-          message: message.toString('ascii')
-        };
-
-        mailgun.messages().sendMime(data, function (error, body) {
-          console.log(error || body);
-          res.json({ info: 'error finding members', data: "Hello" });
-        });
-  
+      var tmpMail = new Mail(mailOptions);
+      tmpMail.save(function (err, result) {
+        if (err) {
+          res.json({ info: 'error storing mail', error: err });
+        } else {
+          res.json({ info: 'mail stored successfully', data: result });
+        }
       });
 
+      /*    const MailComposer = require('nodemailer/lib/mail-composer');
+ 
+      var mail = new MailComposer(mailOptions);
+ 
+       mail.compile().build(function (err, message) {
+ 
+         var data = {
+           to: 'yv.girard@gmail.com',
+           message: message.toString('ascii')
+         };
+ 
+         mailgun.messages().sendMime(data, function (error, body) {
+           console.log(error || body);
+           res.json({ info: 'error finding members', data: "Hello" });
+         });
+   
+       });
+ */
     }).catch(err => {
       console.log(err)
-      res.json({ info: 'error finding members', data: err });
+      res.json({ info: 'error storing mail', data: err });
     })
 
 

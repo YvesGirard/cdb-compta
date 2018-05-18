@@ -2,6 +2,7 @@ import { ModuleWithProviders }  from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { MembersComponent }      from './team/members.component';
+import { MailsComponent }      from './workflow/mails.component';
 import { DashboardComponent }   from './dashboard/dashboard.component';
 import { HeroDetailComponent }   from './team/hero-detail.component';
 import { MemberDetailComponent }   from './team/member-detail.component';
@@ -9,6 +10,7 @@ import { UserProfileComponent }   from './user/user-profile.component';
 //import { SetupComponent }   from './setup/setup.component';
 import { CallbackComponent } from './services/callback.component';
 import { MembersResolver } from './services/member.resolver';
+import { MailResolver } from './services/mail.resolver';
 
 const appRoutes: Routes = [
   {
@@ -23,6 +25,13 @@ const appRoutes: Routes = [
       membersCount: MembersResolver
     }
   },
+  {
+    path: 'mails',
+    component: MailsComponent,
+    resolve: {
+      mailsCount: MailResolver
+    }
+  },  
   {
     path: 'dashboard',
     component: DashboardComponent
