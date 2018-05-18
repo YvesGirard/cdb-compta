@@ -6,8 +6,8 @@ import {IMail} from "./imail-model"
 interface IMailModel extends IMail, mongoose.Document {}
 
 var MailSchema = new mongoose.Schema({
-  from: String,
-  to: String,
+  from: { address: String, name: String },
+  to: { address: String, name: String },
   subject: String,
   text: String,
   html: String,

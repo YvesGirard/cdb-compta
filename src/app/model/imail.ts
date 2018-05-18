@@ -1,8 +1,8 @@
 // app/models/mail.js
 
 export interface IMail {
-  from: String,
-  to: String,
+  from: [{ address: String, name: String }],
+  to: [{ address: String, name: String }],
   subject: String,
   text: String,
   html: String,

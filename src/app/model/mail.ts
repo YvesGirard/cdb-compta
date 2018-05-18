@@ -15,8 +15,8 @@ export class Attachement {
 
 export class Mail implements IMail { 
   _id: number;
-  from: String;
-  to: String;
+  from: [{ address: String, name: String }];
+  to: [{ address: String, name: String }];
   subject: String;
   text: String;
   html: String;

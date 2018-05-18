@@ -59,7 +59,11 @@
 		<ng-container matColumnDef="from">
 			<mat-header-cell *matHeaderCellDef>De</mat-header-cell>
 			<mat-cell class="description-cell" *matCellDef="let mail">
-				{{mail.from}}
+				<ul>
+					<li *ngFor="let adress of mail.from"> 
+						{{ adress.address }} 
+					</li>
+				 </ul>
 			</mat-cell>
 
 		</ng-container>
@@ -67,7 +71,11 @@
 		<ng-container matColumnDef="to">
 			<mat-header-cell *matHeaderCellDef>A</mat-header-cell>
 			<mat-cell class="description-cell" *matCellDef="let mail">
-				{{mail.to}}
+				<ul>
+					<li *ngFor="let adress of mail.to"> 
+						{{ adress.address }} 
+					</li>
+				 </ul>
 			</mat-cell>
 
 		</ng-container>
@@ -83,7 +91,7 @@
 		<ng-container matColumnDef="html">
 			<mat-header-cell *matHeaderCellDef>Message</mat-header-cell>
 			<mat-cell class="description-cell" *matCellDef="let mail">
-				{{mail.html}}
+				<span matTooltip="{{mail.html}}">{{mail.html}}</span>
 			</mat-cell>
 
 		</ng-container>

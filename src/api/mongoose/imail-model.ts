@@ -4,8 +4,8 @@ import * as mongoose from "mongoose";
 import { IMail } from "../../app/model/imail"
 
 export interface IMail extends IMail, mongoose.Document {
-  from: String,
-  to: String,
+  from: [{ address: String, name: String }],
+  to: [{ address: String, name: String }],
   subject: String,
   text: String,
   html: String,
