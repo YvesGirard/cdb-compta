@@ -241,8 +241,10 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
       var tmpMail = new Mail(mailOptions);
       tmpMail.save(function (err, result) {
         if (err) {
+          console.log(err)
           res.json({ info: 'error storing mail', error: err });
         } else {
+          console.log(result)
           res.json({ info: 'mail stored successfully', data: result });
         }
       });
