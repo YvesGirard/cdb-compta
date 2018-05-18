@@ -110,7 +110,7 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
   });
 
   // sample api route
-  app.get('/api/mails', authCheck, checkScopes, function (req, res) {
+  app.get('/api/mails', authCheck, function (req, res) {
 
     var count = req.param("count");
 

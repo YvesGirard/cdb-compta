@@ -31,7 +31,6 @@ export class MailsComponent implements AfterViewInit, OnInit {
     'from',
     'to',
     'subject',
-    'text',
     'html'];
   dataSource: MailDataSource;
   mailsCount: Number;
