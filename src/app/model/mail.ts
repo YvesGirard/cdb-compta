@@ -20,5 +20,11 @@ export class Mail implements IMail {
   subject: String;
   text: String;
   html: String;
-  attachments: [Attachement]
+  attachments: [Attachement];
+  resume: String;
+
+  constructor(_mail= {}) {
+    this.resume=(_mail["text"]).substring(0,20) || '';
+  }
+
 }
