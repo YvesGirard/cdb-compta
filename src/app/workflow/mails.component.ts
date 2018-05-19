@@ -16,6 +16,8 @@ import { Observable } from 'rxjs/Observable';
 import { catchError, finalize, debounceTime, distinctUntilChanged  } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { fromEvent } from 'rxjs/observable/fromEvent';
+import { LoggerSnackbarService } from '../services/logger-snackbar.service';
+
 
 @Component({
   moduleId: module.id,
@@ -31,7 +33,8 @@ export class MailsComponent implements AfterViewInit, OnInit {
     'from',
     'to',
     'subject',
-    'html'];
+    'html',
+    'action'];
   dataSource: MailDataSource;
   mailsCount: Number;
 
@@ -56,6 +59,7 @@ export class MailsComponent implements AfterViewInit, OnInit {
     private mailService: MailService,
     private authHttp: AuthHttp,
     private http: HttpClient,
+    private snackBarService: LoggerSnackbarService,
   ) {
   }
 
@@ -94,12 +98,13 @@ export class MailsComponent implements AfterViewInit, OnInit {
     // this.dataSource.filter = filterValue;
   }
 
-  /*
-  add(member: Member): void {
-    if (!member || !member.name) { return; }
-    this.dataSource.creatMember(member);
+
+  send(mail: Mail): void {
+    if (!mail || !mail._id) { return; }
+    this.mailService.send(mail).then(() => this.snackBarService.info("Enregistré"));
   }
 
+  /*
   openDialog(): void {
     let dialogRef = this.dialog.open(MemberAddDialog, {
       width: '250px',
@@ -115,11 +120,10 @@ export class MailsComponent implements AfterViewInit, OnInit {
     });
   }*/
 
-  /*gotoDetail(member: Member): void {
-    this.memberService.mailing().subscribe(val => console.log(val));
-    let link = ['/member', member._id];
+  gotoDetail(mail: Mail): void {
+    let link = ['/mail', mail._id];
     this.router.navigate(link);
-  }*/
+  }
   //members: Member[];
   //selectedHero: Hero;
 

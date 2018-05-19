@@ -17,8 +17,7 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
   app.use(function (req, res, next) {
     console.log(req.method, req.url);
     next();
-  }
-  );
+  });
 
   var jwt = require('express-jwt');
   var jwksRsa = require('jwks-rsa');
@@ -74,6 +73,76 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
 
 
     res.json({ info: 'error finding members', data: "Hello" });
+  });
+
+  app.post('/api/mails/send/:id', authCheck, function (req, res, next) {
+
+    // curl -X POST  -H "Content-Type: application/json" -d '{"user_id":"google-oauth2|1234","client_id":""}' https://yvesgirard.eu.auth0.com/api/v2/jobs/verification-email
+
+    var tmp = req.body;
+    console.log(tmp)
+
+    if (!tmp._id) {
+      res.status(400);
+      res.json({
+        "error": "Invalid Data"
+      });
+      return next();
+    }
+
+
+    var api_key = process.env.MAILGUN_API_KEY;
+    var DOMAIN = process.env.MAILGUN_DOMAIN;
+    var port = process.env.PORT || 8080;
+    var config = { apiKey: api_key, domain: DOMAIN };
+
+    if (process.env.PROXY)
+      config["proxy"] = "http://127.0.0.1:3128";
+
+
+    var mailgun = require('mailgun-js')(config);
+
+    // get the existing product
+    Mail.findOne({
+      _id: tmp._id
+    }, function (err, data) {
+      // merge req.params/user with the server/user
+
+      var _mail = new Mail(data); // updated user 
+
+      const MailComposer = require('nodemailer/lib/mail-composer');
+      console.log("mail");
+      console.log(_mail);
+      var mailOptions = {
+        from: [{
+          address: _mail.from[0].address,
+          name: _mail.from[0].name
+        }],
+        to: [{
+          address: _mail.to[0].address,
+          name: _mail.to[0].name
+        }],
+        subject: _mail.subject,
+        text: _mail.text,
+        html: _mail.html,
+        attachments: _mail.attachments
+      };
+      var mail = new MailComposer(mailOptions);
+
+      mail.compile().build(function (err, message) {
+
+        var data = {
+          to: _mail.to[0].address,
+          message: message.toString('ascii')
+        };
+
+        mailgun.messages().sendMime(data, function (error, body) {
+          console.log(error || body);
+          res.json({ info: 'error finding members', data: "Hello" });
+        });
+
+      });
+    });
   });
 
   app.post('/api/mails/v2/verification', function (req, res) {
@@ -157,6 +226,59 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
     }
   });
 
+  app.get('/api/mails/:id', authCheck, function (req, res) {
+    var _id = req.params.id;
+    Mail.findById(_id, function (err, mail) {
+
+      // if there is an error retrieving, send the error. 
+      // nothing after res.send(err) will execute
+      if (err)
+        res.json({ info: 'error finding mails', error: err });
+
+      res.json({ info: 'mails found successfully', data: mail }); // return all users in JSON format
+    });
+  });
+
+  app.put('/api/mails/:id', authCheck, function (req, res, next) {
+    var tmp = req.body;
+    console.log(tmp)
+
+    if (!tmp._id) {
+      res.status(400);
+      res.json({
+        "error": "Invalid Data"
+      });
+      return next();
+    }
+
+    // get the existing product
+    Mail.findOne({
+      _id: tmp._id
+    }, function (err, data) {
+      // merge req.params/user with the server/user
+
+      var updMember = new Mail(); // updated user 
+      // logic similar to jQuery.extend(); to merge 2 objects.
+      for (var n in data) {
+        updMember[n] = data[n];
+      }
+      for (var n in tmp) {
+        updMember[n] = tmp[n];
+      }
+
+      Mail.update({
+        _id: tmp._id
+      }, tmp, {
+          multi: false
+        }, function (err, result) {
+          if (err) {
+            res.json({ info: 'error during mail update', error: err });
+          } else {
+            res.json({ info: 'mail updated successfully', data: result });
+          }
+        });
+    });
+  });
 
   app.post('/api/mails/v2/store', function (req, res) {
     let message = req.body;

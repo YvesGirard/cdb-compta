@@ -6,6 +6,7 @@ import { MailsComponent }      from './workflow/mails.component';
 import { DashboardComponent }   from './dashboard/dashboard.component';
 import { HeroDetailComponent }   from './team/hero-detail.component';
 import { MemberDetailComponent }   from './team/member-detail.component';
+import { MailDetailComponent }   from './workflow/mail-detail.component';
 import { UserProfileComponent }   from './user/user-profile.component';
 //import { SetupComponent }   from './setup/setup.component';
 import { CallbackComponent } from './services/callback.component';
@@ -39,6 +40,10 @@ const appRoutes: Routes = [
   {
     path: 'member/:id', 
     component: MemberDetailComponent
+  },
+  {
+    path: 'mail/:id', 
+    component: MailDetailComponent
   },
   {
     path: 'detail/:id', 

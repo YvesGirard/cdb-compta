@@ -5,6 +5,7 @@ import { Mail } from "../model/mail";
 import { MailService } from "../services/mail.service";
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
+import * as _ from 'lodash';
 
 export class MailDataSource implements DataSource<Mail> {
 
@@ -39,7 +40,7 @@ export class MailDataSource implements DataSource<Mail> {
                 finalize(() => this.loadingSubject.next(false))
             )
             .subscribe(data => {
-                this.mailsSubject.next(data['mails']);   
+                this.mailsSubject.next(_.map(data['mails'], (val) => {return new Mail(val)})  as Mail[]);   
                 this.countSubject.next(data['count']);
             });
     }

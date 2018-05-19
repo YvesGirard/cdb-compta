@@ -1,0 +1,55 @@
+<div class="content-text-styling">
+
+  <div *ngIf="mail">
+
+    <div class="content-text-styling">
+      <div class="cdb-list-separator">
+        <div class="header">
+          <h1>e-mail {{mail.subject}}</h1>
+          <!--<button mat-raised-button color="warn" (click)="delete()">Supprimer</button>-->
+        </div>
+      </div>
+
+      <div>
+        <label>id: </label>{{mail._id}}
+      </div>
+
+
+      <div class="cdb-list-separator">
+        <mat-list role="list">
+						<mat-list-item role="listitem" *ngFor="let address of mail.to">
+                <mat-form-field class="cdb-input-full-width" dividerColor="primary">
+                    <input matInput [(ngModel)]="address.address" placeholder="A" name="to">
+                  </mat-form-field>  
+            </mat-list-item>
+          </mat-list>
+          
+      </div>
+      <div class="cdb-list-separator">
+          <mat-list role="list">
+              <mat-list-item role="listitem" *ngFor="let address of mail.from">
+                  <mat-form-field class="cdb-input-full-width" dividerColor="primary">
+                      <input matInput [(ngModel)]="address.address" placeholder="De" name="from">
+                    </mat-form-field>  
+              </mat-list-item>
+            </mat-list>
+      </div>
+
+      <div class="cdb-list-separator">
+          <mat-form-field class="cdb-input-full-width" dividerColor="primary">
+            <input matInput disabled [(ngModel)]="mail.subject" placeholder="Objet" name="subject">
+          </mat-form-field>
+        </div>
+
+        <div class="cdb-list-separator">
+            <span [innerHTML]="mail.html"></span>
+          </div>       
+
+      <div class="cdb-list-separator">
+        <button mat-button (click)="goBack()">Retour</button>
+        <button mat-button (click)="save()">Save</button>
+      </div>
+
+    </div>
+  </div>
+</div>
