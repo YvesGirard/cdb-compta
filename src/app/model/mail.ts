@@ -1,6 +1,6 @@
-import {IMail} from "./imail"
+import {IMail, IAddress, IAttachement} from "./imail"
 
-export class Attachement {
+export class Attachement implements IAttachement {
   filename: String;
   contentType: String;
   contentDisposition: String;
@@ -13,14 +13,19 @@ export class Attachement {
   related: String;
 }
 
+export class Address implements IAddress {
+  address: String;
+  name: String; 
+}
+
 export class Mail implements IMail { 
   _id: number;
-  from: [{ address: String, name: String }];
-  to: [{ address: String, name: String }];
+  from: Array<Address>;
+  to: Array<Address>;
   subject: String;
   text: String;
   html: String;
-  attachments: [Attachement];
+  attachments: Array<Attachement>;
   resume: String;
 
   constructor(_mail= {}) {
