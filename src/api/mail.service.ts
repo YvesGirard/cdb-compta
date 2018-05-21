@@ -263,7 +263,8 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
         updMember[n] = data[n];
       }
       for (var n in tmp) {
-        updMember[n] = tmp[n];
+        if (n!="attachments")
+          updMember[n] = tmp[n];
       }
 
       Mail.update({
