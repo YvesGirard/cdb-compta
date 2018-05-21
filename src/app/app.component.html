@@ -32,12 +32,14 @@
 				<a routerLink="/setup" class="" routerLinkActive="active" *ngIf="AuthService.authenticated && AuthService.isAdmin">Administration</a>
 				<a class="" (click)="AuthService.login()" *ngIf="!AuthService.authenticated">Log In</a>
 				<a href="" class="" (click)="AuthService.logout()" *ngIf="AuthService.authenticated">
-						<mat-icon>arrow_forward</mat-icon>
+					<mat-icon>arrow_forward</mat-icon>
 					Log Out</a>
 			</nav>
 		</div>
 	</mat-toolbar-row>
 </mat-toolbar>
+
+
 <!--
 <div class="mdl-layout__drawer">
 	<span class="mdl-layout-title">{{title}}</span>
@@ -49,6 +51,8 @@
 </div>
 -->
 
-<main class="">
+<main [ngClass]="{'is-loadingApp': loading.loading$ | async}">
+		<mat-progress-bar class="progress-bar" color="primary" mode="indeterminate">
+			</mat-progress-bar>
 	<router-outlet></router-outlet>
 </main>

@@ -17,7 +17,7 @@ export class MailDataSource implements DataSource<Mail> {
     public loading$ = this.loadingSubject.asObservable();
     public mails$ = this.mailsSubject.asObservable();
 
-    constructor(private mailService: MailService) { }
+    constructor(private mailService: MailService,) { }
 
     connect(collectionViewer: CollectionViewer): Observable<Mail[]> {
         return this.mailsSubject.asObservable();

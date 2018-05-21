@@ -46,6 +46,8 @@ import { HttpClientModule } from '@angular/common/http';  // replaces previous H
 import { MailResolver } from './services/mail.resolver';
 import { MailsComponent }      from './workflow/mails.component';
 import { MailDetailComponent }   from './workflow/mail-detail.component';
+import { LoadingService } from './services/loading.service';
+
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp( new AuthConfig({}), http, options);
@@ -103,6 +105,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AuthService,
     LoggerService,
     LoggerSnackbarService,
+    LoadingService,
     ]
 })
 export class AppModule {

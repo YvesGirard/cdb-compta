@@ -17,6 +17,7 @@ import { catchError, finalize, debounceTime, distinctUntilChanged  } from 'rxjs/
 import { of } from 'rxjs/observable/of';
 import { fromEvent } from 'rxjs/observable/fromEvent';
 import { LoggerSnackbarService } from '../services/logger-snackbar.service';
+import { LoadingService } from '../services/loading.service';
 
 
 @Component({
@@ -49,6 +50,11 @@ export class MailsComponent implements AfterViewInit, OnInit {
             this.mailsCount = data;
       //this.paginator.pageIndex = 0;
     });
+
+    this.dataSource.loading$.subscribe((data) => {
+      this.loadingService.loadingSubject.next(data);
+    });   
+
     this.mailsCount = this.route.snapshot.data["mailsCount"];
   }
 
@@ -60,6 +66,7 @@ export class MailsComponent implements AfterViewInit, OnInit {
     private authHttp: AuthHttp,
     private http: HttpClient,
     private snackBarService: LoggerSnackbarService,
+    private loadingService: LoadingService,
   ) {
   }
 

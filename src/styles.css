@@ -133,3 +133,24 @@ body {
 fieldset {
     border: none;
 }
+
+.progress-bar {
+    position: fixed !important;
+    display: none !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px !important;
+    z-index: 1000;
+    background: #34e79a;
+
+}
+
+
+.is-loadingApp .progress-bar {
+    display: block !important;
+    -webkit-animation: shift-rightwards 1s ease-in-out infinite;
+    animation: shift-rightwards 1s ease-in-out infinite;
+    -webkit-animation-delay: .8s;
+    animation-delay: .8s;
+}
