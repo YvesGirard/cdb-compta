@@ -24,7 +24,10 @@ export class MailDetailComponent {
     this.route.params.subscribe( params => {
       let id = params['id'];
       this.mailService.getMail(id)
-        .then(mail => this.mail = new Mail(mail));
+        .then((mail) => {
+          this.mail = mail;
+          console.log(this.mail)
+        });
     });
   }
 
