@@ -17,8 +17,8 @@ var MailSchema = new mongoose.Schema({
     contentDisposition: String,
     checksum: String,
     size: String,
-    headers: String,
-    content: String,
+    headers: mongoose.Schema.Types.Mixed,
+    content: Buffer,
     contentId: String,
     cid: String,
     related: String

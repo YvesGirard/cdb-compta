@@ -314,26 +314,7 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
     if (signaturecdb != message.signature)
       return res.end();
 
-    /*  let decodedMessage = {
-        from: message.From,
-        to: message.To,
-        subject: message.Subject,
-        text: 'Testing some Mailgun awesomness!'
-      }*/
     const simpleParser = require('mailparser').simpleParser;
-
-    var api_key = process.env.MAILGUN_API_KEY;
-    var DOMAIN = process.env.MAILGUN_DOMAIN;
-    var port = process.env.PORT || 8080;
-    var config = { apiKey: api_key, domain: DOMAIN };
-
-    if (process.env.PROXY)
-      config["proxy"] = "http://127.0.0.1:3128";
-
-
-    var mailgun = require('mailgun-js')(config);
-
-
 
     simpleParser(message['body-mime']).then(mail => {
       console.log("mail")
@@ -371,24 +352,6 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
         }
       });
 
-      /*    const MailComposer = require('nodemailer/lib/mail-composer');
- 
-      var mail = new MailComposer(mailOptions);
- 
-       mail.compile().build(function (err, message) {
- 
-         var data = {
-           to: 'yv.girard@gmail.com',
-           message: message.toString('ascii')
-         };
- 
-         mailgun.messages().sendMime(data, function (error, body) {
-           console.log(error || body);
-           res.json({ info: 'error finding members', data: "Hello" });
-         });
-   
-       });
- */
     }).catch(err => {
       console.log(err)
       res.json({ info: 'error storing mail', data: err });
