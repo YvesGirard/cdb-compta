@@ -258,16 +258,29 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
       // merge req.params/user with the server/user
 
       var updMember = new Mail(); // updated user 
+      console.log("data")
+      console.log(data)
+      console.log("end data")
       // logic similar to jQuery.extend(); to merge 2 objects.
       for (var n in data) {
         updMember[n] = data[n];
       }
-      
+      console.log("updMember")
+      console.log(updMember)
+      console.log("end updMember")      
       _.omit(tmp, ['attachments']);
+
+      console.log("tmp")
+      console.log(tmp)
+      console.log("end tmp")
 
       for (var n in tmp) {
           updMember[n] = tmp[n];
       }
+
+      console.log("updMember")
+      console.log(updMember)
+      console.log("end updMember") 
 
       Mail.update({
         _id: tmp._id
