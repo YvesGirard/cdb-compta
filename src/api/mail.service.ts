@@ -262,8 +262,10 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
       for (var n in data) {
         updMember[n] = data[n];
       }
+      
+      _.omit(tmp, ['attachments']);
+
       for (var n in tmp) {
-        if (n!="attachments")
           updMember[n] = tmp[n];
       }
 
