@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params }   from '@angular/router';
-import { Location }                 from '@angular/common';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Location } from '@angular/common';
 
 
 import { Mail } from '../model/mail';
 import { MailService } from '../services/mail.service';
 import { LoggerSnackbarService } from '../services/logger-snackbar.service';
+import { LoadingService } from '../services/loading.service';
 
 @Component({
-  moduleId: module.id,    
+  moduleId: module.id,
   selector: 'mail-detail',
   templateUrl: 'mail-detail.component.html',
-  styleUrls: [ 'mail-detail.component.css' ]
+  styleUrls: ['mail-detail.component.css']
 })
 
 export class MailDetailComponent {
@@ -20,8 +21,9 @@ export class MailDetailComponent {
     private route: ActivatedRoute,
     private location: Location,
     private snackBarService: LoggerSnackbarService,
+    private loadingService: LoadingService,
   ) {
-    this.route.params.subscribe( params => {
+    this.route.params.subscribe(params => {
       let id = params['id'];
       this.mailService.getMail(id)
         .then((mail) => {
@@ -39,8 +41,12 @@ export class MailDetailComponent {
   }
 
   save(): void {
+    this.loadingService.loadingSubject.next(true);
     this.mailService.update(this.mail)
-      .then(() => this.snackBarService.info("Enregistré"));
+      .then(() => {
+        this.loadingService.loadingSubject.next(false);
+        this.snackBarService.info("Enregistré")
+      });
   }
 
   delete(): void {
