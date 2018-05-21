@@ -36,7 +36,8 @@ export class Mail implements IMail {
     this.subject= _mail["subject"] || '';
     this.text= _mail["text"] || '';
     this.html= _mail["html"] || '';
-    this.attachments= _mail["attachments"]? _.map(_mail["attachments"], (val) => {return val as Attachement}):[];
+    //this.attachments= _mail["attachments"]? _.map(_mail["attachments"], (val) => {return val as Attachement}):[];
+    this.attachments=[];
     this.resume=(_mail["text"]).substring(0,20) || '';
   }
 
