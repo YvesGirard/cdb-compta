@@ -268,7 +268,7 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
       console.log("updMember")
       console.log(updMember)
       console.log("end updMember")      
-      _.omit(tmp, ['attachments']);
+      tmp = _.omit(tmp, ['attachments']);
 
       console.log("tmp")
       console.log(tmp)
