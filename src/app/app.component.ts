@@ -12,6 +12,7 @@ import { LoadingService } from './services/loading.service';
 export class AppComponent {
   title = 'Liste des compétiteurs';
   public AuthService: AuthService
+  private _loading: boolean = false;
 
   constructor(private auth: AuthService,
     private loading: LoadingService,
@@ -19,7 +20,7 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.AuthService = this.auth;
-
-  }
+   // this.loading
+  } 
 }
 
