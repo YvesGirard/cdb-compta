@@ -6,7 +6,7 @@ import { Location } from '@angular/common';
 import { Mail } from '../model/mail';
 import { MailService } from '../services/mail.service';
 import { LoggerSnackbarService } from '../services/logger-snackbar.service';
-import { LoadingService } from '../services/loading.service';
+//import { LoadingService } from '../services/loading.service';
 
 @Component({
   moduleId: module.id,
@@ -21,7 +21,7 @@ export class MailDetailComponent {
     private route: ActivatedRoute,
     private location: Location,
     private snackBarService: LoggerSnackbarService,
-    private loadingService: LoadingService,
+  //  private loadingService: LoadingService,
   ) {
     this.route.params.subscribe(params => {
       let id = params['id'];
@@ -41,10 +41,10 @@ export class MailDetailComponent {
   }
 
   save(): void {
-    this.loadingService.loadingSubject.next(true);
+    //this.loadingService.loadingSubject.next(true);
     this.mailService.update(this.mail)
       .then(() => {
-        this.loadingService.loadingSubject.next(false);
+       // this.loadingService.loadingSubject.next(false);
         this.snackBarService.info("Enregistré")
       });
   }

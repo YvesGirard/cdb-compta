@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from './services/auth.service';
-import { LoadingService } from './services/loading.service';
+import { OnInit } from '@angular/core';
 
 @Component({
   moduleId: module.id,  
@@ -9,18 +9,19 @@ import { LoadingService } from './services/loading.service';
   styleUrls: [ 'app.component.css' ]
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Liste des compétiteurs';
   public AuthService: AuthService
   private _loading: boolean = false;
 
   constructor(private auth: AuthService,
-    private loading: LoadingService,
   ) {}
 
   ngOnInit(): void {
     this.AuthService = this.auth;
    // this.loading
+
   } 
+
 }
 

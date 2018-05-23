@@ -17,7 +17,7 @@ import { Observable } from 'rxjs/Observable';
 import { catchError, finalize, debounceTime, distinctUntilChanged  } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { fromEvent } from 'rxjs/observable/fromEvent';
-import { LoadingService } from '../services/loading.service';
+//import { LoadingService } from '../services/loading.service';
 
 @Component({
   moduleId: module.id,
@@ -45,9 +45,9 @@ export class MembersComponent implements AfterViewInit, OnInit {
       //this.paginator.pageIndex = 0;
     });
 
-    this.dataSource.loading$.subscribe((data) => {
+    /*this.dataSource.loading$.subscribe((data) => {
       this.loadingService.loadingSubject.next(data);
-    });   
+    });*/   
 
     this.membersCount = this.route.snapshot.data["membersCount"];
   }
@@ -59,7 +59,7 @@ export class MembersComponent implements AfterViewInit, OnInit {
     private memberService: MemberService,
     private authHttp: AuthHttp,
     private http: HttpClient,
-    private loadingService: LoadingService,
+    //private loadingService: LoadingService,
   ) {
   }
 

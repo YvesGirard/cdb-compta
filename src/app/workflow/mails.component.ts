@@ -13,11 +13,11 @@ import { Headers, Http } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { catchError, finalize, debounceTime, distinctUntilChanged  } from 'rxjs/operators';
+import { catchError, finalize, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { fromEvent } from 'rxjs/observable/fromEvent';
 import { LoggerSnackbarService } from '../services/logger-snackbar.service';
-import { LoadingService } from '../services/loading.service';
+import { LoaderService } from '../loader/loader.service';
 
 
 @Component({
@@ -30,7 +30,7 @@ import { LoadingService } from '../services/loading.service';
 export class MailsComponent implements AfterViewInit, OnInit {
 
   mails: Mail[];
-  displayedColumns = [  '_id',
+  displayedColumns = ['_id',
     'from',
     'to',
     'subject',
@@ -47,13 +47,13 @@ export class MailsComponent implements AfterViewInit, OnInit {
     this.dataSource.loadMails();
     this.dataSource.count$.subscribe((data) => {
       if (this.mailsCount != data)
-            this.mailsCount = data;
+        this.mailsCount = data;
       //this.paginator.pageIndex = 0;
     });
 
     this.dataSource.loading$.subscribe((data) => {
-      this.loadingService.loadingSubject.next(data);
-    });   
+      (data)?this.showLoader():this.hideLoader();
+    });
 
     this.mailsCount = this.route.snapshot.data["mailsCount"];
   }
@@ -66,7 +66,7 @@ export class MailsComponent implements AfterViewInit, OnInit {
     private authHttp: AuthHttp,
     private http: HttpClient,
     private snackBarService: LoggerSnackbarService,
-    private loadingService: LoadingService,
+    private loaderService: LoaderService,
   ) {
   }
 
@@ -135,6 +135,12 @@ export class MailsComponent implements AfterViewInit, OnInit {
   //selectedHero: Hero;
 
 
+  private showLoader(): void {
+    this.loaderService.show();
+  }
 
+  private hideLoader(): void {
+    this.loaderService.hide();
+  }
 }
 

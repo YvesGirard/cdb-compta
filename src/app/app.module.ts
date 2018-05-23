@@ -46,7 +46,9 @@ import { HttpClientModule } from '@angular/common/http';  // replaces previous H
 import { MailResolver } from './services/mail.resolver';
 import { MailsComponent }      from './workflow/mails.component';
 import { MailDetailComponent }   from './workflow/mail-detail.component';
-import { LoadingService } from './services/loading.service';
+import { LoaderService } from './loader/loader.service';
+import { LoaderComponent } from './loader/loader.component';
+
 
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
@@ -67,6 +69,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     CdbSelectModule.forRoot(),
     //, InMemoryWebApiModule.forRoot(InMemoryDataService)
   ],
+  exports: [
+      LoaderComponent
+  ],
   entryComponents: [ LoggerSnackbarComponent, MemberAddDialog, ],
   declarations: [
     AppComponent,
@@ -83,6 +88,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MemberAddDialog,
     MemberDetailComponent,
     MailDetailComponent,
+    LoaderComponent,
     //MdlUpgradeElementDirective,
    // SetupComponent,
    // CdbItem,
@@ -105,7 +111,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AuthService,
     LoggerService,
     LoggerSnackbarService,
-    LoadingService,
+    LoaderService,
     ]
 })
 export class AppModule {

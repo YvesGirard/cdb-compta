@@ -1,0 +1,25 @@
+.loader-hidden {
+    visibility: hidden;
+}
+.loader-overlay {
+    position: absolute;
+    width:100%;
+    top:0;
+    left: 0;
+    opacity: 1;
+	z-index: 500000;
+	background: #34e79a;
+	height: 2px !important;
+}
+
+
+/*
+
+.is-loadingApp .progress-bar {
+    display: block !important;
+    -webkit-animation: shift-rightwards 1s ease-in-out infinite;
+    animation: shift-rightwards 1s ease-in-out infinite;
+    -webkit-animation-delay: .8s;
+    animation-delay: .8s;
+}
+*/
