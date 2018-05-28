@@ -35,25 +35,30 @@ import { LoggerSnackbarService } from './services/logger-snackbar.service';
 
 
 //import { MaterialModule } from '@angular/material';
-import { CdbSelectModule } from './directives/select/select.directive';
+//import { CdbSelectModule } from './directives/select/select.directive';
 //import { SetupComponent, CdbItem, AddDialog }   from './setup/setup.component';
 //import { SetupComponent }   from './setup/setup.component';
 import { MaterialModule } from './material.module';
 import { CallbackComponent } from './services/callback.component';
 import { Http, RequestOptions } from '@angular/http';
-import { provideAuth, AuthHttp, AuthConfig } from 'angular2-jwt';
+//import { AuthHttp, AuthConfig } from '@auth0/angular-jwt';
 import { HttpClientModule } from '@angular/common/http';  // replaces previous Http service
 import { MailResolver } from './services/mail.resolver';
 import { MailsComponent }      from './workflow/mails.component';
 import { MailDetailComponent }   from './workflow/mail-detail.component';
 import { LoaderService } from './loader/loader.service';
 import { LoaderComponent } from './loader/loader.component';
+import { httpInterceptorProviders } from './services/interceptor/index';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { reducers } from './mailing/reducers';
+import { MailEffects } from './mailing/effects/mail.effects';
+import { MailExistsGuard } from './mailing/guards/mail-exists.guard';
 
-
-
+/*
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp( new AuthConfig({}), http, options);
-}
+}*/
 
 @NgModule({
   imports: [
@@ -66,8 +71,12 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MaterialModule,
     HttpClientModule,
    // MaterialModule.forRoot(),
-    CdbSelectModule.forRoot(),
+  //  CdbSelectModule.forRoot(),
     //, InMemoryWebApiModule.forRoot(InMemoryDataService)
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot([
+      MailEffects,
+  ])
   ],
   exports: [
       LoaderComponent
@@ -95,13 +104,15 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   //  AddDialog,
   ],
   bootstrap: [AppComponent],
-  providers: [MembersResolver,
+  providers: [
+    httpInterceptorProviders,
+    MembersResolver,
     MailResolver,
-    {
+  /*  {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
       deps: [ Http, RequestOptions ],
-    },
+    },*/
     Service,
     HeroService,
     UserService,
@@ -112,6 +123,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     LoggerService,
     LoggerSnackbarService,
     LoaderService,
+    MailExistsGuard,
     ]
 })
 export class AppModule {

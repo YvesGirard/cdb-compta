@@ -3,12 +3,11 @@ import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import 'rxjs/add/operator/toPromise';
-import { Observable } from 'rxjs/Observable';
+
+import { Observable } from 'rxjs';
 import { Member } from '../model/member';
 import { Service } from '../services/service';
 import { LoggerSnackbarService } from '../services/logger-snackbar.service';
-import { AuthHttp } from 'angular2-jwt';
 import { map } from 'rxjs/operators';
 
 @Injectable()
@@ -19,7 +18,7 @@ export class MemberService {
 
   constructor(protected http: HttpClient
     , public snackBarService: LoggerSnackbarService
-    , private authHttp: AuthHttp) {
+    , private httpClient: HttpClient) {
 
     this.url = this.memberUrl;
   }
@@ -30,37 +29,36 @@ export class MemberService {
     const params = new HttpParams().set('filter', filter).set('sortOrder', sortOrder);
     console.log(params.toString());
 
-    return this.authHttp.get(this.memberUrl, {
+    return this.httpClient.get(this.memberUrl, {
       params: new HttpParams()
         .set('filter', filter)
         .set('sortOrder', sortOrder)
         .set('pageNumber', pageNumber.toString())
         .set('pageSize', pageSize.toString())
-        .toString()
     }).map((res) => {
-      return res.json().data;
+      return res;
     });
   }
 
   getMember(id: number): Promise<Member> {
-    return this.authHttp.get(`${this.memberUrl}/${id}`)
+    return this.httpClient.get(`${this.memberUrl}/${id}`)
       .toPromise()
-      .then(response => (response.json().data as Member))
+      .then((response :Member) => (response))
       .catch(this.handleError);
   }
 
   create(member: Member): Observable<Member> {
-    return this.authHttp
+    return this.httpClient
       .post(this.memberUrl, JSON.stringify(member))
-      .map((res) => {
-        return res.json().data as Member;
+      .map((res: Member) => {
+        return res;
       });;
   }
 
   public update(member: Member): Promise<Member> {
     const url = `${this.url}/${member._id}`;
 
-    return this.authHttp
+    return this.httpClient
       .put(url, JSON.stringify(member))
       .toPromise()
       .then((member) => {
@@ -72,7 +70,7 @@ export class MemberService {
   public delete(member: Member): Promise<Member> {
     const url = `${this.url}/${member._id}`;
 
-    return this.authHttp
+    return this.httpClient
       .delete(url)
       .toPromise()
       .then((member) => {
@@ -82,11 +80,11 @@ export class MemberService {
   }
 
   public count() {
-    return this.authHttp.get("/api/members", {
+    return this.httpClient.get("/api/members", {
       params: new HttpParams()
-        .set("count", "true").toString()
+        .set("count", "true")
     })
-      .pipe(map(res => Number(res.json().data)));
+      .pipe(map(res => Number(res)));
   }
 
   public uploadFile(formData: FormData): Observable<Object> {
@@ -103,7 +101,7 @@ export class MemberService {
   public mailing(): Observable<Object> {
     let uploadMemberUrl = '/api/mails/v2/verification';
 
-    return this.authHttp
+    return this.httpClient
       .post(uploadMemberUrl, "test")
       .pipe(map((res) => {
         return res['data'];

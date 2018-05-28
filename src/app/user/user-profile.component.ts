@@ -1,6 +1,6 @@
 import { Component, OnInit, OnChanges, SimpleChanges, SimpleChange, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { User, UserMetaData } from '../model/user';
 import { UserService } from '../services/user.service';

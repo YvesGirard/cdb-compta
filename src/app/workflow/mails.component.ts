@@ -8,14 +8,10 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Mail } from '../model/mail';
 import { MailService } from '../services/mail.service';
 import { MailDataSource } from '../datasource/mail.data-source';
-import { tap } from 'rxjs/operators';
+import { tap ,  catchError, finalize, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Headers, Http } from '@angular/http';
-import { AuthHttp } from 'angular2-jwt';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { catchError, finalize, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
-import { fromEvent } from 'rxjs/observable/fromEvent';
+import { Observable ,  of ,  fromEvent } from 'rxjs';
 import { LoggerSnackbarService } from '../services/logger-snackbar.service';
 import { LoaderService } from '../loader/loader.service';
 
@@ -63,7 +59,6 @@ export class MailsComponent implements AfterViewInit, OnInit {
     private router: Router,
     public dialog: MatDialog,
     private mailService: MailService,
-    private authHttp: AuthHttp,
     private http: HttpClient,
     private snackBarService: LoggerSnackbarService,
     private loaderService: LoaderService,

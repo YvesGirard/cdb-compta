@@ -4,7 +4,7 @@ import { Component,
   forwardRef, 
   OnDestroy,
   OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { LoggerService } from '../services/logger.service';
 
 /** Component opened inside a snackbar. */

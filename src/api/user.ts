@@ -29,7 +29,7 @@ export function users(app: express.Express, authCheck: any) {
             if (err)
                 res.json({ info: 'error finding user', error: err });
 
-            res.json({ info: 'users found successfully', data: users }); // return all users in JSON format
+            res.json({ users }); // return all users in JSON format
         });
     });
 

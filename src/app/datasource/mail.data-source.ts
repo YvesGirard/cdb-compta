@@ -1,10 +1,8 @@
 import { CollectionViewer, DataSource } from "@angular/cdk/collections";
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject ,  Observable ,  of } from 'rxjs';
 import { Mail } from "../model/mail";
 import { MailService } from "../services/mail.service";
 import { catchError, finalize } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
 import * as _ from 'lodash';
 
 export class MailDataSource implements DataSource<Mail> {

@@ -1,9 +1,8 @@
 import { Component, Inject, forwardRef, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { MatSnackBarRef } from '@angular/material';
-import { Subject, AnonymousSubject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
-import { TimeInterval } from 'rxjs/operator/timeInterval';
+import { Subject, AnonymousSubject ,  Observable } from 'rxjs';
+
 import 'rxjs/Rx';
 import { defaultIfEmpty } from 'rxjs/operators'
 import { setTimeout } from 'timers';

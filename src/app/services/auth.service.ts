@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject ,  from as fromPromise ,  Observable } from 'rxjs';
 import { AUTH_CONFIG } from '../interface/auth0-variables';
-import { tokenNotExpired } from 'angular2-jwt';
+import { JwtHelperService  } from '@auth0/angular-jwt';
 import { User, UserMetaData } from '../model/user';
 import { UserService } from '../services/user.service';
-import { fromPromise } from 'rxjs/observable/fromPromise';
-import { AuthHttp } from 'angular2-jwt';
-import { Observable } from 'rxjs/Observable';
+import { HttpClient } from '@angular/common/http';
 
 // Avoid name not found warnings
-declare var auth0: any;
+import * as auth0 from 'auth0-js';
 
 @Injectable()
 export class AuthService {
+  private helper = new JwtHelperService();
 
   private mailApiUrl = '/api/v2/mails';  // URL to web api
   protected headers = new Headers({ 'Content-Type': 'application/json' });
@@ -36,7 +35,7 @@ export class AuthService {
 
   userProfile: User;
   
-  constructor(private router: Router, private userService: UserService, private authHttp: AuthHttp) {
+  constructor(private router: Router, private userService: UserService, private httpClient: HttpClient) {
     // If authenticated, set local profile property and update login status subject
     if (this.authenticated) {
       this.userProfile = new User(JSON.parse(localStorage.getItem('profile')));
@@ -71,10 +70,10 @@ export class AuthService {
   sendVerificationEmail(): Observable<boolean> {
     const url = `${this.mailApiUrl}/verification/${this.userProfile._id}`;
 
-    return this.authHttp.post(url, { headers: this.headers })
-    .map((res) => {
+    return this.httpClient.post(url, { headers: this.headers })
+    .map((res: boolean) => {
       console.log(res);
-      return res.json().data as boolean;
+      return res;
     });
   }
 
@@ -191,5 +190,9 @@ export class AuthService {
 
   get isAdmin(): boolean {
     return (this.userProfile) && this.userProfile.isAdmin();
+  }
+
+  get token(): string {
+    return localStorage.getItem('token');
   }
 }

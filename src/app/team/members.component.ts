@@ -9,14 +9,11 @@ import { MemberAddDialog } from '../entry/member-add-dialog.component';
 import { Member } from '../model/member';
 import { MemberService } from '../services/member.service';
 import { MemberDataSource } from '../datasource/member.data-source';
-import { tap } from 'rxjs/operators';
+import { tap ,  catchError, finalize, debounceTime, distinctUntilChanged  } from 'rxjs/operators';
 import { Headers, Http } from '@angular/http';
-import { AuthHttp } from 'angular2-jwt';
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { catchError, finalize, debounceTime, distinctUntilChanged  } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
-import { fromEvent } from 'rxjs/observable/fromEvent';
+import { Observable ,  of ,  fromEvent } from 'rxjs';
 //import { LoadingService } from '../services/loading.service';
 
 @Component({
@@ -57,7 +54,6 @@ export class MembersComponent implements AfterViewInit, OnInit {
     private router: Router,
     public dialog: MatDialog,
     private memberService: MemberService,
-    private authHttp: AuthHttp,
     private http: HttpClient,
     //private loadingService: LoadingService,
   ) {

@@ -2,14 +2,8 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material';
 import { LoggerSnackbarComponent } from '../entry/logger-snackbar.component';
 import { LoggerService } from './logger.service';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { Subject } from 'rxjs/Subject';
-import { Scheduler } from 'rxjs/Scheduler';
-import { Observable } from 'rxjs/Observable';
-import { bufferToggle } from 'rxjs/operators';
-import { interval } from 'rxjs/observable/interval';
-import { merge } from 'rxjs/observable/merge';
-import { mergeAll } from 'rxjs/operators';
+import { ReplaySubject ,  Subject ,  Scheduler ,  Observable ,  interval ,  merge } from 'rxjs';
+import { bufferToggle ,  mergeAll } from 'rxjs/operators';
 
 @Injectable()
 export class LoggerSnackbarService implements OnDestroy {

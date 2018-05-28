@@ -12,6 +12,7 @@ import { UserProfileComponent }   from './user/user-profile.component';
 import { CallbackComponent } from './services/callback.component';
 import { MembersResolver } from './services/member.resolver';
 import { MailResolver } from './services/mail.resolver';
+import { MailExistsGuard } from './mailing/guards/mail-exists.guard';
 
 const appRoutes: Routes = [
   {
@@ -29,9 +30,7 @@ const appRoutes: Routes = [
   {
     path: 'mails',
     component: MailsComponent,
-    resolve: {
-      mailsCount: MailResolver
-    }
+    canActivate: [MailExistsGuard],
   },  
   {
     path: 'dashboard',

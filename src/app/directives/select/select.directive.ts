@@ -25,10 +25,9 @@ import {
   FormsModule
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription ,  Observable } from 'rxjs';
 //import { MdError } from '@angular/material/core';
 import { MatRippleModule } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
 import { transformPlaceholder, transformPanel, fadeInContent } from './select-animations';
 
 const noop = () => { };

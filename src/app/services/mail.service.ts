@@ -1,26 +1,24 @@
 import { Injectable } from '@angular/core';
 
 import { HttpParams } from '@angular/common/http';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import 'rxjs/add/operator/toPromise';
-import { Observable } from 'rxjs/Observable';
+
+import { Observable } from 'rxjs';
 import { Mail } from '../model/mail';
 import { Service } from '../services/service';
 import { LoggerSnackbarService } from '../services/logger-snackbar.service';
-import { AuthHttp } from 'angular2-jwt';
 import { map } from 'rxjs/operators';
 import { Headers } from '@angular/http';
 
 @Injectable()
 export class MailService {
   private mailUrl = 'api/mails';  // URL to web api
-  private url: String;
-  private _options = { headers: new Headers({ 'Content-Type': 'application/json' }) };
+  private url: string;
+  private _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
   constructor(protected http: HttpClient
-    , public snackBarService: LoggerSnackbarService
-    , private authHttp: AuthHttp) {
+    , public snackBarService: LoggerSnackbarService) {
 
     this.url = this.mailUrl;
   }
@@ -28,34 +26,36 @@ export class MailService {
   getMails(filter = '', sortOrder = 'asc',
     pageNumber = 0, pageSize = 10): Observable<any> {
 
-    const params = new HttpParams().set('filter', filter).set('sortOrder', sortOrder);
-    console.log(params.toString());
-
-    return this.authHttp.get(this.mailUrl, {
+    return this.http.get(this.mailUrl, {
       params: new HttpParams()
         .set('filter', filter)
         .set('sortOrder', sortOrder)
         .set('pageNumber', pageNumber.toString())
         .set('pageSize', pageSize.toString())
-        .toString()
-    }).map((res) => {
-      return res.json().data;
+    }).map((res: any) => {
+      return res.data;
     });
   }
 
-  public count() {
-    return this.authHttp.get(this.mailUrl, {
+  public count(): Observable<number> {
+   /* return this.authHttp.get(this.mailUrl, {
       params: new HttpParams()
         .set("count", "true").toString()
     })
-      .pipe(map(res => Number(res.json().data)));
+      .pipe(map(res => Number(res.json().data)));*/
+
+      return this.http.get<number>(this.url, {
+        params: new HttpParams()
+          .set("count", "true")
+      })
+        .map(counter => counter)
   }
 
 
   getMail(id: number): Promise<Mail> {
-    return this.authHttp.get(`${this.mailUrl}/${id}`)
+    return this.http.get<Mail>(`${this.mailUrl}/${id}`)
       .toPromise()
-      .then(response => (new Mail(response.json().data)))
+      .then(response => (new Mail(response)))
       .catch(this.handleError);
   }
 
@@ -71,7 +71,7 @@ export class MailService {
   public update(mail: Mail): Promise<Mail> {
     const url = `${this.url}/${mail._id}`;
 
-    return this.authHttp
+    return this.http
       .put(url, JSON.stringify(mail),
         this._options
       ).toPromise()
@@ -84,7 +84,7 @@ export class MailService {
   public send(mail: Mail): Promise<Mail> {
     const url = `${this.url}/send/${mail._id}`;
 
-    return this.authHttp
+    return this.http
       .post(url, JSON.stringify(mail),
         this._options
       ).toPromise()

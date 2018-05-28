@@ -1,10 +1,8 @@
 import { CollectionViewer, DataSource } from "@angular/cdk/collections";
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject ,  Observable ,  of } from 'rxjs';
 import { Member } from "../model/member";
 import { MemberService } from "../services/member.service";
 import { catchError, finalize } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
 
 export class MemberDataSource implements DataSource<Member> {
 

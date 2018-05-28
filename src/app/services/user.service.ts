@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
-import 'rxjs/add/operator/toPromise';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 
 import { User } from '../model/user';
 import { Service } from '../services/service';
 import { MatSnackBar } from '@angular/material';
 import { LoggerSnackbarService } from '../services/logger-snackbar.service';
-import { AuthHttp } from 'angular2-jwt';
 
 @Injectable()
 export class UserService extends Service {
@@ -15,15 +15,15 @@ export class UserService extends Service {
 
   constructor( protected http: Http
     ,public snackBarService: LoggerSnackbarService
-    ,private authHttp: AuthHttp) {
+    ,private httpClient: HttpClient) {
     super(http, snackBarService);
     this.url = this.userUrl;
   }
 
   getUsers(): Promise<User[]> {
-    return this.authHttp.get(this.userUrl)
+    return this.httpClient.get(this.userUrl)
       .toPromise()
-      .then(response => (response.json().data as User[]))
+      .then((response: User[]) => response)
       .catch(this.handleError);
   }
 
@@ -35,7 +35,7 @@ export class UserService extends Service {
 
   getUser(id: string): Promise<User> {
     return this.getUsers()
-      .then(users => {
+      .then(users => {console.log(users)
         return users.find(user => user._id === id);
       });
   }
