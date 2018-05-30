@@ -54,6 +54,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers } from './mailing/reducers';
 import { MailEffects } from './mailing/effects/mail.effects';
 import { MailExistsGuard } from './mailing/guards/mail-exists.guard';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 /*
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
@@ -74,6 +75,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   //  CdbSelectModule.forRoot(),
     //, InMemoryWebApiModule.forRoot(InMemoryDataService)
     StoreModule.forRoot(reducers),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+    }),
     EffectsModule.forRoot([
       MailEffects,
   ])

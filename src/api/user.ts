@@ -22,14 +22,14 @@ export function users(app: express.Express, authCheck: any) {
     // sample api route
     app.get('/api/users', authCheck, function (req, res) {
         // use mongoose to get all users in the database
-        User.find(function (err, users) {
+        User.find().lean().exec(function (err, users) {
 
             // if there is an error retrieving, send the error. 
             // nothing after res.send(err) will execute
             if (err)
                 res.json({ info: 'error finding user', error: err });
-
-            res.json({ users }); // return all users in JSON format
+            console.log(users)
+            res.json(users); // return all users in JSON format
         });
     });
 
