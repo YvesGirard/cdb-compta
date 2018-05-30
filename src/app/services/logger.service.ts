@@ -1,7 +1,7 @@
 import { Component, Inject, forwardRef, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { MatSnackBarRef } from '@angular/material';
-import { Subject, AnonymousSubject ,  Observable } from 'rxjs';
+import { Subject ,  Observable } from 'rxjs';
 
 import 'rxjs/Rx';
 import { defaultIfEmpty } from 'rxjs/operators'

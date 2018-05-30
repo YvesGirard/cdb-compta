@@ -1,11 +1,11 @@
 import {
   animate,
-  AnimationEntryMetadata,
+  AnimationTriggerMetadata ,
   state,
   style,
   transition,
   trigger,
-} from '@angular/core';
+} from '@angular/animations';
 
 /**
  * The following are all the animations for the md-select component, with each
@@ -19,7 +19,7 @@ import {
  * it to either the top left corner (ltr) or top right corner (rtl) of the trigger,
  * depending on the text direction of the application.
  */
-export const transformPlaceholder: AnimationEntryMetadata = trigger('transformPlaceholder', [
+export const transformPlaceholder: AnimationTriggerMetadata  = trigger('transformPlaceholder', [
   state('normal', style({
     transform: `translate3d(0, 0, 0) scale(1)`
   })),
@@ -41,7 +41,7 @@ export const transformPlaceholder: AnimationEntryMetadata = trigger('transformPl
  *
  * When the panel is removed from the DOM, it simply fades out linearly.
  */
-export const transformPanel: AnimationEntryMetadata = trigger('transformPanel', [
+export const transformPanel: AnimationTriggerMetadata  = trigger('transformPanel', [
   state('showing-ltr', style({
     opacity: 1,
     width: 'calc(100% + 32px)',
@@ -70,7 +70,7 @@ export const transformPanel: AnimationEntryMetadata = trigger('transformPanel', 
  * select's options. It is time delayed to occur 100ms after the overlay
  * panel has transformed in.
  */
-export const fadeInContent: AnimationEntryMetadata  =  trigger('fadeInContent', [
+export const fadeInContent: AnimationTriggerMetadata   =  trigger('fadeInContent', [
   state('showing', style({opacity: 1})),
   transition('void => showing', [
     style({opacity: 0}),

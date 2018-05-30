@@ -75,6 +75,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   //  CdbSelectModule.forRoot(),
     //, InMemoryWebApiModule.forRoot(InMemoryDataService)
     StoreModule.forRoot(reducers),
+    StoreModule.forFeature('mails', reducers),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
     }),
