@@ -56,6 +56,10 @@ const appRoutes: Routes = [
     path: 'callback',
     component: CallbackComponent,
   },
+  {
+    path: 'comptabilite',
+    loadChildren: './comptabilite/books.module#BooksModule',
+  },
  /* {
     path: 'setup', 
     component: SetupComponent

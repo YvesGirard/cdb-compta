@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <mat-sidenav-container class="example-container" *ngIf="shouldRun">
-        <mat-sidenav mode="side" opened><a routerLink="/account" class="" routerLinkActive="active">Account</a></mat-sidenav>
+        <mat-sidenav mode="side" opened><a routerLink="/setup" class="" routerLinkActive="active">Account</a></mat-sidenav>
         <mat-sidenav-content><router-outlet></router-outlet></mat-sidenav-content>
     </mat-sidenav-container>
   `,
