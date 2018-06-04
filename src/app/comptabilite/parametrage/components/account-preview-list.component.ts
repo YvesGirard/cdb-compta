@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, Input } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Account } from '../models/account';
@@ -8,10 +8,12 @@ import { Account } from '../models/account';
 //import * as fromBooks from '../reducers';
 
 @Component({
-    selector: 'st-account-setup-page',
+    selector: 'st-account-list',
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-        <st-account-list [accounts]="accounts$ | async"></st-account-list>
+    <mat-list role="list">
+        <mat-list-item role="listitem" *ngFor="let account of accounts">{{ account.descr }}</mat-list-item>
+    </mat-list>
   `,
     styles: [
         `
@@ -19,8 +21,8 @@ import { Account } from '../models/account';
   `,
     ],
 })
-export class AccountPageComponent implements OnInit {
-    accounts$: Observable<Account[]>;
+export class AccountPreviewListComponent  implements OnInit {
+    @Input() accounts: Account[];
 
     constructor() {
     }

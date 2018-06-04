@@ -55,6 +55,7 @@ import { reducers } from './mailing/reducers';
 import { MailEffects } from './mailing/effects/mail.effects';
 import { MailExistsGuard } from './mailing/guards/mail-exists.guard';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { CoreModule } from './comptabilite/core/core.module';
 
 /*
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
@@ -63,7 +64,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
 
 @NgModule({
   imports: [
-    BrowserModule.withServerTransition({appId: 'my-app'}),    
+    BrowserModule,    
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
@@ -81,7 +82,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     }),
     EffectsModule.forRoot([
       MailEffects,
-  ])
+  ]),
+  //CoreModule.forRoot(),
   ],
   exports: [
       LoaderComponent

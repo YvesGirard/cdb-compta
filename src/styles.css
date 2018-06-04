@@ -4,6 +4,7 @@
 
 
 body {
+    padding-top:100px;
     margin: 0px;
     font:500 20px/32px Roboto,"Helvetica Neue",sans-serif;
     text-rendering: optimizeLegibility;

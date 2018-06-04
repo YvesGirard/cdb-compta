@@ -10,10 +10,11 @@ import { Observable } from 'rxjs';
     selector: 'setup-page',
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-    <mat-sidenav-container class="example-container" *ngIf="shouldRun">
-        <mat-sidenav mode="side" opened><a routerLink="/account" class="" routerLinkActive="active">Account</a></mat-sidenav>
-        <mat-sidenav-content><router-outlet></router-outlet></mat-sidenav-content>
-    </mat-sidenav-container>
+    <mat-tab-group>
+        <mat-tab label="Comptes">
+            <st-account-setup-page></st-account-setup-page>
+        </mat-tab>
+    </mat-tab-group>
   `,
     /**
      * Container components are permitted to have just enough styles
@@ -23,14 +24,7 @@ import { Observable } from 'rxjs';
      */
     styles: [
         `
-    mat-sidenav-container {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: #eee;
-      }
+
   `,
     ],
 })

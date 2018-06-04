@@ -29,6 +29,7 @@
 				<a routerLink="/dashboard" class="" routerLinkActive="active">Tableau de bord</a>
 				<a routerLink="/members" class="" routerLinkActive="active" *ngIf="AuthService.authenticated && AuthService.isAdmin">Adhérents</a>
 				<a routerLink="/mails" class="" routerLinkActive="active" *ngIf="AuthService.authenticated && AuthService.isAdmin">Mails</a>
+				<a routerLink="/comptabilite" class="" routerLinkActive="active" *ngIf="AuthService.authenticated && AuthService.isAdmin">Comptabilite</a>
 				<a routerLink="/profile" class="" routerLinkActive="active" *ngIf="AuthService.authenticated">Profile</a>
 				<a routerLink="/setup" class="" routerLinkActive="active" *ngIf="AuthService.authenticated && AuthService.isAdmin">Administration</a>
 				<a class="" (click)="AuthService.login()" *ngIf="!AuthService.authenticated">Log In</a>

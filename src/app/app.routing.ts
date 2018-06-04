@@ -13,6 +13,7 @@ import { CallbackComponent } from './services/callback.component';
 import { MembersResolver } from './services/member.resolver';
 import { MailResolver } from './services/mail.resolver';
 import { MailExistsGuard } from './mailing/guards/mail-exists.guard';
+import { CoreComponent } from './comptabilite/core/containers/core.component';
 
 const appRoutes: Routes = [
   {
@@ -58,7 +59,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'comptabilite',
-    loadChildren: './comptabilite/books.module#BooksModule',
+    loadChildren: './comptabilite/core/core.module#CoreModule',
   },
  /* {
     path: 'setup', 
