@@ -51,12 +51,15 @@ import { LoaderComponent } from './loader/loader.component';
 import { httpInterceptorProviders } from './services/interceptor/index';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { reducers } from './mailing/reducers';
+
 import { MailEffects } from './mailing/effects/mail.effects';
 import { MailExistsGuard } from './mailing/guards/mail-exists.guard';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { CoreModule } from './comptabilite/core/core.module';
-
+import { reducers, metaReducers } from './reducers';
+import { environment } from '../environments/environment';
+import * as fromMail from './mailing/reducers';
+  
 /*
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp( new AuthConfig({}), http, options);
@@ -75,12 +78,14 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
    // MaterialModule.forRoot(),
   //  CdbSelectModule.forRoot(),
     //, InMemoryWebApiModule.forRoot(InMemoryDataService)
-    StoreModule.forRoot(reducers),
-    StoreModule.forFeature('mails', reducers),
+    StoreModule.forRoot(reducers,  {metaReducers}),
+    StoreModule.forFeature('mails', fromMail.reducers),
     StoreDevtoolsModule.instrument({
-      maxAge: 25, // Retains last 25 states
+      name: 'NgRx Compta Store DevTools',
+      logOnly: environment.production,
     }),
-    EffectsModule.forRoot([
+    EffectsModule.forRoot([]),
+    EffectsModule.forFeature([
       MailEffects,
   ]),
   //CoreModule.forRoot(),

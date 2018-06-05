@@ -29,7 +29,6 @@ import { Observable } from 'rxjs';
     ],
 })
 export class SetupPageComponent implements OnInit {
-    //books$: Observable<Book[]>;
 
     constructor() {
     }

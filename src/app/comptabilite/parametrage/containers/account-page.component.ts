@@ -3,9 +3,9 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Account } from '../models/account';
 
-//import * as CollectionActions from '../actions/collection.actions';
+import * as AccountActions from '../store/actions/account.actions';
 //import { Book } from '../models/book';
-//import * as fromBooks from '../reducers';
+import * as fromAccounts from '../store/reducers';
 
 @Component({
     selector: 'st-account-setup-page',
@@ -22,9 +22,11 @@ import { Account } from '../models/account';
 export class AccountPageComponent implements OnInit {
     accounts$: Observable<Account[]>;
 
-    constructor() {
-    }
-
-    ngOnInit() {
-    }
+    constructor(private store: Store<fromAccounts.State>) {
+        this.accounts$ = store.pipe(select(fromAccounts.selectAllAccounts));
+      }
+    
+      ngOnInit() {
+        this.store.dispatch(new AccountActions.LoadAccounts());
+      }
 }

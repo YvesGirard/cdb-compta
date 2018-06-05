@@ -5,6 +5,10 @@ export interface SetupState {
   accounts: fromAccounts.State;
 }
 
+export interface State {
+    setup: SetupState;
+}
+
 export const reducers: ActionReducerMap<SetupState> = {
     accounts: fromAccounts.reducer,
 };
@@ -15,7 +19,7 @@ export const getSetupState = createFeatureSelector<SetupState>(
 
 export const getAccountEntitiesState = createSelector(
     getSetupState,
-    state => state.accounts
+    (state: SetupState) => state.accounts
   );
 
   export const {

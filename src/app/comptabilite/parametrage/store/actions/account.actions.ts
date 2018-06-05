@@ -81,8 +81,6 @@ export class UpdateAccountFail implements Action {
  */
 export class LoadAccounts implements Action {
     readonly type = AccountActionTypes.LoadAccounts;
-
-    constructor(public payload: any) { }
 }
 
 export class LoadAccountsSuccess implements Action {
