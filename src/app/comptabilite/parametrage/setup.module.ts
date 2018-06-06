@@ -31,7 +31,7 @@ import * as fromServices from './services';
             },*/
             { path: '', component: SetupPageComponent, },
         ]),
-        StoreModule.forFeature('mails', reducers),
+        StoreModule.forFeature('setup', reducers),
         EffectsModule.forFeature([
             AccountEffects,
         ]),

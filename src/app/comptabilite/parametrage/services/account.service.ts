@@ -13,25 +13,25 @@ export class AccountService {
 
   getAccounts(): Observable<Account[]> {
     return this.http
-      .get<Account[]>(`/api/Accounts`)
+      .get<Account[]>(`/api/accounts`)
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
   createAccount(payload: Account): Observable<Account> {
     return this.http
-      .post<Account>(`/api/Accounts`, payload)
+      .post<Account>(`/api/accounts`, payload)
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
   updateAccount(payload: Account): Observable<Account> {
     return this.http
-      .put<Account>(`/api/Accounts/${payload._id}`, payload)
+      .put<Account>(`/api/accounts/${payload._id}`, payload)
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 
   removeAccount(payload: Account): Observable<Account> {
     return this.http
-      .delete<any>(`/api/Accounts/${payload._id}`)
+      .delete<any>(`/api/accounts/${payload._id}`)
       .pipe(catchError((error: any) => Observable.throw(error.json())));
   }
 }
