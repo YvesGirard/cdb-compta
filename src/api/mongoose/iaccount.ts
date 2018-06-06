@@ -1,11 +1,7 @@
-export interface Account {
-    _id: string;
-    number: string;
-    descr: string;
-    favorite: boolean;
-  }
+
+  import * as mongoose from "mongoose";
   
-  export interface IMail extends IMail, mongoose.Document {
+  export interface IAccount extends mongoose.Document {
     number: String,
     descr: String,
     favorite: Boolean,
