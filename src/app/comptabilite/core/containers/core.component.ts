@@ -23,7 +23,7 @@ import { Observable } from 'rxjs';
      */
     styles: [
         `
-    .core-container {
+    /*.core-container {
         margin: 0 auto;
         display: flex;
         flex-direction:row;
@@ -35,7 +35,7 @@ import { Observable } from 'rxjs';
       .core-container mat-drawer-content {
         display: flex;
         position:relative;
-      }
+      }*/
   `,
     ],
 })
