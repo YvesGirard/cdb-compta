@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Création Compte</h1>
+<div mat-dialog-content>
+	<form role="form" [formGroup]="form" (ngSubmit)="save()">
+		<fieldset>
+			<div class="cdb-list-separator">
+				<mat-form-field class="cdb-input-full-width" dividerColor="primary">
+					<input matInput formControlName="number" placeholder="Number" name="number">
+				</mat-form-field>
+			</div>
+			<div class="cdb-list-separator">
+				<mat-form-field class="cdb-input-full-width" dividerColor="primary">
+					<input matInput formControlName="descr" placeholder="Description" name="descr">
+				</mat-form-field>
+			</div>
+		</fieldset>
+
+
+		<div mat-dialog-actions>
+			<button mat-button (click)="onNoClick()">Fermer</button>
+			<button mat-button (click)="save(form)" cdkFocusInitial>Enregistrer</button>
+		</div>
+	</form>
+</div>

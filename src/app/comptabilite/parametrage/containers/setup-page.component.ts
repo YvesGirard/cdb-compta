@@ -10,11 +10,13 @@ import { Observable } from 'rxjs';
     selector: 'setup-page',
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-    <mat-tab-group>
-        <mat-tab label="Comptes">
-            <st-account-setup-page></st-account-setup-page>
-        </mat-tab>
-    </mat-tab-group>
+    <div class="setup-page">
+        <mat-tab-group>
+            <mat-tab label="Comptes">
+                <st-account-setup-page></st-account-setup-page>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
   `,
     /**
      * Container components are permitted to have just enough styles
@@ -24,7 +26,6 @@ import { Observable } from 'rxjs';
      */
     styles: [
         `
-
   `,
     ],
 })

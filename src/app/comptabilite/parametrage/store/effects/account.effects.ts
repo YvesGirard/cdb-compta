@@ -39,8 +39,9 @@ export class AccountEffects {
 
   @Effect()
   createAccount$ = this.actions$.ofType(AccountActionTypes.AddAccount).pipe(
-    map((action: AddAccount) => action.payload),
+    map((action: AddAccount) => action.payload), 
     switchMap(account => {
+      
       return this.accountService
         .createAccount(account)
         .pipe(
@@ -87,5 +88,5 @@ export class AccountEffects {
   );
 
 
-  constructor(private actions$: Actions, private accountService: AccountService, ) { }
+  constructor(private actions$: Actions, private accountService: AccountService) { }
 }

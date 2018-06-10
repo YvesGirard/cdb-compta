@@ -10,8 +10,9 @@ import { AccountEffects } from './store/effects/account.effects';
 import { SetupPageComponent } from './containers/setup-page.component';
 import { AccountPageComponent } from './containers/account-page.component';
 import { AccountPreviewListComponent } from './components/account-preview-list.component';
+import { AccountAddDialog } from './components/account-add-dialog.component';
 
-
+import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../../material.module';
 
 //import { reducers } from './reducers';
@@ -21,6 +22,7 @@ import * as fromServices from './services';
 @NgModule({
     imports: [
         CommonModule,
+        ReactiveFormsModule,
         MaterialModule,
         RouterModule.forChild([
             /*{ path: 'find', component: FindBookPageComponent },
@@ -38,8 +40,8 @@ import * as fromServices from './services';
         //StoreModule.forFeature('books', reducers),
         //EffectsModule.forFeature([BookEffects, CollectionEffects]),
     ],
-    declarations: [SetupPageComponent, AccountPageComponent, AccountPreviewListComponent],
-    exports: [SetupPageComponent, AccountPageComponent, AccountPreviewListComponent],
+    declarations: [SetupPageComponent, AccountPageComponent, AccountPreviewListComponent, AccountAddDialog, ],
+    exports: [SetupPageComponent, AccountPageComponent, AccountPreviewListComponent, AccountAddDialog, ],
     providers: [...fromServices.services],
 })
 export class SetupModule {

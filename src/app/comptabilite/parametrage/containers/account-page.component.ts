@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Account } from '../models/account';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { AccountAddDialog } from '../components/account-add-dialog.component';
 
 import * as AccountActions from '../store/actions/account.actions';
 //import { Book } from '../models/book';
@@ -21,8 +23,8 @@ import * as fromAccounts from '../store/reducers';
 		</mat-grid-tile>
 
 		<mat-grid-tile class="flex-right">
-			<button mat-raised-button color="warn" (click)="openDialog()">
-				<mat-icon>add</mat-icon>Créer adhérent
+			<button mat-raised-button color="warn" (click)="newAccount()">
+				<mat-icon>add</mat-icon>Créer compte
 				  </button>
 		</mat-grid-tile>
 	</mat-grid-list>
@@ -38,11 +40,22 @@ import * as fromAccounts from '../store/reducers';
 export class AccountPageComponent implements OnInit {
     accounts$: Observable<Account[]>;
 
-    constructor(private store: Store<fromAccounts.State>) {
+    constructor(private store: Store<fromAccounts.State>, public dialog: MatDialog,) {
         this.accounts$ = store.pipe(select(fromAccounts.selectAllAccounts));
     }
 
     ngOnInit() {
         this.store.dispatch(new AccountActions.LoadAccounts());
+    }
+
+    newAccount() {
+        let dialogRef = this.dialog.open(AccountAddDialog, {
+            width: '250px',
+            data: { }
+          });
+
+          dialogRef.afterClosed().subscribe(result => {
+            this.store.dispatch(new AccountActions.AddAccount(result));
+          });
     }
 }

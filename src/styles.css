@@ -10,6 +10,9 @@ body {
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
 }
+main {
+   position: relative;  
+}
 
 .cdb-toolbar {
     background: rgba(255,255,255,.97)!important;

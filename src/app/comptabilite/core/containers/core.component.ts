@@ -23,19 +23,20 @@ import { Observable } from 'rxjs';
      */
     styles: [
         `
-    /*.core-container {
-        margin: 0 auto;
+    .core-container {
         display: flex;
-        flex-direction:row;
       }
       .core-container mat-drawer {
         display: flex;
+        overflow-y: initial;
+        flex: 1;
         position:relative;
       }
       .core-container mat-drawer-content {
-        display: flex;
+        display: block;
         position:relative;
-      }*/
+        width: 100%;
+      }
   `,
     ],
 })
