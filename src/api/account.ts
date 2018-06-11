@@ -6,7 +6,7 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 const _ = require('lodash');
 
 
-export function members(app: express.Express, authCheck: any, checkScopes: any) {
+export function accounts(app: express.Express, authCheck: any, checkScopes: any) {
 
     // server routes ===========================================================
     // handle things like api calls
@@ -36,7 +36,7 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
 
         // use mongoose to get all users in the database
         var filter = req.param("filter");
-        var sortOrder = req.param("sortOrder");
+        var sortOrder = req.param("sortOrder") || 'asc';
         var sortField = req.param("sortField") || 'name';
         var pageSize = Number(req.param("pageSize"));
         var pageSkip = Number(req.param("pageNumber")) * pageSize;
@@ -52,16 +52,20 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
         console.log(pageSkip);
         console.log(pageSize);
 
+        let query1;
 
-
-        let query1 = Account.find(regex).sort(sort).skip(pageSkip).limit(pageSize);
-
+        if (pageSize) {
+            query1 = Account.find(regex).sort(sort).skip(pageSkip).limit(pageSize);
+        }
+        else {
+            query1 = Account.find(regex).sort(sort);
+        }
         const example = forkJoin(
             query1.exec().then((val) => { return val }),
         );
 
         const subscribe = example.subscribe(val => {
-            res.json(val);
+            res.json(val[0]);
         });
 
     });

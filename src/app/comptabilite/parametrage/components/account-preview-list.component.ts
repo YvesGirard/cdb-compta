@@ -12,7 +12,9 @@ import { Account } from '../models/account';
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <mat-list role="list">
-        <mat-list-item role="listitem" *ngFor="let account of accounts">{{ account.descr }}</mat-list-item>
+        <mat-list-item role="listitem" *ngFor="let account of accounts">
+        {{ account.number }} - {{ account.descr }}
+        </mat-list-item>
     </mat-list>
   `,
     styles: [

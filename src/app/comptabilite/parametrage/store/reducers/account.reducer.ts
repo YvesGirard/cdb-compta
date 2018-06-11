@@ -8,6 +8,7 @@ export interface State extends EntityState<Account> {
 }
 
 export const adapter: EntityAdapter<Account> = createEntityAdapter<Account>({
+  selectId: (account: Account) => account._id,
   sortComparer: false,
 });
 
@@ -22,7 +23,17 @@ export function reducer(
 ): State {
   switch (action.type) {
     case AccountActionTypes.LoadAccountsSuccess: {
-      return adapter.addMany(action.payload, {
+      console.log("LoadAccountsSuccess")
+      console.log(action.payload)
+      return adapter.addAll(action.payload, {
+        ...state,
+        loading: false,
+        loaded: true,
+      });
+    }
+
+    case AccountActionTypes.AddAccountSuccess: {
+      return adapter.addOne(action.payload, {
         ...state,
       });
     }
