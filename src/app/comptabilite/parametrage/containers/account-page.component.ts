@@ -50,7 +50,7 @@ export class AccountPageComponent implements OnInit {
 
     newAccount() {
         let dialogRef = this.dialog.open(AccountAddDialog, {
-            width: '250px',
+            width: '300px',
             data: { }
           });
 

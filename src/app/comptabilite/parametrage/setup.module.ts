@@ -40,6 +40,7 @@ import * as fromServices from './services';
         //StoreModule.forFeature('books', reducers),
         //EffectsModule.forFeature([BookEffects, CollectionEffects]),
     ],
+    entryComponents: [ AccountAddDialog, ],
     declarations: [SetupPageComponent, AccountPageComponent, AccountPreviewListComponent, AccountAddDialog, ],
     exports: [SetupPageComponent, AccountPageComponent, AccountPreviewListComponent, AccountAddDialog, ],
     providers: [...fromServices.services],
