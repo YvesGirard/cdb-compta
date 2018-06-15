@@ -34,7 +34,7 @@ export class AccountAddDialog implements OnChanges {
 
   createForm(): void {
     this.form = this.fb.group({
-      number: '',
+      account_id: '',
       descr: '',
     });
 

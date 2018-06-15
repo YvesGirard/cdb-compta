@@ -1,6 +1,6 @@
 export interface Account {
     _id: string;
-    number: string;
+    account_id: string;
     descr: string;
     favorite: boolean;
   }

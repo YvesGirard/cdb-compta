@@ -13,7 +13,7 @@ import { Account } from '../models/account';
     template: `
     <mat-list role="list">
         <mat-list-item role="listitem" *ngFor="let account of accounts">
-        {{ account.number }} - {{ account.descr }}
+        {{ account.account_id }} - {{ account.descr }}
         </mat-list-item>
     </mat-list>
   `,

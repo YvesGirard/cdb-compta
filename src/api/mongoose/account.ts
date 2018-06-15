@@ -5,7 +5,7 @@ import {IAccount} from "./iaccount"
 interface IAccountModel extends IAccount, mongoose.Document {}
 
 var AccountSchema = new mongoose.Schema({
-  number: String,
+  account_id: String,
   descr: String,
   favorite: Boolean,
 });

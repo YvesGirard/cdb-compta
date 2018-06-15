@@ -8,7 +8,7 @@ export interface State extends EntityState<Account> {
 }
 
 export const adapter: EntityAdapter<Account> = createEntityAdapter<Account>({
-  selectId: (account: Account) => account._id,
+  selectId: (account: Account) => account.account_id,
   sortComparer: false,
 });
 
