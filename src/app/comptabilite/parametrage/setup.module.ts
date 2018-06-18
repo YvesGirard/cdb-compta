@@ -6,11 +6,17 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { reducers } from './store/reducers';
 import { AccountEffects } from './store/effects/account.effects';
+import { ExerciceEffects } from './store/effects/exercice.effects';
 //import { ComponentsModule } from './components';
 import { SetupPageComponent } from './containers/setup-page.component';
 import { AccountPageComponent } from './containers/account-page.component';
 import { AccountPreviewListComponent } from './components/account-preview-list.component';
 import { AccountAddDialog } from './components/account-add-dialog.component';
+
+import { ExercicePageComponent } from './containers/exercice-page.component';
+import { ExercicePreviewListComponent } from './components/exercice-preview-list.component';
+import { ExerciceAddDialog } from './components/exercice-add-dialog.component';
+
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../../material.module';
@@ -18,6 +24,21 @@ import { MaterialModule } from '../../material.module';
 //import { reducers } from './reducers';
 // services
 import * as fromServices from './services';
+
+export const ENTRY_COMPONENTS = [
+    AccountAddDialog,
+    ExerciceAddDialog,
+  ];
+
+export const COMPONENTS = [
+    SetupPageComponent, 
+    AccountPageComponent, 
+    AccountPreviewListComponent, 
+    AccountAddDialog,
+    ExercicePageComponent,
+    ExerciceAddDialog,
+    ExercicePreviewListComponent,
+  ];
 
 @NgModule({
     imports: [
@@ -36,13 +57,14 @@ import * as fromServices from './services';
         StoreModule.forFeature('setup', reducers),
         EffectsModule.forFeature([
             AccountEffects,
+            ExerciceEffects,
         ]),
         //StoreModule.forFeature('books', reducers),
         //EffectsModule.forFeature([BookEffects, CollectionEffects]),
     ],
-    entryComponents: [ AccountAddDialog, ],
-    declarations: [SetupPageComponent, AccountPageComponent, AccountPreviewListComponent, AccountAddDialog, ],
-    exports: [SetupPageComponent, AccountPageComponent, AccountPreviewListComponent, AccountAddDialog, ],
+    entryComponents: ENTRY_COMPONENTS,
+    declarations: COMPONENTS,
+    exports: COMPONENTS,
     providers: [...fromServices.services],
 })
 export class SetupModule {

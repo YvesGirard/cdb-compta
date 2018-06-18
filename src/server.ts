@@ -129,6 +129,10 @@ mails.mails(app, checkJwt, checkScopes);
 import * as accounts from "./api/account";
 accounts.accounts(app, checkJwt, checkScopes);
 
+import * as exercices from "./api/exercice";
+exercices.exercices(app, checkJwt, checkScopes);
+
+
 
 console.log(__dirname)
 

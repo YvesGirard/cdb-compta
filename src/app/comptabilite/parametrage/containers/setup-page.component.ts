@@ -15,6 +15,9 @@ import { Observable } from 'rxjs';
             <mat-tab label="Comptes">
                 <st-account-setup-page></st-account-setup-page>
             </mat-tab>
+            <mat-tab label="Exercices">
+            <st-exercice-setup-page></st-exercice-setup-page>
+        </mat-tab>
         </mat-tab-group>
     </div>
   `,
