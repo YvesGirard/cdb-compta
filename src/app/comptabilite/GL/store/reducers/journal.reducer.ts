@@ -1,14 +1,14 @@
-import { ExerciceActionsUnion, ExerciceActionTypes  } from '../actions/exercice.actions';
-import { Exercice } from '../../models/exercice';
+import { JournalActionsUnion, JournalActionTypes  } from '../actions/journal.actions';
+import { Journal } from '../../models/journal';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
-export interface State extends EntityState<Exercice> {
+export interface State extends EntityState<Journal> {
   loaded: boolean;
   loading: boolean;
 }
 
-export const adapter: EntityAdapter<Exercice> = createEntityAdapter<Exercice>({
-  selectId: (exercice: Exercice) => exercice._id,
+export const adapter: EntityAdapter<Journal> = createEntityAdapter<Journal>({
+  selectId: (journal: Journal) => journal.journal_id,
   sortComparer: false,
 });
 
@@ -19,11 +19,11 @@ export const initialState: State = adapter.getInitialState({
 
 export function reducer(
   state = initialState,
-  action: ExerciceActionsUnion
+  action: JournalActionsUnion
 ): State {
   switch (action.type) {
-    case ExerciceActionTypes.LoadExercicesSuccess: {
-      console.log("LoadExercicesSuccess")
+    case JournalActionTypes.LoadJournalsSuccess: {
+      console.log("LoadJournalsSuccess")
       console.log(action.payload)
       return adapter.addAll(action.payload, {
         ...state,
@@ -32,13 +32,13 @@ export function reducer(
       });
     }
 
-    case ExerciceActionTypes.AddExerciceSuccess: {
+    case JournalActionTypes.AddJournalSuccess: {
       return adapter.addOne(action.payload, {
         ...state,
       });
     }
 
-    case ExerciceActionTypes.LoadExercices: {
+    case JournalActionTypes.LoadJournals: {
       return {
         ...state,
         loading: true,
@@ -46,7 +46,7 @@ export function reducer(
       };
     }
 
-    case ExerciceActionTypes.AddExerciceFail: {
+    case JournalActionTypes.AddJournalFail: {
       return {
         ...state,
         loading: false,
