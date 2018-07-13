@@ -48,7 +48,7 @@ import { MailsComponent }      from './workflow/mails.component';
 import { MailDetailComponent }   from './workflow/mail-detail.component';
 import { LoaderService } from './loader/loader.service';
 import { LoaderComponent } from './loader/loader.component';
-import { httpInterceptorProviders } from './services/interceptor/index';
+import { httpInterceptorProviders } from './services/interceptor';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 

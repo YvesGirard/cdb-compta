@@ -1,4 +1,4 @@
-import { JournalLine } from '../models/journal-line';
+import { JournalLine } from './journal-line';
 
 export interface Journal {
     _id: string;

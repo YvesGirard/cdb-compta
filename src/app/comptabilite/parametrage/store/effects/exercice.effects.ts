@@ -19,7 +19,7 @@ import {
   UpdateExerciceSuccess,
   UpdateExerciceFail,
   ExerciceActionTypes,
-} from './../actions/exercice.actions';
+} from '../actions/exercice.actions';
 
 @Injectable()
 export class ExerciceEffects {

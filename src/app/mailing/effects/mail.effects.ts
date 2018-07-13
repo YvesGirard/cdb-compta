@@ -10,7 +10,7 @@ import {
     CountComplete,
     CountError,
     MailActionTypes,
-} from './../actions/mail.actions';
+} from '../actions/mail.actions';
 
 @Injectable()
 export class MailEffects {

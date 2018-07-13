@@ -6,8 +6,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { Member } from '../model/member';
-import { Service } from '../services/service';
-import { LoggerSnackbarService } from '../services/logger-snackbar.service';
+import { Service } from './service';
+import { LoggerSnackbarService } from './logger-snackbar.service';
 import { map } from 'rxjs/operators';
 
 @Injectable()

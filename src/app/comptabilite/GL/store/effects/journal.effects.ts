@@ -18,7 +18,7 @@ import {
   UpdateJournalSuccess,
   UpdateJournalFail,
   JournalActionTypes,
-} from './../actions/journal.actions';
+} from '../actions/journal.actions';
 
 @Injectable()
 export class JournalEffects {

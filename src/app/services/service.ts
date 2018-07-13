@@ -1,4 +1,4 @@
-import { IService } from '../services/iservice';
+import { IService } from './iservice';
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import { LoggerSnackbarService } from './logger-snackbar.service';

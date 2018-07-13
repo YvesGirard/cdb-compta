@@ -5,9 +5,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 import { User } from '../model/user';
-import { Service } from '../services/service';
+import { Service } from './service';
 import { MatSnackBar } from '@angular/material';
-import { LoggerSnackbarService } from '../services/logger-snackbar.service';
+import { LoggerSnackbarService } from './logger-snackbar.service';
 
 @Injectable()
 export class UserService extends Service {

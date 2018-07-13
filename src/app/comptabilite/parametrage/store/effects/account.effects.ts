@@ -18,7 +18,7 @@ import {
   UpdateAccountSuccess,
   UpdateAccountFail,
   AccountActionTypes,
-} from './../actions/account.actions';
+} from '../actions/account.actions';
 
 @Injectable()
 export class AccountEffects {

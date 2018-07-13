@@ -4,7 +4,7 @@ import { BehaviorSubject ,  from as fromPromise ,  Observable } from 'rxjs';
 import { AUTH_CONFIG } from '../interface/auth0-variables';
 import { JwtHelperService  } from '@auth0/angular-jwt';
 import { User, UserMetaData } from '../model/user';
-import { UserService } from '../services/user.service';
+import { UserService } from './user.service';
 import { HttpClient } from '@angular/common/http';
 
 // Avoid name not found warnings
