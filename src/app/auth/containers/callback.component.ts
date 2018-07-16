@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-//import { AuthService } from './auth.service';
+import { Store } from '@ngrx/store';
+
+import * as AuthActions from '../actions/auth.actions';
+import * as fromAuth from '../reducers';
 
 @Component({
   template: ``
@@ -7,8 +10,9 @@ import { Component } from '@angular/core';
 export class CallbackComponent {
 
   constructor(
-    //private authService: AuthService,
+    private store: Store<fromAuth.State>,
   ) {
-    //this.authService.handleAuth();
+      // Auth module handleAuth
+      this.store.dispatch(new AuthActions.HandleAuth());
   }
 }

@@ -6,7 +6,6 @@ import { AUTH_CONFIG } from './app/interface/auth0-variables';
 import { enableProdMode } from '@angular/core';
 
 import * as express from 'express';
-import { join } from 'path';
 
 import * as mongoose from "mongoose";
 

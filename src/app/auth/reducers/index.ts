@@ -5,11 +5,11 @@ import {
   } from '@ngrx/store';
   import * as fromRoot from '../../reducers';
   import * as fromAuth from './auth.reducer';
-  import * as fromLoginPage from './login.reducer';
+  import * as fromLogin from './login.reducer';
   
   export interface AuthState {
     status: fromAuth.State;
-    loginPage: fromLoginPage.State;
+    login: fromLogin.State;
   }
   
   export interface State extends fromRoot.State {
@@ -18,10 +18,10 @@ import {
   
   export const reducers: ActionReducerMap<AuthState> = {
     status: fromAuth.reducer,
-    loginPage: fromLoginPage.reducer,
+    login: fromLogin.reducer,
   };
   
-  export const selectAuthState = createFeatureSelector<State, AuthState>('auth');
+  export const selectAuthState = createFeatureSelector<AuthState>('auth');
   
   export const selectAuthStatusState = createSelector(
     selectAuthState,
@@ -32,16 +32,31 @@ import {
     fromAuth.getLoggedIn
   );
   export const getUser = createSelector(selectAuthStatusState, fromAuth.getUser);
-  
+  export const getAuth = createSelector(selectAuthStatusState, fromAuth.getAuth);
+   
+  export const isAdmin = createSelector(
+    getUser,
+    (user) => {
+      return user.isAdmin();
+    }
+  );
+
+  export const getToken = createSelector(
+    getAuth,
+    (auth) => {
+      return auth.token;
+    }
+  );
+
   export const selectLoginPageState = createSelector(
     selectAuthState,
-    (state: AuthState) => state.loginPage
+    (state: AuthState) => state.login
   );
   export const getLoginPageError = createSelector(
     selectLoginPageState,
-    fromLoginPage.getError
+    fromLogin.getError
   );
   export const getLoginPagePending = createSelector(
     selectLoginPageState,
-    fromLoginPage.getPending
+    fromLogin.getPending
   );

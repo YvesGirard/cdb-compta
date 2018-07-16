@@ -63,7 +63,7 @@ export class User implements IUser {
   identities: Array<Identities>;
 
   public isAdmin() : boolean {
-      return (this.app_metadata.roles.indexOf("admin")>-1);
+      return (this.app_metadata.roles && this.app_metadata.roles.indexOf("admin")>-1);
   }
 
 }
