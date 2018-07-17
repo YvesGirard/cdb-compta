@@ -13,7 +13,7 @@ import * as auth0 from 'auth0-js';
 
 @Injectable()
 export class AuthService {
-    private helper = new JwtHelperService();
+   //private helper = new JwtHelperService();
 
     AUTH_CONFIG = new AUTH_CONFIG();
 
@@ -26,19 +26,8 @@ export class AuthService {
     auth0Manage: any;
 
     constructor(
-        private httpClient: HttpClient) {
-        // If authenticated, set local profile property and update login status subject
-        /* if (this.authenticated) {
-           this.userProfile = new User(JSON.parse(localStorage.getItem('profile')));
-           console.log(this.userProfile);
-           this.setLoggedIn(true);
-     
-           this.auth0Manage = new auth0.Management({
-             domain: this.AUTH_CONFIG.CLIENT_DOMAIN,
-             token: localStorage.getItem('id_token')
-           });
-     
-         }*/
+        //private httpClient: HttpClient
+    ) {
     }
 
 

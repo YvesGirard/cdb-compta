@@ -32,8 +32,10 @@
 				<a routerLink="/comptabilite" class="" routerLinkActive="active" *ngIf="isAdmin$ | async">Comptabilite</a>
 				<a routerLink="/profile" class="" routerLinkActive="active" *ngIf="isAdmin$ | async">Profile</a>
 				<a routerLink="/setup" class="" routerLinkActive="active" *ngIf="isAdmin$ | async">Administration</a>
-				<a class="" (click)="login()" *ngIf="!loggedIn$ | async">Log In</a>
-				<a href="" class="" (click)="logout()" *ngIf="loggedIn$ | async">
+				<ng-template #login>
+					<a class="" (click)="login()">Log In</a>
+				</ng-template>
+				<a href="" class="" (click)="logout()" *ngIf="loggedIn$ | async; else login">
 					<mat-icon>arrow_forward</mat-icon>
 					Log Out</a>
 			</nav>

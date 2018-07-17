@@ -54,10 +54,6 @@ const appRoutes: Routes = [
     component: UserProfileComponent
   },
   {
-    path: 'callback',
-    component: CallbackComponent,
-  },
-  {
     path: 'comptabilite',
     loadChildren: './comptabilite/core/core.module#CoreModule',
   },

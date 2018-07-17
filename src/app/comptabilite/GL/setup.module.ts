@@ -26,18 +26,18 @@ import { MaterialModule } from '../../material.module';
 //import * as fromServices from './services';
 
 export const ENTRY_COMPONENTS = [
-    AccountAddDialog,
-    ExerciceAddDialog,
+ //   AccountAddDialog,
+  //  ExerciceAddDialog,
   ];
 
 export const COMPONENTS = [
-    SetupPageComponent, 
-    AccountPageComponent, 
-    AccountPreviewListComponent, 
-    AccountAddDialog,
-    ExercicePageComponent,
-    ExerciceAddDialog,
-    ExercicePreviewListComponent,
+ //   SetupPageComponent, 
+ //   AccountPageComponent, 
+ //   AccountPreviewListComponent, 
+  //  AccountAddDialog,
+  //  ExercicePageComponent,
+  //  ExerciceAddDialog,
+   // ExercicePreviewListComponent,
   ];
 
 @NgModule({
@@ -52,12 +52,12 @@ export const COMPONENTS = [
               component: ViewBookPageComponent,
               canActivate: [BookExistsGuard],
             },*/
-            { path: '', component: SetupPageComponent, },
+            //{ path: '', component: SetupPageComponent, },
         ]),
         StoreModule.forFeature('setup', reducers),
         EffectsModule.forFeature([
-            AccountEffects,
-            ExerciceEffects,
+         //   AccountEffects,
+          //  ExerciceEffects,
         ]),
         //StoreModule.forFeature('books', reducers),
         //EffectsModule.forFeature([BookEffects, CollectionEffects]),
@@ -65,7 +65,7 @@ export const COMPONENTS = [
     entryComponents: ENTRY_COMPONENTS,
     declarations: COMPONENTS,
     exports: COMPONENTS,
-    providers: [...fromServices.services],
+    //providers: [...fromServices.services],
 })
 export class SetupModule {
     static forRoot() {

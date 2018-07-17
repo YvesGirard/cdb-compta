@@ -37,12 +37,12 @@ export class AppComponent implements OnInit {
 
   }
 
-  login() {
+  login(): void {
     // Auth module login
     this.store.dispatch(new AuthActions.Login());
   }
 
-  logout() {
+  logout(): void {
     // Auth module logout
     this.store.dispatch(new AuthActions.Logout());
   }

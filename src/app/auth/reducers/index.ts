@@ -37,7 +37,7 @@ import {
   export const isAdmin = createSelector(
     getUser,
     (user) => {
-      return user.isAdmin();
+      return (user && user.isAdmin());
     }
   );
 

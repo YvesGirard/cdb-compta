@@ -58,6 +58,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { CoreModule } from './comptabilite/core/core.module';
 import { reducers, metaReducers } from './reducers';
 import { environment } from '../environments/environment';
+import { AuthModule } from './auth/auth.module';
+
 import * as fromMail from './mailing/reducers';
   
 /*
@@ -75,6 +77,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     HttpModule,    
     MaterialModule,
     HttpClientModule,
+    AuthModule.forRoot(),
    // MaterialModule.forRoot(),
   //  CdbSelectModule.forRoot(),
     //, InMemoryWebApiModule.forRoot(InMemoryDataService)
