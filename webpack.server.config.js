@@ -5,6 +5,7 @@ module.exports = {
   entry: {  server: './src/server.ts' },
   resolve: { extensions: ['.js', '.ts'] },
   target: 'node',
+  mode: 'production',
   node: {
     __dirname: false,
     __filename: false,

@@ -27,8 +27,8 @@ export class AppComponent implements OnInit {
   constructor(//private auth: AuthService,
     private store: Store<fromAuth.State>,
   ) { 
-    this.loggedIn$ = this.store.pipe(select(fromAuth.getLoggedIn));
-    this.isAdmin$ = this.store.pipe(select(fromAuth.isAdmin));
+   this.loggedIn$ = this.store.pipe(select(fromAuth.getLoggedIn));
+   this.isAdmin$ = this.store.pipe(select(fromAuth.isAdmin));
   }
 
   ngOnInit(): void {
@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
 
   logout(): void {
     // Auth module logout
-    this.store.dispatch(new AuthActions.Logout());
+   this.store.dispatch(new AuthActions.Logout());
   }
 
 }
