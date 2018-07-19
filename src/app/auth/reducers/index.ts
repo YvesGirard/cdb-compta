@@ -37,7 +37,7 @@ import {
   export const isAdmin = createSelector(
     getUser,
     (user) => {
-      return (user && user.isAdmin());
+      return (user && user.app_metadata && user.app_metadata.roles && user.app_metadata.roles.indexOf("admin")>-1);
     }
   );
 
