@@ -33,13 +33,10 @@
 				<a routerLink="/profile" class="" routerLinkActive="active" *ngIf="isAdmin$ | async">Profile</a>
 				<a routerLink="/setup" class="" routerLinkActive="active" *ngIf="isAdmin$ | async">Administration</a>
 
-				<a href="" class="" (click)="logout()" *ngIf="loggedIn$ | async; else login">
+				<a href="" class="" (click)="logout()" *ngIf="loggedIn$ | async; else reflogin">
 					<mat-icon>arrow_forward</mat-icon>
 					Log Out</a>
-					<ng-container 
-   *ngTemplateOutlet="login;context:login">
-</ng-container>
-				<ng-template let-login="login" #login>
+				<ng-template #reflogin>
 					<a class="" (click)="login()">Log In</a>
 				</ng-template>
 			</nav>

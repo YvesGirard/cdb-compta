@@ -38,6 +38,7 @@ export class AppComponent implements OnInit {
   }
 
   login(): void {
+    console.log("ddd")
     // Auth module login
     this.store.dispatch(new AuthActions.Login());
   }
