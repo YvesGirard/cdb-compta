@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs/observable/of';
 import { User } from '../models/user';
 import { AuthResult } from '../models/auth';
+import { Auth } from '../models/auth';
 
 // Avoid name not found warnings
 import * as auth0 from 'auth0-js';
@@ -33,7 +34,7 @@ export class AuthService {
 
     handleAuth(): Observable<AuthResult> {
         // When Auth0 hash parsed, get profile<Observable<User>>
-        const promise = new Promise<AuthResult>(function (resolve, reject) {
+        const promise = new Promise<AuthResult>((resolve, reject) => {
             this.auth0.parseHash((err, authResult) => {
                 if (authResult && authResult.accessToken && authResult.idToken) {
 
@@ -45,8 +46,9 @@ export class AuthService {
                         const expTime = authResult.expiresIn * 1000 + Date.now();
 
                         const uauthResult = new AuthResult();
+                        uauthResult.auth = new Auth();
                         uauthResult.auth.token = authResult.accessToken;
-                        uauthResult.auth.id_token = authResult.accessToken;                       
+                        uauthResult.auth.id_token = authResult.idToken;                       
                         uauthResult.auth.expires_at = expTime;                       
 
                         this.auth0Manage = new auth0.Management({
