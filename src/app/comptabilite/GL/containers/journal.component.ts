@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
     selector: 'gl-journal-page',
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-    <gl-journal-list [journals]="journals$ | async"></gl-journal-list>
+   <!-- <gl-journal-list [journals]="journals$ | async"></gl-journal-list> -->
   `,
     /**
      * Container components are permitted to have just enough styles
@@ -23,7 +23,7 @@ import { Observable } from 'rxjs';
   `,
     ],
 })
-export class SetupPageComponent implements OnInit {
+export class JournalComponent implements OnInit {
 
 
     constructor() {

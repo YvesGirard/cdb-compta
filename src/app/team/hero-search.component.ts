@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router';
-import { Observable ,  Subject }        from 'rxjs';
+import { Observable ,  Subject, of }        from 'rxjs';
 import { HeroSearchService } from '../services/hero-search.service';
 import { Hero } from '../model/hero';
+import { debounceTime, distinctUntilChanged, switchMap, catchError } from 'rxjs/operators'
 
 @Component({
   moduleId: module.id,
@@ -26,19 +27,20 @@ export class HeroSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.heroes = this.searchTerms
-      .debounceTime(300)        // wait for 300ms pause in events
-      .distinctUntilChanged()   // ignore if next search term is same as previous
-      .switchMap(term => term   // switch to new observable each time
+    this.heroes = this.searchTerms.pipe(
+      debounceTime(300),        // wait for 300ms pause in events
+      distinctUntilChanged(),   // ignore if next search term is same as previous
+      switchMap(term => term   // switch to new observable each time
         // return the http search observable
         ? this.heroSearchService.search(term)
         // or the observable of empty heroes if no search term
-        : Observable.of<Hero[]>([]))
-      .catch(error => {
+        : of<Hero[]>([])),
+      catchError(error => {
         // TODO: real error handling
         console.log(error);
-        return Observable.of<Hero[]>([]);
-      });
+        return of<Hero[]>([]);
+      })
+    )
   }
 
   gotoDetail(hero: Hero): void {

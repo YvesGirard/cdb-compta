@@ -29,7 +29,7 @@ export class AccountAddDialog implements OnChanges {
   }
 
   onNoClick(): void {
-    this.dialogRef.close();
+    this.dialogRef.close({});
   }
 
   createForm(): void {
@@ -40,10 +40,10 @@ export class AccountAddDialog implements OnChanges {
 
   }
 
-  save(form: FormGroup) {
-    const { value, valid } = form;
+  save(): void {
+    const { value, valid } = this.form;
     if (valid) {
-      this.dialogRef.close(this.form.value);
+      this.dialogRef.close(value);
     }
   }
 

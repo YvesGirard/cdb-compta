@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 
 import { HttpParams } from '@angular/common/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map } from 'rxjs/operators'
 
 
 import { Observable } from 'rxjs';
 import { Member } from '../model/member';
 import { Service } from './service';
 import { LoggerSnackbarService } from './logger-snackbar.service';
-import { map } from 'rxjs/operators';
+
 
 @Injectable()
 export class MemberService {
@@ -35,24 +36,28 @@ export class MemberService {
         .set('sortOrder', sortOrder)
         .set('pageNumber', pageNumber.toString())
         .set('pageSize', pageSize.toString())
-    }).map((res) => {
-      return res;
-    });
+    }).pipe(
+      map((res) => {
+        return res;
+      }),
+    )
   }
 
   getMember(id: number): Promise<Member> {
     return this.httpClient.get(`${this.memberUrl}/${id}`)
       .toPromise()
-      .then((response :Member) => (response))
+      .then((response: Member) => (response))
       .catch(this.handleError);
   }
 
   create(member: Member): Observable<Member> {
     return this.httpClient
       .post(this.memberUrl, JSON.stringify(member))
-      .map((res: Member) => {
+      .pipe(
+      map((res: Member) => {
         return res;
-      });;
+      }),
+    )
   }
 
   public update(member: Member): Promise<Member> {

@@ -32,9 +32,11 @@ export class MailService {
         .set('sortOrder', sortOrder)
         .set('pageNumber', pageNumber.toString())
         .set('pageSize', pageSize.toString())
-    }).map((res: any) => {
+    }).pipe(
+      map((res: any) => {
       return res.data;
-    });
+    }),
+  )
   }
 
   public count(): Observable<number> {
@@ -47,8 +49,9 @@ export class MailService {
       return this.http.get<number>(this.url, {
         params: new HttpParams()
           .set("count", "true")
-      })
-        .map(counter => counter)
+      }).pipe(
+        map(counter => counter),
+      )
   }
 
 

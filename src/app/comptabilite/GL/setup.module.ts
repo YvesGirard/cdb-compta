@@ -8,7 +8,7 @@ import { reducers } from './store/reducers';
 //import { AccountEffects } from './store/effects/account.effects';
 //import { ExerciceEffects } from './store/effects/exercice.effects';
 //import { ComponentsModule } from './components';
-//import { SetupPageComponent } from './containers/setup-page.component';
+import { JournalComponent } from './containers/journal.component';
 //import { AccountPageComponent } from './containers/account-page.component';
 //import { AccountPreviewListComponent } from './components/account-preview-list.component';
 //import { AccountAddDialog } from './components/account-add-dialog.component';
@@ -31,7 +31,7 @@ export const ENTRY_COMPONENTS = [
   ];
 
 export const COMPONENTS = [
- //   SetupPageComponent, 
+    JournalComponent, 
  //   AccountPageComponent, 
  //   AccountPreviewListComponent, 
   //  AccountAddDialog,

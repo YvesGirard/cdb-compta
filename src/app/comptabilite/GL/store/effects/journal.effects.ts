@@ -3,6 +3,7 @@ import { Actions, Effect } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { JournalService } from "../../services/journal.service";
+import { Journal } from '../../models/journal';
 
 import {
   AddJournal,
@@ -29,7 +30,7 @@ export class JournalEffects {
       return this.journalService
         .getJournals()
         .pipe(
-          map(Journals => new LoadJournalsSuccess(Journals)),
+          map((Journals : Journal[]) => new LoadJournalsSuccess(Journals)),
           catchError(error => of(new LoadJournalsFail(error)))
         );
     })

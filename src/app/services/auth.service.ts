@@ -6,6 +6,7 @@ import { JwtHelperService  } from '@auth0/angular-jwt';
 import { User, UserMetaData } from '../model/user';
 import { UserService } from './user.service';
 import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators'
 
 // Avoid name not found warnings
 import * as auth0 from 'auth0-js';
@@ -70,11 +71,12 @@ export class AuthService {
   sendVerificationEmail(): Observable<boolean> {
     const url = `${this.mailApiUrl}/verification/${this.userProfile._id}`;
 
-    return this.httpClient.post(url, { headers: this.headers })
-    .map((res: boolean) => {
+    return this.httpClient.post(url, { headers: this.headers }).pipe(
+    map((res: boolean) => {
       console.log(res);
       return res;
-    });
+    }),
+  )
   }
 
 

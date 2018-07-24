@@ -1,11 +1,6 @@
 import { Component, Inject, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import {   FormControl,
-  FormGroup,
-  FormArray,
-  FormBuilder,
-  Validators,
-} from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'exercice-add-dialog.component',
@@ -29,7 +24,7 @@ export class ExerciceAddDialog implements OnChanges {
   }
 
   onNoClick(): void {
-    this.dialogRef.close();
+    this.dialogRef.close({});
   }
 
   createForm(): void {
@@ -38,13 +33,12 @@ export class ExerciceAddDialog implements OnChanges {
       begin_dt: '',
       end_dt: '',
     });
-
   }
 
-  save(form: FormGroup) {
-    const { value, valid } = form;
+  save(): void {
+    const { value, valid } = this.form;
     if (valid) {
-      this.dialogRef.close(this.form.value);
+      this.dialogRef.close(value);
     }
   }
 

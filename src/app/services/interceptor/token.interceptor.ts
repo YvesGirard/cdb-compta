@@ -7,6 +7,7 @@ import {
 } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
+import { take, switchMap } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 
@@ -20,14 +21,14 @@ export class TokenInterceptor implements HttpInterceptor {
   ) {}
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    return this.store.pipe(select(fromAuth.getToken))
-      .take(1)
-      .switchMap(token => {
+    return this.store.pipe(select(fromAuth.getToken),
+      take(1),
+      switchMap(token => {
         const headers = new Headers();
         headers.append('Authorization', `Bearer ${token}`);
 
         return next.handle(request);
-      });
-
+      }),
+    )
   }
 }

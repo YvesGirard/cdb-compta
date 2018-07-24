@@ -3,6 +3,7 @@ import { Actions, Effect } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { AccountService } from "../../services/account.service";
+import { Account } from '../../models/account';
 
 import {
   AddAccount,
@@ -29,7 +30,7 @@ export class AccountEffects {
       return this.accountService
         .getAccounts()
         .pipe(
-          map(Accounts => new LoadAccountsSuccess(Accounts)),
+          map((Accounts : Account[]) => new LoadAccountsSuccess(Accounts)),
           catchError(error => of(new LoadAccountsFail(error)))
         );
     })

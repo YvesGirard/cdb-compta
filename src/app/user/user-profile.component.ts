@@ -28,7 +28,7 @@ export class UserProfileComponent implements OnInit {
   titles = TITLES;
 
   userForm: FormGroup;
-  private loading : boolean=false;
+  loading : boolean=false;
 
 
   constructor(
