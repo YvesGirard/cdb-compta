@@ -2,8 +2,8 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material';
 import { LoggerSnackbarComponent } from '../entry/logger-snackbar.component';
 import { LoggerService } from './logger.service';
-import { ReplaySubject ,  Subject ,  Scheduler ,  Observable ,  interval ,  merge } from 'rxjs';
-import { bufferToggle ,  mergeAll } from 'rxjs/operators';
+import { ReplaySubject ,  Subject ,  Scheduler ,  Observable ,  interval ,  merge, EMPTY, of } from 'rxjs';
+import { bufferToggle ,  mergeAll, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class LoggerSnackbarService implements OnDestroy {
@@ -51,23 +51,24 @@ export class LoggerSnackbarService implements OnDestroy {
         private _snackBar: LoggerService,
     ) {
         // Buffer messages
-        this.bufferMessages = this.subject.bufferToggle(
-            this.pauser$.switchMap(paused => {
-                return paused ? Observable.of(paused) : Observable.empty();
-            }),
+        this.bufferMessages = this.subject.pipe(
+        bufferToggle(
+            this.pauser$.pipe(switchMap(paused => {
+                return paused ? of(paused) : EMPTY;
+            })),
             (val) => {
-                return this.pauser$.switchMap(paused => {
-                    return paused ? Observable.empty() : Observable.of(paused);
-                });
+                return this.pauser$.pipe(switchMap(paused => {
+                    return paused ? EMPTY : of(paused);
+                }));
             }
-        );
+        ));
         
         this.bufferMessages.subscribe(this.buffer$);
 
         // Rien ou les messages buffered + la source
-        this.pausableBufferedMessages = this.pauser$.switchMap(paused => {
-            return paused ? Observable.empty() : merge(this.buffer$.pipe(mergeAll()), this.subject);
-        });
+        this.pausableBufferedMessages = this.pauser$.pipe(switchMap(paused => {
+            return paused ? EMPTY : merge(this.buffer$.pipe(mergeAll()), this.subject);
+        }));
 
         this.pausableBufferedMessages.subscribe(val => {
             this._snackBar.info(val.toString());

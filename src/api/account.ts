@@ -1,7 +1,7 @@
 // app/routes.js
 import * as express from "express";
 import * as Account from "./mongoose/account";
-import { forkJoin } from 'rxjs/observable/forkJoin';
+import { forkJoin } from 'rxjs';
 
 const _ = require('lodash');
 
