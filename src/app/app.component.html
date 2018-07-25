@@ -35,7 +35,7 @@
 
 				<a href="" class="" (click)="logout()" *ngIf="loggedIn$ | async; else reflogin">
 					<mat-icon>arrow_forward</mat-icon>
-					Log Out</a>
+					Log Out {{ (this.user$ | async)?.name }}</a>
 
 				<ng-template #reflogin>
 					<a class="" (click)="login()">Log In</a>

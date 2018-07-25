@@ -2,7 +2,7 @@
 import * as express from "express";
 import { IMember } from "../app/model/imember";
 import * as Member from "./mongoose/member";
-import { forkJoin } from 'rxjs/observable/forkJoin';
+import { forkJoin } from 'rxjs';
 
 const multer = require('multer')
 const xlsxtojson = require("xlsx-to-json-lc")

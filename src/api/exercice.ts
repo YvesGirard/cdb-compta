@@ -1,7 +1,7 @@
 // app/routes.js
 import * as express from "express";
 import * as Exercice from "./mongoose/exercice";
-import { forkJoin } from 'rxjs/observable/forkJoin';
+import { forkJoin } from 'rxjs';
 
 import * as _ from 'lodash';
 

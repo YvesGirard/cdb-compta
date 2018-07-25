@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import 'rxjs/add/observable/throw';
 
 import { Account } from '../models/account';
 

@@ -4,8 +4,7 @@ import * as mailgun from "mailgun-js";
 import * as crypto from 'crypto';
 import * as Mail from "./mongoose/mail";
 import * as _ from "lodash";
-import { forkJoin } from 'rxjs/observable/forkJoin';
-
+import { forkJoin } from 'rxjs';
 
 export function mails(app: express.Express, authCheck: any, authScopes: any) {
   // test : curl -d "param1=value1&param2=value2" -X POST http://localhost:8080/api/mails/verification

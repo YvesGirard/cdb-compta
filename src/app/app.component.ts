@@ -3,6 +3,7 @@ import { AuthService } from './services/auth.service';
 import { OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { User } from './auth/models/user';
 
 
 import * as AuthActions from './auth/actions/auth.actions';
@@ -23,12 +24,14 @@ export class AppComponent implements OnInit {
   // Login obversvable
   loggedIn$: Observable<boolean>;
   isAdmin$: Observable<boolean>;
+  user$: Observable<User>;
 
   constructor(//private auth: AuthService,
     private store: Store<fromAuth.State>,
   ) { 
    this.loggedIn$ = this.store.pipe(select(fromAuth.getLoggedIn));
    this.isAdmin$ = this.store.pipe(select(fromAuth.isAdmin));
+   this.user$ = this.store.pipe(select(fromAuth.getUser));
   }
 
   ngOnInit(): void {
