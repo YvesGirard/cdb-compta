@@ -107,7 +107,7 @@ export class UserProfileComponent implements OnInit {
     //console.log(this.userProfile)
     var updatedUser = Object.assign({},this.userProfile);
 
-    updatedUser.user_metadata = Object.assign(new UserMetaData(this.userProfile.user_metadata),this.userForm.value);
+    //updatedUser.user_metadata = Object.assign(new UserMetaData(this.userProfile.user_metadata),this.userForm.value);
 
     updatedUser.email = updatedUser.user_metadata.email;
     updatedUser.name = updatedUser.user_metadata.name;

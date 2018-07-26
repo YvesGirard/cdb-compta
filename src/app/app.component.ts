@@ -3,8 +3,7 @@ import { AuthService } from './services/auth.service';
 import { OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { User } from './auth/models/user';
-
+import { User } from './model/user';
 
 import * as AuthActions from './auth/actions/auth.actions';
 import * as fromAuth from './auth/reducers';

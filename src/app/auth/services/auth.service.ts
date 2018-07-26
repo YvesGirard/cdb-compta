@@ -4,7 +4,7 @@ import { BehaviorSubject, from, Observable, throwError, of } from 'rxjs';
 import { AUTH_CONFIG } from '../models/auth0';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../models/user';
+import { User } from '../../model/user';
 import { AuthResult } from '../models/auth';
 import { Auth } from '../models/auth';
 
