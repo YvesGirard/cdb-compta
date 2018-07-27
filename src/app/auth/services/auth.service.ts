@@ -89,5 +89,6 @@ export class AuthService {
     logout(): Observable<boolean> {
         return of(true);
     }
+
 }
 

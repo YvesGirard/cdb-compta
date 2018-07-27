@@ -39,7 +39,7 @@ export class AuthService {
   constructor(private router: Router, private userService: UserService, private httpClient: HttpClient) {
     // If authenticated, set local profile property and update login status subject
     if (this.authenticated) {
-      this.userProfile = new User(JSON.parse(localStorage.getItem('profile')));
+      //this.userProfile = new User(JSON.parse(localStorage.getItem('profile')));
       console.log(this.userProfile);
       this.setLoggedIn(true);
 
@@ -146,7 +146,7 @@ export class AuthService {
       Object.assign(data, profile);
       console.log("AUTH0")
       console.log(data);
-      this.userProfile = new User(data);
+      //this.userProfile = new User(data);
       
 
       this.userService.getUser(this.userProfile._id)
@@ -191,7 +191,8 @@ export class AuthService {
   }
 
   get isAdmin(): boolean {
-    return (this.userProfile) && this.userProfile.isAdmin();
+    return (this.userProfile) && true;
+    //return (this.userProfile) && this.userProfile.isAdmin();
   }
 
   get token(): string {
