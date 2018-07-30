@@ -5,6 +5,7 @@ import { IUserModel } from "./iuser-model"
 
 var userSchema = new mongoose.Schema({
   _id: String,
+  user_id: String,
   name: String,
   email: { type: String, default: "" },
   email_verified: Boolean,
@@ -23,7 +24,9 @@ var userSchema = new mongoose.Schema({
     title: String,
     email: String,
     birthday: String
-  }, app_metadata: { roles: [String] },
+  }, app_metadata: { 
+    licence: String,
+    roles: [String] },
 }, { _id: false });
 
 var User = mongoose.model<IUserModel>("User", userSchema);

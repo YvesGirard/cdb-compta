@@ -78,12 +78,12 @@ export function users(app: express.Express, authCheck: any) {
                 url: process.env.AUTH0_TOKEN_URL,
                 headers: { 'content-type': 'application/json' },
                 body:
-                    {
-                        grant_type: 'client_credentials',
-                        client_id: process.env.API_CLIENT_ID,
-                        client_secret: process.env.API_CLIENT_SECRET,
-                        audience: process.env.API_CLIENT_AUDIENCE
-                    },
+                {
+                    grant_type: 'client_credentials',
+                    client_id: process.env.API_CLIENT_ID,
+                    client_secret: process.env.API_CLIENT_SECRET,
+                    audience: process.env.API_CLIENT_AUDIENCE
+                },
                 json: true
             };
 
@@ -292,6 +292,128 @@ export function users(app: express.Express, authCheck: any) {
                             });*/
 
         });
+    });
+
+
+    app.put('/api/v2/users/:id', function (req, res, next) {
+        var tmp = req.body;
+
+        if (!tmp.user_id) {
+            res.status(400);
+            res.json({
+                "error": "Invalid Data"
+            });
+            return next();
+        }
+
+        // Get a token to update user data
+        var request = require("request");
+
+        var options = {
+            method: 'POST',
+            url: process.env.AUTH0_TOKEN_URL,
+            headers: { 'content-type': 'application/json' },
+            body:
+            {
+                grant_type: 'client_credentials',
+                client_id: process.env.API_CLIENT_ID,
+                client_secret: process.env.API_CLIENT_SECRET,
+                audience: process.env.API_CLIENT_AUDIENCE
+            },
+            json: true
+        };
+
+        if (process.env.PROXY) {
+            var HttpsProxyAgent = require('https-proxy-agent');
+            var agent = new HttpsProxyAgent(process.env.PROXY);
+            options["agent"] = agent;
+        }
+
+        request(options, function (error, response, body) {
+            if (error) throw new Error(error);
+            console.log("token");
+            console.log(req.params.id);
+            console.log(body);
+            //body.access_token
+            requestUpdateUser(tmp, new User(tmp), body.access_token, () => { });
+        });
+
+        function callAPI(option, callback) {
+            request(options, function (error, response, body) {
+                if (error) throw new Error(error);
+                console.log("update user");
+                console.log(req.params.id);
+                console.log(body);
+
+                res.json({ info: 'user updated successfully', data: { response } });
+            });
+        }
+
+        function requestUpdateUser(user: IUserModel, updatedUser: IUserModel, access_token, callback) {
+            console.log("requestUpdateUser");
+            console.log(user);
+            console.log(updatedUser);
+
+            const upd_user = _.pick(user, [ "app_metadata" ]);
+            
+            if (!_.has(upd_user.app_metadata, "licence_verified")) {
+                _.set(upd_user.app_metadata, "licence_verified", false);
+            }
+
+            var request = require("request");
+
+            console.log(access_token);
+
+            var options = {
+                method: 'PATCH',
+                url: process.env.AUTH0_URL + '/api/v2/users/' + encodeURI(user.user_id),
+                headers: {
+                    'authorization': 'Bearer ' + access_token,
+                    'content-type': 'application/json'
+                },
+                body: upd_user,
+                json: true
+            };
+
+            if (process.env.PROXY) {
+                var HttpsProxyAgent = require('https-proxy-agent');
+                var agent = new HttpsProxyAgent(process.env.PROXY);
+                options["agent"] = agent;
+            }
+
+            var asyncTasks = [];
+
+            var optionRequest = _.cloneDeep(options);
+
+            _.set(optionRequest, "body", upd_user);
+
+
+            asyncTasks.push((callback) => {
+                console.log("optionRequest")
+                console.log(optionRequest)
+                request(optionRequest, function (error, response, body) {
+                    if (error) { callback(error); }
+                    else {
+                        console.log("update user 1");
+                        console.log(req.params.id);
+                        console.log(body);
+                        callback(null, { info: 'user updated successfully', data: { response } });
+                    }
+                });
+            });
+
+            async.waterfall(asyncTasks, function (err, data) {
+                console.log("series")
+                console.log(data)
+                console.log(err)
+                console.log("series end")
+                //  All tasks are done now
+                res.json({ info: 'user updated successfully', data: { data } });
+            });
+
+        }
+
+
     });
 
     /*

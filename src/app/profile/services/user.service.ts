@@ -12,7 +12,7 @@ export class UserService {
 
   updateUserProfile(payload: User): Observable<User> {
     return this.http
-      .put<User>(`/api/users/${payload._id}`, payload)
+      .put<User>(`/api/users/${payload.user_id}`, payload)
       .pipe(catchError((error: any) => throwError(error)));
   }
 

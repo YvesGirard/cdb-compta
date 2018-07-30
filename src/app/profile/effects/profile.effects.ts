@@ -27,7 +27,7 @@ export class ProfileEffects {
             new UpdateUserProfileSuccess(user)
           }),
           catchError((error) => {
-            console.log('Yves UpdateUserProfileSuccess')
+            console.log('Yves UpdateUserProfileFail')
             return of(new UpdateUserProfileFail(error))
           })
         );

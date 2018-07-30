@@ -25,13 +25,14 @@ import {
     template: `
       <div class="user-profile-form">
         <form [formGroup]="form">
-
-          <mat-form-field class="cdb-input-full-width" dividerColor="primary">
-          <input matInput formControlName="licence" placeholder="Licence FFD" name="licence">
-          <mat-hint align="end">
-            coucou
-          </mat-hint>
-          </mat-form-field>
+          <div formGroupName="app_metadata">
+            <mat-form-field class="cdb-input-full-width" dividerColor="primary">
+            <input matInput formControlName="licence" placeholder="Licence FFD" name="licence">
+            <mat-hint align="end">
+              coucou
+            </mat-hint>
+            </mat-form-field>
+          </div>
 
           <ng-content></ng-content>
 
@@ -55,7 +56,10 @@ import {
 
   
     form = this.fb.group({
-      licence: [''],
+      app_metadata: this.fb.group({
+        licence: [''],
+        roles: ['']
+      }),    
     });
   
     constructor(private fb: FormBuilder) {}
@@ -71,11 +75,8 @@ import {
     ngOnChanges(changes: SimpleChanges) {
       if (this.user && this.user.user_id) {
         this.exists = true;
-        const { app_metadata, user_metadata } = this.user
-        console.log("attention au datat!!")
-        console.log(app_metadata)
-        console.log(user_metadata)       
-        this.form.patchValue(app_metadata);
+  
+        this.form.patchValue(this.user);
       }
 
     }
