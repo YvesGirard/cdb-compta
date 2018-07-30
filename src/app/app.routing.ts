@@ -51,7 +51,8 @@ const appRoutes: Routes = [
   },
   {
     path: 'profile', 
-    component: UserProfileComponent
+    //component: UserProfileComponent
+    loadChildren: './profile/profile.module#ProfileModule',
   },
   {
     path: 'comptabilite',

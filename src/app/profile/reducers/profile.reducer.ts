@@ -1,51 +1,44 @@
-import { AccountActionsUnion, AccountActionTypes  } from '../actions/account.actions';
-import { Account } from '../../models/account';
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import {
+  UserActionsUnion,
+  UserActionTypes,
+} from '../actions/profile.actions';
 
-export interface State extends EntityState<Account> {
-  loaded: boolean;
-  loading: boolean;
+export interface State {
+  error: string | null;
+  pending: boolean;
 }
 
-export const initialState: State = adapter.getInitialState({
-  loaded: false,
-  loading:false,
-});
+export const initialState: State = {
+  error: null,
+  pending: false,
+};
 
 export function reducer(
   state = initialState,
-  action: AccountActionsUnion
+  action: UserActionsUnion
 ): State {
   switch (action.type) {
-    case AccountActionTypes.LoadAccountsSuccess: {
-      console.log("LoadAccountsSuccess")
-      console.log(action.payload)
-      return adapter.addAll(action.payload, {
-        ...state,
-        loading: false,
-        loaded: true,
-      });
-    }
-
-    case AccountActionTypes.AddAccountSuccess: {
-      return adapter.addOne(action.payload, {
-        ...state,
-      });
-    }
-
-    case AccountActionTypes.LoadAccounts: {
+    case UserActionTypes.UpdateUserProfile: {
       return {
         ...state,
-        loading: true,
-        loaded: false,
+        error: null,
+        pending: true,
       };
     }
 
-    case AccountActionTypes.AddAccountFail: {
+    case UserActionTypes.UpdateUserProfileSuccess: {
       return {
         ...state,
-        loading: false,
-        loaded: false,
+        error: null,
+        pending: false,
+      };
+    }
+
+    case UserActionTypes.UpdateUserProfileFail: {
+      return {
+        ...state,
+        error: action.payload,
+        pending: false,
       };
     }
 

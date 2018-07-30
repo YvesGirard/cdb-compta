@@ -2,6 +2,11 @@ import { AuthActionsUnion, AuthActionTypes } from '../actions/auth.actions';
 import { User } from '../../model/user';
 import { Auth } from '../models/auth';
 
+import {
+  UserActionsUnion,
+  UserActionTypes,
+} from '../../profile/actions/profile.actions';
+
 export interface State {
   loggedIn: boolean;
   user: User | null;
@@ -14,7 +19,7 @@ export const initialState: State = {
   auth: null
 };
 
-export function reducer(state = initialState, action: AuthActionsUnion): State {
+export function reducer(state = initialState, action: AuthActionsUnion | UserActionsUnion): State {
   switch (action.type) {
     case AuthActionTypes.LoginSuccess: {
       return {
@@ -22,6 +27,15 @@ export function reducer(state = initialState, action: AuthActionsUnion): State {
         loggedIn: true,
         user: action.payload.authResult.user,
         auth: action.payload.authResult.auth,
+      };
+    }
+
+    case UserActionTypes.UpdateUserProfileSuccess: {
+      console.log("AuthActionsUnion : ")
+      console.log(action.payload)
+      return {
+        ...state,
+        user: action.payload,
       };
     }
 

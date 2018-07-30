@@ -7,13 +7,13 @@ import { catchError } from 'rxjs/operators';
 import { User } from '../../model/user';
 
 @Injectable()
-export class ExerciceService {
+export class UserService {
   constructor(private http: HttpClient) {}
 
-  updateUser(payload: User): Observable<User> {
+  updateUserProfile(payload: User): Observable<User> {
     return this.http
       .put<User>(`/api/users/${payload._id}`, payload)
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(catchError((error: any) => throwError(error)));
   }
 
 

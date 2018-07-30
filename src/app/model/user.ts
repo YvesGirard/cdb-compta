@@ -50,6 +50,7 @@ export class Identities implements Iidentities {
 
 export class User implements IUser {
   _id: string;
+  user_id: string;
   name: string;
   email: string;
   email_verified: boolean;

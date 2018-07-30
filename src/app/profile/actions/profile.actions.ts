@@ -2,31 +2,31 @@ import { Action } from '@ngrx/store';
 import { User } from '../../model/user';
 
 export enum UserActionTypes {
-    UpdateUser = '[User] Update Success',
-    UpdateUserSuccess = '[User] Update Success',
-    UpdateUserFail = '[User] Update Fail',   
+    UpdateUserProfile = '[User] Update',
+    UpdateUserProfileSuccess = '[User] Update Success',
+    UpdateUserProfileFail = '[User] Update Fail',   
 }
 
 
-export class UpdateUser implements Action {
-    readonly type = UserActionTypes.UpdateUser;
+export class UpdateUserProfile implements Action {
+    readonly type = UserActionTypes.UpdateUserProfile;
 
     constructor(public payload: User) { }
 }
 
-export class UpdateUserSuccess implements Action {
-    readonly type = UserActionTypes.UpdateUserSuccess;
+export class UpdateUserProfileSuccess implements Action {
+    readonly type = UserActionTypes.UpdateUserProfileSuccess;
 
     constructor(public payload: User) { }
 }
 
-export class UpdateUserFail implements Action {
-    readonly type = UserActionTypes.UpdateUserFail;
+export class UpdateUserProfileFail implements Action {
+    readonly type = UserActionTypes.UpdateUserProfileFail;
 
     constructor(public payload: any) { }
 }
 
 export type UserActionsUnion =
-    | UpdateUser
-    | UpdateUserSuccess
-    | UpdateUserFail;
+    | UpdateUserProfile
+    | UpdateUserProfileSuccess
+    | UpdateUserProfileFail;

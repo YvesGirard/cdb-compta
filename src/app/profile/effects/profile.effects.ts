@@ -2,30 +2,37 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { AccountService } from "../../services/account.service";
-import { Account } from '../../models/account';
+import { UserService } from "../services/user.service";
+import { User } from '../../model/user';
 
 import {
-  UpdateAccount,
-  UpdateAccountSuccess,
-  UpdateAccountFail,
-} from '../actions/account.actions';
+  UserActionTypes,
+  UpdateUserProfile,
+  UpdateUserProfileSuccess,
+  UpdateUserProfileFail,
+} from '../actions/profile.actions';
 
 @Injectable()
-export class AccountEffects {
+export class ProfileEffects {
 
   @Effect()
-  updateAccount$ = this.actions$.ofType(AccountActionTypes.UpdateAccount).pipe(
-    map((action: UpdateAccount) => action.payload),
-    switchMap(account => {
-      return this.accountService
-        .updateAccount(account)
+  updateUserProfile$ = this.actions$.ofType(UserActionTypes.UpdateUserProfile).pipe(
+    map((action: UpdateUserProfile) => action.payload),
+    switchMap(user => {
+      return this.userService
+        .updateUserProfile(user)
         .pipe(
-          map(account => new UpdateAccountSuccess(account)),
-          catchError(error => of(new UpdateAccountFail(error)))
+          map((user) => {
+            console.log('Yves UpdateUserProfileSuccess')
+            new UpdateUserProfileSuccess(user)
+          }),
+          catchError((error) => {
+            console.log('Yves UpdateUserProfileSuccess')
+            return of(new UpdateUserProfileFail(error))
+          })
         );
     })
   );
 
-  constructor(private actions$: Actions, private accountService: AccountService) { }
+  constructor(private actions$: Actions, private userService: UserService) { }
 }

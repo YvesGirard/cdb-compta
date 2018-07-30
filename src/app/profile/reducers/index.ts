@@ -1,46 +1,26 @@
-import { createSelector, ActionReducerMap, createFeatureSelector } from '@ngrx/store';
-import * as fromAccounts from './profile.reducer';
-import * as fromExercices from './exercice.reducer';
+import {
+  createSelector,
+  createFeatureSelector,
+  ActionReducerMap,
+} from '@ngrx/store';
+import * as fromRoot from '../../reducers';
+import * as fromProfile from './profile.reducer';
 
-export interface SetupState {
-  accounts: fromAccounts.State;
-  exercices:  fromExercices.State;
+export interface ProfileState {
+  status: fromProfile.State;
 }
 
-export interface State {
-    setup: SetupState;
+export interface State extends fromRoot.State {
+  profile: ProfileState;
 }
 
-export const reducers: ActionReducerMap<SetupState> = {
-    accounts: fromAccounts.reducer,
-    exercices:  fromExercices.reducer,   
+export const reducers: ActionReducerMap<ProfileState> = {
+  status: fromProfile.reducer,
 };
 
-export const getSetupState = createFeatureSelector<SetupState>(
-  'setup'
+export const selectProfileState = createFeatureSelector<ProfileState>('profile');
+
+export const selectProfileStatusState = createSelector(
+  selectProfileState,
+  (state: ProfileState) => state.status
 );
-
-// Accounts
-export const getAccountEntitiesState = createSelector(
-    getSetupState,
-    (state: SetupState) => state.accounts
-  );
-
-  export const {
-    selectEntities: selectAccountEntities,
-    selectAll: selectAllAccounts,
-    selectTotal: selectTotalAccounts,
-  } = fromAccounts.adapter.getSelectors(getAccountEntitiesState);
-
-// Exercices
-export const getExerciceEntitiesState = createSelector(
-  getSetupState,
-  (state: SetupState) => state.exercices
-);
-
-export const {
-  selectEntities: selectExerciceEntities,
-  selectAll: selectAllExercices,
-  selectTotal: selectTotalExercices,
-} = fromExercices.adapter.getSelectors(getExerciceEntitiesState);
-
