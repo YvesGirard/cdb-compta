@@ -22,10 +22,7 @@ export class ProfileEffects {
       return this.userService
         .updateUserProfile(user)
         .pipe(
-          map((user) => {
-            console.log('Yves UpdateUserProfileSuccess')
-            new UpdateUserProfileSuccess(user)
-          }),
+          map((user) => new UpdateUserProfileSuccess(user)),
           catchError((error) => {
             console.log('Yves UpdateUserProfileFail')
             return of(new UpdateUserProfileFail(error))

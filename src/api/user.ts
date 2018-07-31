@@ -397,7 +397,7 @@ export function users(app: express.Express, authCheck: any) {
                         console.log("update user 1");
                         console.log(req.params.id);
                         console.log(body);
-                        callback(null, { info: 'user updated successfully', data: { response } });
+                        callback(null, body);
                     }
                 });
             });
@@ -408,7 +408,7 @@ export function users(app: express.Express, authCheck: any) {
                 console.log(err)
                 console.log("series end")
                 //  All tasks are done now
-                res.json({ info: 'user updated successfully', data: { data } });
+                res.json(data);
             });
 
         }

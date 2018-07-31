@@ -1,0 +1,50 @@
+<div class="user-profile-form">
+	<form [formGroup]="form">
+		<div formGroupName="user_metadata">
+			<div class="cdb-list-separator">
+				<mat-form-field class="cdb-input-full-width" dividerColor="primary">
+					<mat-select placeholder="Civilité" formControlName="title" name="title">
+						<mat-option *ngFor="let title of titles" [value]="title.id">
+							{{ title.title }}
+						</mat-option>
+					</mat-select>
+				</mat-form-field>
+				<mat-form-field class="cdb-input-full-width" dividerColor="primary">
+					<input matInput formControlName="given_name" placeholder="Prénom" name="given-name">
+				</mat-form-field>
+				<mat-form-field class="cdb-input-full-width" dividerColor="primary">
+					<input matInput formControlName="family_name" placeholder="Nom" name="family-name">
+				</mat-form-field>
+			</div>
+		</div>
+		<div formGroupName="app_metadata">
+			<div class="cdb-list-separator col">
+				<mat-form-field class="cdb-input-full-width" dividerColor="primary">
+					<input matInput #postalCode formControlName="email" placeholder="Email" name="email">
+					<mat-hint align="end">
+						<mat-icon *ngIf="userProfile.email_verified">done</mat-icon>
+						{{userProfile.email_verified ? '(vérifiée)' : '(non vérifiée)'}}
+					</mat-hint>
+				</mat-form-field>
+			</div>
+			<div class="cdb-list-separator col">
+				<mat-form-field class="cdb-input-full-width" dividerColor="primary">
+					<input matInput formControlName="licence" placeholder="Licence FFD" name="licence">
+					<mat-hint align="end">
+						coucou
+					</mat-hint>
+				</mat-form-field>
+			</div>
+		</div>
+
+		<ng-content></ng-content>
+
+		<div class="user-form__actions">
+			<div class="cdb-list-separator">
+				<button mat-raised-button (click)="updateUser(form)" color="primary">
+					Enregistrer
+				</button>
+			</div>
+		</div>
+	</form>
+</div>
