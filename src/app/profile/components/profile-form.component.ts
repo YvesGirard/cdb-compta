@@ -23,6 +23,7 @@ import {
     selector: 'user-profile-form',
     changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: 'profile-form.component.html',
+    styleUrls: ['profile-form.component.css']
   })
   export class ProfileFormComponent implements OnChanges {
     exists = false;
@@ -41,11 +42,12 @@ import {
         title: [''],
         birthday: [''],
         email: [''],
-        verification_email_sent: [''],
       }),  
       app_metadata: this.fb.group({
         licence: [''],
-        roles: ['']
+        roles: [''],
+        licence_verified: [''],
+        user_email_verified: [''],
       }),    
     });
   

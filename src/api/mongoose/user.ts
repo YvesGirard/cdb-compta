@@ -22,11 +22,13 @@ var userSchema = new mongoose.Schema({
     family_name: String,
     name: String,
     title: String,
+    birthday: Date,
     email: String,
-    birthday: String
   }, app_metadata: { 
     licence: String,
-    roles: [String] },
+    roles: [String] ,
+    licence_verified: Boolean,
+    user_email_verified: Boolean,}
 }, { _id: false });
 
 var User = mongoose.model<IUserModel>("User", userSchema);

@@ -15,8 +15,7 @@ export interface IUserMetaData {
   gender: string;
   family_name: string;
   name: string;
-  title: boolean;
-  email: string;
+  title: string;
   birthday: Date;
 }
 
@@ -34,13 +33,16 @@ export class UserMetaData implements IUserMetaData {
   gender: string;
   family_name: string;
   name: string;
-  title: boolean;
-  email: string;
+  title: string;
   birthday: Date;
+  email: string;
 }
 
 export class AppMetaData implements IAppMetaData {
   roles: Array<string>;
+  user_email_verified: boolean;
+  licence: string;
+  licence_verified: boolean;
 }
 
 export class Identities implements Iidentities {

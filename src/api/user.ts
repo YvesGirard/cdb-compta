@@ -354,7 +354,7 @@ export function users(app: express.Express, authCheck: any) {
             console.log(user);
             console.log(updatedUser);
 
-            const upd_user = _.pick(user, [ "app_metadata" ]);
+            const upd_user = _.pick(user, [ "app_metadata",  "user_metadata"]);
             
             if (!_.has(upd_user.app_metadata, "licence_verified")) {
                 _.set(upd_user.app_metadata, "licence_verified", false);
