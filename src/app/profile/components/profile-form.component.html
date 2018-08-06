@@ -31,9 +31,10 @@
 			<div class="cdb-list-separator col">
 				<mat-form-field class="cdb-input-full-width" dividerColor="primary">
 					<input matInput formControlName="licence" placeholder="Licence FFD" name="licence">
-					<mat-hint align="end">
-						coucou
-					</mat-hint>
+							<mat-hint align="end">
+								<mat-icon *ngIf="(this.user$ | async)?.app_metadata.licence_verified">done</mat-icon>
+								{{ (this.user$ | async)?.app_metadata.licence_verified ? '(vérifiée)' : '(non vérifiée)'}}
+							</mat-hint>
 				</mat-form-field>
 			</div>
 		</div>
