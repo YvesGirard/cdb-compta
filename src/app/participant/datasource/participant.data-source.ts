@@ -3,7 +3,7 @@ import { CollectionViewer, DataSource } from "@angular/cdk/collections";
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Participant } from '../../model/participant';
 
-import { catchError, finalize } from 'rxjs/operators';
+import { catchError, finalize, tap } from 'rxjs/operators';
 
 import * as ParticipantsActions from '../actions/participant.actions';
 import * as CollectionActions from '../actions/collection.actions';
@@ -14,7 +14,10 @@ export class ParticipantDataSource implements DataSource<Participant> {
     private participantsSubject$: Observable<Participant[]>;
 
     constructor(private store: Store<fromParticipants.State>) {
-        this.participantsSubject$ = store.pipe(select(fromParticipants.getParticipantCollection));
+        this.participantsSubject$ = this.store.pipe(select(fromParticipants.getParticipantCollection),
+           // tap((prt) => console.log(prt)),
+        );
+
     }
 
     connect(collectionViewer: CollectionViewer): Observable<Participant[]> {
@@ -25,14 +28,16 @@ export class ParticipantDataSource implements DataSource<Participant> {
         //this.membersSubject$.complete();
     }
 
-    loadParticipants(filter = '',
-        sortDirection = 'asc', pageIndex = 0, pageSize = 10) {
+    loadParticipants(filter = '', sortOrder = 'asc', sortField = 'name',
+    pageNumber = 0, pageSize = 10, searchField = 'name') {
 
         this.store.dispatch(new CollectionActions.Load({
             filter: filter,
-            sortDirection: sortDirection,
-            pageIndex: pageIndex,
+            sortOrder: sortOrder,
+            sortField: sortField,
+            pageNumber: pageNumber,
             pageSize: pageSize,
+            searchField: searchField,
         }));
     }
 

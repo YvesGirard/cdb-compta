@@ -1,4 +1,6 @@
 import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { asyncScheduler, empty, Observable, of } from 'rxjs';
@@ -48,49 +50,63 @@ export class ParticipantEffects {
         })
     );
 
-/*
+
     @Effect()
     createParticipant$ = this.actions$.ofType(ParticipantActionTypes.AddParticipant).pipe(
         map((action: AddParticipant) => action.payload),
-        switchMap(aparticipant => {
-
+        switchMap(participant => {
             return this.participantService
-                .createParticipant(aparticipant)
+                .createParticipant(participant)
                 .pipe(
-                    map(aparticipant => new AddParticipantSuccess(aparticipant)),
+                    map(participant => new AddParticipantSuccess(participant)),
                     catchError(error => of(new AddParticipantFail(error)))
                 );
         })
     );
 
+
     @Effect()
     updateParticipant$ = this.actions$.ofType(ParticipantActionTypes.UpdateParticipant).pipe(
         map((action: UpdateParticipant) => action.payload),
-        switchMap(aparticipant => {
-            return this.aparticipantService
-                .updateParticipant(aparticipant)
+        switchMap(participant => {
+            return this.participantService
+                .updateParticipant(participant)
                 .pipe(
-                    map(aparticipant => new UpdateParticipantSuccess(aparticipant)),
+                    map(participant => new UpdateParticipantSuccess(participant)),
                     catchError(error => of(new UpdateParticipantFail(error)))
                 );
         })
     );
 
     @Effect()
-    removeParticipant$ = this.actions$.ofType(ParticipantActionTypes.RemoveParticipant).pipe(
-        map((action: RemoveParticipant) => action.payload),
-        switchMap(aparticipant => {
-            return this.aparticipantService
-                .removeParticipant(aparticipant)
+    removeParticipant$ = this.actions$.ofType(ParticipantActionTypes.DeleteParticipant).pipe(
+        map((action: DeleteParticipant) => action.payload),
+        switchMap(participant => {
+            return this.participantService
+                .removeParticipant(participant)
                 .pipe(
-                    map(() => new RemoveParticipantSuccess(aparticipant)),
-                    catchError(error => of(new RemoveParticipantFail(error)))
+                    map(() => new DeleteParticipantSuccess(participant)),
+                    catchError(error => of(new DeleteParticipantFail(error)))
                 );
         })
     );
-*/
+
+    @Effect({ dispatch: false })
+    handleParticipantSuccess$ = this.actions$
+    .ofType(
+        ParticipantActionTypes.DeleteParticipantSuccess,
+        ParticipantActionTypes.UpdateParticipantSuccess,
+    )
+    .pipe(
+      map((participant) => {
+        let link = ['/participant'];
+        this.router.navigate(link);
+      })
+    );
+
     constructor(
         private actions$: Actions,
-        private participantService: ParticipantService
+        private participantService: ParticipantService,
+        private router: Router
     ) { }
 }

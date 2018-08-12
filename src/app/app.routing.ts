@@ -55,6 +55,10 @@ const appRoutes: Routes = [
     loadChildren: './profile/profile.module#ProfileModule',
   },
   {
+    path: 'participant',
+    loadChildren: './participant/participant.module#ParticipantModule',
+  },
+  {
     path: 'comptabilite',
     loadChildren: './comptabilite/core/core.module#CoreModule',
   },

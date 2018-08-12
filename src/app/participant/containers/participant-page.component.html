@@ -1,0 +1,39 @@
+<div class="">
+    <mat-grid-list cols="2" rowHeight="100px">
+
+        <mat-grid-tile class="flex-left" colspan="2">
+            <div class="header">
+                <h1>Participants</h1>
+            </div>
+        </mat-grid-tile>
+
+        <mat-grid-tile class="flex-left">
+
+            <span class="search-area">
+                <i class="icon-budicon-489"></i>
+                <input  class="js-user-input user-input" type="text" placeholder="Recherche" spellcheck="false" #search>
+            </span>
+
+            <span class="controls pull-right">
+
+                <button type="reset">
+                    Reset
+                    <i class="icon-budicon-471"></i>
+                </button>
+            </span>
+
+        </mat-grid-tile>
+
+        <mat-grid-tile class="flex-right">
+            <button mat-raised-button color="warn" (click)="create()">
+                <mat-icon>add</mat-icon>Créer participant
+            </button>
+        </mat-grid-tile>
+
+    </mat-grid-list>
+    <p-participant-list [datasource]="dataSource$" [displayedColumns]="displayedColumns">
+        <mat-paginator (page)="onPage($event)" [length]="total$ | async"  [(pageIndex)]="pageIndex" [(pageSize)]="pageSize" [pageSizeOptions]="[10, 50, 100]"></mat-paginator>
+    </p-participant-list>
+
+
+</div>

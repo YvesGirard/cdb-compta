@@ -18,19 +18,19 @@ export enum ParticipantActionTypes {
 }
 
 export class AddParticipant implements Action {
-    readonly type = ParticipantActionTypes.UpdateParticipant;
+    readonly type = ParticipantActionTypes.AddParticipant;
 
     constructor(public payload: Participant) { }
 }
 
 export class AddParticipantSuccess implements Action {
-    readonly type = ParticipantActionTypes.UpdateParticipantSuccess;
+    readonly type = ParticipantActionTypes.AddParticipantSuccess;
 
     constructor(public payload: Participant) { }
 }
 
 export class AddParticipantFail implements Action {
-    readonly type = ParticipantActionTypes.UpdateParticipantFail;
+    readonly type = ParticipantActionTypes.AddParticipantFail;
 
     constructor(public payload: any) { }
 }
@@ -54,19 +54,19 @@ export class UpdateParticipantFail implements Action {
 }
 
 export class DeleteParticipant implements Action {
-    readonly type = ParticipantActionTypes.UpdateParticipant;
+    readonly type = ParticipantActionTypes.DeleteParticipant;
 
     constructor(public payload: Participant) { }
 }
 
 export class DeleteParticipantSuccess implements Action {
-    readonly type = ParticipantActionTypes.UpdateParticipantSuccess;
+    readonly type = ParticipantActionTypes.DeleteParticipantSuccess;
 
     constructor(public payload: Participant) { }
 }
 
 export class DeleteParticipantFail implements Action {
-    readonly type = ParticipantActionTypes.UpdateParticipantFail;
+    readonly type = ParticipantActionTypes.DeleteParticipantFail;
 
     constructor(public payload: any) { }
 }

@@ -1,0 +1,60 @@
+<form role="form" [formGroup]="form">
+    <fieldset>
+        <div class="cdb-list-separator">
+            <mat-form-field class="cdb-input-full-width" dividerColor="primary">
+                <input matInput formControlName="serie" placeholder="Série" name="serie">
+                <mat-error *ngIf="serieControlInvalid">
+                    Série
+                    <strong>obligatoire</strong>
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="cdb-list-separator">
+            <mat-form-field class="cdb-input-full-width" dividerColor="primary">
+                <input matInput formControlName="licence" placeholder="Licence" name="licence">
+                <mat-error *ngIf="licenceControlInvalid">
+                    Licence
+                    <strong>obligatoire</strong>
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="cdb-list-separator">
+            <mat-form-field class="cdb-input-full-width" dividerColor="primary">
+                <input matInput formControlName="gender" placeholder="Civilité" name="gender">
+                <mat-error *ngIf="genderControlInvalid">
+                    Civilité
+                    <strong>obligatoire</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="cdb-input-full-width" dividerColor="primary">
+                <input matInput formControlName="given_name" placeholder="Prénom" name="given_name">
+                <mat-error *ngIf="given_nameControlInvalid">
+                    Prénom
+                    <strong>obligatoire</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="cdb-input-full-width" dividerColor="primary">
+                <input matInput formControlName="family_name" placeholder="Nom" name="family_name">
+                <mat-error *ngIf="family_nameControlInvalid">
+                    Nom
+                    <strong>obligatoire</strong>
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="cdb-list-separator">
+            <mat-form-field class="cdb-input-full-width" dividerColor="primary">
+                <input matInput [matDatepicker]="picker" placeholder="Date de naissance" formControlName="birthday">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="birthdayControlInvalid">
+                    Date de naissance
+                    <strong>obligatoire</strong>
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+    </fieldset>
+</form>

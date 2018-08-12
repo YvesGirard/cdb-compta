@@ -131,6 +131,8 @@ accounts.accounts(app, checkJwt, checkScopes);
 import * as exercices from "./api/exercice";
 exercices.exercices(app, checkJwt, checkScopes);
 
+import * as participants from "./api/participant";
+participants.participants(app, checkJwt, checkScopes);
 
 
 console.log(__dirname)

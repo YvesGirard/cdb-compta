@@ -6,7 +6,9 @@ export class Participant {
     licence: string;
     given_name: string;
     family_name: string;
+    name: string;    
     gender: string;
+    birthday: Date;
     licence_validity: [{
         type: string;
         saison:string;

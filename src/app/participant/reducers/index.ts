@@ -84,6 +84,10 @@ import {
     fromCollection.getLoading
   );
 
+  export const getCollectionTotal = createSelector(
+    getCollectionState,
+    fromCollection.getTotal
+  );
 /*
   export const getSearchResults = createSelector(
     getBookEntities,
