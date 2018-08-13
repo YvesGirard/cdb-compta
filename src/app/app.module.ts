@@ -59,6 +59,7 @@ import { CoreModule } from './comptabilite/core/core.module';
 import { reducers, metaReducers } from './reducers';
 import { environment } from '../environments/environment';
 import { AuthModule } from './auth/auth.module';
+import { UiParticipantModule } from './ui/participant/ui.participant.module';
 
 import * as fromMail from './mailing/reducers';
   
@@ -91,6 +92,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     EffectsModule.forFeature([
       MailEffects,
   ]),
+  // Shared presentational components
+  UiParticipantModule,
   //CoreModule.forRoot(),
   ],
   exports: [

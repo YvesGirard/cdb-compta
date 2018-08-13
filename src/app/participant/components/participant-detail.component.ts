@@ -13,28 +13,7 @@ import {
 
 @Component({
     selector: 'p-participant-detail',
-    template: `
-    <mat-card *ngIf="participant">
-      <mat-card-title-group>
-        <mat-card-title>{{ name }}</mat-card-title>
-        <mat-card-subtitle *ngIf="licence">{{ licence }}</mat-card-subtitle>
-      </mat-card-title-group>
-      <mat-card-content>
-      <p-participant-form [form]="form" [participant]="participant"></p-participant-form>
-      </mat-card-content>
-      <mat-card-footer class="footer">
-        <!--<bc-participant-authors [participant]="participant"></bc-participant-authors>-->
-      </mat-card-footer>
-      <mat-card-actions align="start">
-        <button mat-raised-button color="warn" (click)="_remove(participant)">
-        Supprimer
-        </button>
-        <button mat-raised-button color="primary" (click)="_update()">
-        Mise à jour
-        </button>
-      </mat-card-actions>
-    </mat-card>
-  `,
+    templateUrl: 'participant-detail.component.html',
     styles: [
         `
       :host {

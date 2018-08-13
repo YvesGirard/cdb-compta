@@ -41,27 +41,37 @@ export class ParticipantAddDialog implements OnChanges {
       family_name: [''],
       gender: [''],
       licence_validity: this.fb.array(
-      [this.fb.group({
-        type: [''],
-        saison: [''],
-      })]
-    )
-  });
+        [this.fb.group({
+          type: [''],
+          saison: [''],
+        })]
+      )
+    });
 
-}
-
-buildLicence(): FormGroup {
-  return this.fb.group({
-    type: [''],
-    saison: [''],
-  });
-}
-
-save(): void {
-  const { value, valid } = this.form;
-  if(valid) {
-    this.dialogRef.close(value);
   }
-}
+
+  // Model
+
+  get licence() {
+    return this.form.value.licence;
+  }
+
+  get name() {
+    return this.form.value.licence.name;
+  }
+
+  buildLicence(): FormGroup {
+    return this.fb.group({
+      type: [''],
+      saison: [''],
+    });
+  }
+
+  save(): void {
+    const { value, valid } = this.form;
+    if (valid) {
+      this.dialogRef.close(value);
+    }
+  }
 
 }

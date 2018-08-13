@@ -15,7 +15,7 @@ import { ParticipantAddDialog } from './components/participant-add-dialog.compon
 
 import { SelectedParticipantPageComponent } from './containers/selected-participant-page.component';
 import { ParticipantDetailComponent } from './components/participant-detail.component';
-import { ParticipantFormComponent } from './components/participant-form.component';
+//import { ParticipantFormComponent } from '../ui/participant/components/participant-form.component';
 
 
 
@@ -38,7 +38,7 @@ export const COMPONENTS = [
     ViewParticipantPageComponent,
     SelectedParticipantPageComponent,
     ParticipantDetailComponent,
-    ParticipantFormComponent,
+   // ParticipantFormComponent,
   ];
 
 @NgModule({

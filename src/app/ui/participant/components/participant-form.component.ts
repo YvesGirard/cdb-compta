@@ -2,7 +2,7 @@ import {
     Component, Input, Output, EventEmitter, OnChanges,
     SimpleChanges,
 } from '@angular/core';
-import { Participant } from '../../model/participant';
+import { Participant } from '../../../model/participant';
 import {
     FormControl,
     FormGroup,

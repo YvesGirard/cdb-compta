@@ -1,6 +1,6 @@
 <mat-card *ngIf="participant">
 	<mat-card-title-group>
-	  <mat-card-title>Création de {{ name }}</mat-card-title>
+	  <mat-card-title>{{ name }}</mat-card-title>
 	  <mat-card-subtitle *ngIf="licence">{{ licence }}</mat-card-subtitle>
 	</mat-card-title-group>
 	<mat-card-content>
@@ -10,10 +10,11 @@
 	  <!--<bc-participant-authors [participant]="participant"></bc-participant-authors>-->
 	</mat-card-footer>
 	<mat-card-actions align="start">
-		<div mat-dialog-actions>
-			<button mat-button (click)="onNoClick()">Fermer</button>
-			<button mat-button (click)="save()" cdkFocusInitial>Enregistrer</button>
-		</div>
+	  <button mat-raised-button color="warn" (click)="_remove(participant)">
+	  Supprimer
+	  </button>
+	  <button mat-raised-button color="primary" (click)="_update()">
+	  Mise à jour
+	  </button>
 	</mat-card-actions>
   </mat-card>
-
