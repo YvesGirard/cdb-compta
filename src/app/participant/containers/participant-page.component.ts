@@ -4,12 +4,18 @@ import { Observable, fromEvent } from 'rxjs';
 
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
-import { MatDialog, PageEvent } from '@angular/material';
+import { MatDialog, PageEvent, MatDialogConfig } from '@angular/material';
 import { ParticipantAddDialog } from '../components/participant-add-dialog.component';
 import { ParticipantDataSource } from '../datasource/participant.data-source';
 
 import * as ParticipantsActions from '../actions/participant.actions';
 import * as fromParticipants from '../reducers';
+import { Participant } from '../../model/participant';
+
+
+
+const defaultDialogConfig = new MatDialogConfig();
+
 
 @Component({
   selector: 'p-participant-page',
@@ -26,6 +32,19 @@ export class ParticipantPageComponent implements OnInit, AfterViewInit {
   total$: Observable<number>;
   pageIndex: number;
   pageSize: number;
+
+  config = {
+    disableClose: false,
+   // panelClass: 'custom-overlay-pane-class',
+   // hasBackdrop: true,
+   // backdropClass: '',
+    width: '',
+    height: '',
+    minWidth: '',
+    minHeight: '',
+    maxWidth: defaultDialogConfig.maxWidth,
+    maxHeight: '',
+  };
 
   displayedColumns = ['_id',
     'given_name',
@@ -79,13 +98,12 @@ export class ParticipantPageComponent implements OnInit, AfterViewInit {
   }
 
   create() {
-    let dialogRef = this.dialog.open(ParticipantAddDialog, {
-      width: '300px',
-      data: {}
-    });
+    let dialogRef = this.dialog.open(ParticipantAddDialog, this.config);
 
     dialogRef.afterClosed().subscribe(result => {
-      this.store.dispatch(new ParticipantsActions.AddParticipant(result));
+      console.log(result)
+      if (result instanceof Participant)
+        this.store.dispatch(new ParticipantsActions.AddParticipant(result));
     });
   }
 

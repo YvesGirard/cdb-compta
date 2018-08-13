@@ -16,6 +16,7 @@ import { ParticipantAddDialog } from './components/participant-add-dialog.compon
 import { SelectedParticipantPageComponent } from './containers/selected-participant-page.component';
 import { ParticipantDetailComponent } from './components/participant-detail.component';
 //import { ParticipantFormComponent } from '../ui/participant/components/participant-form.component';
+import { UiParticipantModule } from '../ui/participant/ui.participant.module';
 
 
 
@@ -46,6 +47,7 @@ export const COMPONENTS = [
         CommonModule,
         ReactiveFormsModule,
         MaterialModule,
+        UiParticipantModule,
         RouterModule.forChild([
             {
               path: ':id',

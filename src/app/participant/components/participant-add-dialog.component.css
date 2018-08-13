@@ -2,11 +2,11 @@
      overflow: initial;
 }
 
-  :host {
+  /*:host {
     display: flex;
     justify-content: center;
     margin: 75px 0;
-  }
+  }*/
   mat-card {
     max-width: 600px;
   }

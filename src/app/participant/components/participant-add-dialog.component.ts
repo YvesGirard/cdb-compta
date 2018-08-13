@@ -7,6 +7,9 @@ import {
   FormBuilder,
   Validators,
 } from '@angular/forms';
+import { Participant } from '../../model/participant';
+
+
 
 @Component({
   selector: 'participant-add-dialog.component',
@@ -16,6 +19,8 @@ import {
 })
 export class ParticipantAddDialog implements OnChanges {
   form: FormGroup;
+
+ 
 
   constructor(
     public dialogRef: MatDialogRef<ParticipantAddDialog>,
@@ -35,11 +40,12 @@ export class ParticipantAddDialog implements OnChanges {
 
   createForm(): void {
     this.form = this.fb.group({
-      serie: [''],
-      licence: [''],
-      given_name: [''],
-      family_name: [''],
-      gender: [''],
+      serie: ['', Validators.required],
+      licence: ['', Validators.required],
+      given_name: ['', Validators.required],
+      family_name: ['', Validators.required],
+      birthday: ['', Validators.required],
+      gender: ['', Validators.required],
       licence_validity: this.fb.array(
         [this.fb.group({
           type: [''],
@@ -57,20 +63,20 @@ export class ParticipantAddDialog implements OnChanges {
   }
 
   get name() {
-    return this.form.value.licence.name;
-  }
-
-  buildLicence(): FormGroup {
-    return this.fb.group({
-      type: [''],
-      saison: [''],
-    });
+    return this.form.value.given_name + " " + this.form.value.family_name;
   }
 
   save(): void {
+    Object.keys(this.form.controls).forEach(field => {
+      const control = this.form.get(field);
+      control.markAsTouched({ onlySelf: true });
+    });
+
     const { value, valid } = this.form;
     if (valid) {
-      this.dialogRef.close(value);
+      let result = new Participant();
+      result = {...result, ...value} as Participant;
+      this.dialogRef.close(result);
     }
   }
 

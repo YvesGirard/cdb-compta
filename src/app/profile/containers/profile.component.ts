@@ -31,8 +31,6 @@ export class ProfilePageComponent implements OnInit {
     }
 
     onUpdate(event: User) {
-        console.log("tetete")
-        console.log(event)
         this.store.dispatch(new ProfileActions.UpdateUserProfile(event));
     }
 }
