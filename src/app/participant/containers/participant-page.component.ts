@@ -101,8 +101,7 @@ export class ParticipantPageComponent implements OnInit, AfterViewInit {
     let dialogRef = this.dialog.open(ParticipantAddDialog, this.config);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
-      if (result instanceof Participant)
+      if (result && result.licence !== undefined)
         this.store.dispatch(new ParticipantsActions.AddParticipant(result));
     });
   }

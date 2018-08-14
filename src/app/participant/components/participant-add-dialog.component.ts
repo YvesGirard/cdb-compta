@@ -74,9 +74,7 @@ export class ParticipantAddDialog implements OnChanges {
 
     const { value, valid } = this.form;
     if (valid) {
-      let result = new Participant();
-      result = {...result, ...value} as Participant;
-      this.dialogRef.close(result);
+      this.dialogRef.close(value);
     }
   }
 

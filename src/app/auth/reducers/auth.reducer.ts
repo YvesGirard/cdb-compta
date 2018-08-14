@@ -31,8 +31,6 @@ export function reducer(state = initialState, action: AuthActionsUnion | UserAct
     }
 
     case UserActionTypes.UpdateUserProfileSuccess: {
-      console.log("AuthActionsUnion : ")
-      console.log(action.payload)
       return {
         ...state,
         user: action.payload,
