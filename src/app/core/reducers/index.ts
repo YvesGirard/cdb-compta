@@ -5,10 +5,10 @@ import {
   ActionReducer,
   MetaReducer,
 } from '@ngrx/store';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { localStorageSync } from 'ngrx-store-localstorage';
 
-import * as fromRouter from '@ngrx/router-store';
+//import * as fromRouter from '@ngrx/router-store';
 
 /**
  * storeFreeze prevents state from being mutated. When mutation occurs, an

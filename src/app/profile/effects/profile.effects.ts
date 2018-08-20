@@ -24,7 +24,6 @@ export class ProfileEffects {
         .pipe(
           map((user) => new UpdateUserProfileSuccess(user)),
           catchError((error) => {
-            console.log('Yves UpdateUserProfileFail')
             return of(new UpdateUserProfileFail(error))
           })
         );

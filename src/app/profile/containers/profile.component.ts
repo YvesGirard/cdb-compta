@@ -4,14 +4,14 @@ import { Observable } from 'rxjs';
 import { User } from '../../model/user';
 
 import * as fromAuth from '../../auth/reducers';
-import * as fromRoot from '../../reducers';
+import * as fromRoot from '../../core/reducers';
 import * as ProfileActions from '../actions/profile.actions';
 
 @Component({
     selector: 'user-profile',
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-    <user-profile-form (update)="onUpdate($event)" [user]="user$ | async"></user-profile-form>
+    <user-profile-form (update)="onUserUpdate($event)" [user]="user$ | async"></user-profile-form>
   `,
     styles: [
         `
@@ -30,7 +30,7 @@ export class ProfilePageComponent implements OnInit {
        
     }
 
-    onUpdate(event: User) {
+    onUserUpdate(event: User) {
         this.store.dispatch(new ProfileActions.UpdateUserProfile(event));
     }
 }

@@ -8,7 +8,7 @@ import { MatDialog, PageEvent, MatDialogConfig } from '@angular/material';
 import { ParticipantAddDialog } from '../components/participant-add-dialog.component';
 import { ParticipantDataSource } from '../datasource/participant.data-source';
 
-import * as ParticipantsActions from '../actions/participant.actions';
+import * as ParticipantsActions from '../../core/participant/actions/participant.actions';
 import * as fromParticipants from '../reducers';
 import { Participant } from '../../model/participant';
 

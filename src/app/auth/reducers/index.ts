@@ -3,7 +3,7 @@ import {
     createFeatureSelector,
     ActionReducerMap,
   } from '@ngrx/store';
-  import * as fromRoot from '../../reducers';
+  import * as fromRoot from '../../core/reducers';
   import * as fromAuth from './auth.reducer';
   import * as fromLogin from './login.reducer';
   

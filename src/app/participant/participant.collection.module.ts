@@ -5,7 +5,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { reducers } from './reducers';
-import { ParticipantEffects } from './effects/participant.effects';
+//import { ParticipantEffects } from './effects/participant.effects';
 import { CollectionEffects } from './effects/collection.effects';
 
 import { ParticipantPageComponent } from './containers/participant-page.component';
@@ -26,7 +26,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../material.module';
 
 // services
-import * as fromServices from './services';
+//import * as fromServices from './services';
 
 export const ENTRY_COMPONENTS = [
     ParticipantAddDialog,
@@ -56,23 +56,23 @@ export const COMPONENTS = [
             },
             { path: '', component: ParticipantPageComponent, },
         ]),
-        StoreModule.forFeature('participants', reducers),
+        StoreModule.forFeature('participantscollection', reducers),
         EffectsModule.forFeature([
-            ParticipantEffects,
+            //ParticipantEffects,
             CollectionEffects,
         ]),
     ],
     entryComponents: ENTRY_COMPONENTS,
     declarations: COMPONENTS,
     exports: COMPONENTS,
-    providers: [...fromServices.services,
+    providers: [//...fromServices.services,
         ParticipantExistsGuard,
     ],
 })
-export class ParticipantModule {
+export class ParticipantCollectionModule {
     static forRoot() {
         return {
-            ngModule: ParticipantModule,
+            ngModule: ParticipantCollectionModule,
         };
     }
 }

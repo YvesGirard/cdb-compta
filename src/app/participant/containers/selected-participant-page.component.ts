@@ -2,9 +2,9 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import * as fromParticipants from '../reducers';
+import * as fromParticipants from '../../core/participant/reducers';
 import * as CollectionActions from '../actions/collection.actions';
-import * as ParticipantsActions from '../actions/participant.actions';
+import * as ParticipantsActions from '../../core/participant/actions/participant.actions';
 
 import { Participant } from '../../model/participant';
 

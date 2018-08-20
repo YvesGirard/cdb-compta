@@ -5,7 +5,7 @@ import { Participant } from '../../model/participant';
 
 import { catchError, finalize, tap } from 'rxjs/operators';
 
-import * as ParticipantsActions from '../actions/participant.actions';
+import * as ParticipantsActions from '../../core/participant/actions/participant.actions';
 import * as CollectionActions from '../actions/collection.actions';
 import * as fromParticipants from '../reducers';
 

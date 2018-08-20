@@ -1,10 +1,10 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { Participant } from '../../model/participant';
+import { Participant } from '../../../model/participant';
 import { ParticipantActionsUnion, ParticipantActionTypes } from '../actions/participant.actions';
 import {
   CollectionActionsUnion,
   CollectionActionTypes,
-} from '../actions/collection.actions';
+} from '../../../participant/actions/collection.actions';
 
 /**
  * @ngrx/entity provides a predefined interface for handling
@@ -61,7 +61,6 @@ export function reducer(
 
     case ParticipantActionTypes.LoadParticipantSuccess:
     case ParticipantActionTypes.AddParticipantSuccess: {
-      console.log(action.payload)
       return adapter.addOne(action.payload, {
         ...state,
         selectedParticipantId: state.selectedParticipantId,

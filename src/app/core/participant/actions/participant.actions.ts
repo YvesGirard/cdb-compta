@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Participant } from '../../model/participant';
+import { Participant } from '../../../model/participant';
 
 export enum ParticipantActionTypes {
     AddParticipant = '[Participant] Add',

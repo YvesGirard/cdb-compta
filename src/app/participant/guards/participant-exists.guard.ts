@@ -4,8 +4,9 @@ import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
 
-import * as ParticipantActions from '../actions/participant.actions';
-import * as fromParticipants from '../reducers';
+import * as ParticipantActions from '../../core/participant/actions/participant.actions';
+import * as fromParticipantsCollection from '../reducers';
+import * as fromParticipants from '../../core/participant/reducers';
 
 /**
  * Guards are hooks into the route resolution process, providing an opportunity
@@ -15,7 +16,7 @@ import * as fromParticipants from '../reducers';
 @Injectable()
 export class ParticipantExistsGuard implements CanActivate {
     constructor(
-        private store: Store<fromParticipants.State>,
+        private store: Store<fromParticipantsCollection.State>,
         private router: Router
     ) { }
 
@@ -37,7 +38,7 @@ export class ParticipantExistsGuard implements CanActivate {
      */
     hasParticipantInApi(id: string): Observable<boolean> {
         return this.store.pipe(
-            select(fromParticipants.getCollectionLoaded),
+            select(fromParticipantsCollection.getCollectionLoaded),
             filter(loaded => loaded),
             take(1),
             switchMap((val) => {

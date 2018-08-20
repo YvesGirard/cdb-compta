@@ -56,9 +56,11 @@ import { MailEffects } from './mailing/effects/mail.effects';
 import { MailExistsGuard } from './mailing/guards/mail-exists.guard';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { CoreModule } from './comptabilite/core/core.module';
-import { reducers, metaReducers } from './reducers';
+import { reducers, metaReducers } from './core/reducers';
 import { environment } from '../environments/environment';
 import { AuthModule } from './auth/auth.module';
+import { ParticipantModule } from './core/participant/participant.module';
+
 import { UiParticipantModule } from './ui/participant/ui.participant.module';
 
 import * as fromMail from './mailing/reducers';
@@ -79,6 +81,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     MaterialModule,
     HttpClientModule,
     AuthModule.forRoot(),
+    ParticipantModule.forRoot(),
    // MaterialModule.forRoot(),
   //  CdbSelectModule.forRoot(),
     //, InMemoryWebApiModule.forRoot(InMemoryDataService)

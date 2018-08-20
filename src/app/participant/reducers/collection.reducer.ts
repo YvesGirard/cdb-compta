@@ -2,7 +2,7 @@ import {
   CollectionActionTypes,
   CollectionActionsUnion,
 } from '../actions/collection.actions';
-import { ParticipantActionsUnion, ParticipantActionTypes } from '../actions/participant.actions';
+import { ParticipantActionsUnion, ParticipantActionTypes } from '../../core/participant/actions/participant.actions';
 
 export interface State {
   loaded: boolean;

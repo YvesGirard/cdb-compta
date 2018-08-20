@@ -13,7 +13,7 @@ import {
     takeUntil,
 } from 'rxjs/operators';
 
-import { ParticipantService } from '../services/participant.service';
+import { ParticipantService } from '../../../participant/services/participant.service';
 
 import {
     ParticipantActionTypes,
@@ -31,7 +31,7 @@ import {
     LoadParticipantFail,
 } from '../actions/participant.actions';
 
-import { Participant } from '../../model/participant';
+import { Participant } from '../../../model/participant';
 
 
 @Injectable()

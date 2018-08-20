@@ -56,7 +56,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'participant',
-    loadChildren: './participant/participant.module#ParticipantModule',
+    loadChildren: './participant/participant.collection.module#ParticipantCollectionModule',
   },
   {
     path: 'comptabilite',

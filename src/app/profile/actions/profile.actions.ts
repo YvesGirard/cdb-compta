@@ -4,7 +4,10 @@ import { User } from '../../model/user';
 export enum UserActionTypes {
     UpdateUserProfile = '[User] Update',
     UpdateUserProfileSuccess = '[User] Update Success',
-    UpdateUserProfileFail = '[User] Update Fail',   
+    UpdateUserProfileFail = '[User] Update Fail',  
+    UpdateParticipantProfile = '[User] Update',
+    UpdateParticipantProfileSuccess = '[User] Update Success',
+    UpdateParticipantProfileFail = '[User] Update Fail',  
 }
 
 

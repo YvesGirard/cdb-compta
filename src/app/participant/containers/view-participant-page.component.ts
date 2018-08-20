@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import * as fromParticipants from '../reducers';
-import * as ParticipantActions from '../actions/participant.actions';
+import * as ParticipantActions from '../../core/participant/actions/participant.actions';
 
 
 @Component({
