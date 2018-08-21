@@ -19,6 +19,12 @@ import {
   
   import { User } from '../../model/user';
 
+  const TITLES = [
+    { id: 'MR', title: 'Monsieur' },
+    { id: 'MD', title: 'Madame' },
+    { id: 'MA', title: 'Mademoiselle' },
+  ];
+
   @Component({
     selector: 'user-profile-form',
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,7 +33,8 @@ import {
   })
   export class ProfileFormComponent implements OnChanges {
     exists = false;
-  
+    titles = TITLES;
+
     @Input() user: User;
   
     @Output() update = new EventEmitter<User>();

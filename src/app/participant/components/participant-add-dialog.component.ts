@@ -1,4 +1,4 @@
-import { Component, Inject, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Inject, OnChanges, SimpleChanges, Input, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import {
   FormControl,
@@ -20,6 +20,7 @@ import { Participant } from '../../model/participant';
 export class ParticipantAddDialog implements OnChanges {
   form: FormGroup;
 
+  @Input() participant: Participant;
  
 
   constructor(

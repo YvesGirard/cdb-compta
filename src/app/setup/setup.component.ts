@@ -1,6 +1,6 @@
 import { Component, OnInit,  Directive, AfterContentInit, ViewEncapsulation,  ContentChildren, Renderer, ViewChildren, ContentChild, QueryList, ElementRef,ViewChild, forwardRef} from '@angular/core';
 import { Router }            from '@angular/router';
-import { Observable }        from 'rxjs/Observable';
+import { Observable }        from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { Title } from '../model/title';
 import { User } from '../model/user';
