@@ -1,0 +1,19 @@
+<mat-card *ngIf="mailinglist">
+	<mat-card-title-group>
+	  <mat-card-title>{{ name }}</mat-card-title>
+	</mat-card-title-group>
+	<mat-card-content>
+			<m-mailinglist-form [form]="form" [mailinglist]="mailinglist"></m-mailinglist-form>
+	</mat-card-content>
+	<mat-card-footer class="footer">
+	  <!--<bc-participant-authors [participant]="participant"></bc-participant-authors>-->
+	</mat-card-footer>
+	<mat-card-actions align="start">
+	  <button mat-raised-button color="warn" (click)="_remove(mailinglist)">
+	  Supprimer
+	  </button>
+	  <button mat-raised-button color="primary" (click)="_update()">
+	  Mise à jour
+	  </button>
+	</mat-card-actions>
+  </mat-card>

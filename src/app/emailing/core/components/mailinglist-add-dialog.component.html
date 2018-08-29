@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>
+	<div>Création de la liste {{ name }}</div>
+</h2>
+<mat-dialog-content>
+	<m-mailinglist-form [form]="form" [mailinglist]="mailinglist"></m-mailinglist-form>
+</mat-dialog-content>
+<mat-dialog-actions>
+	<button mat-button (click)="onNoClick()">Fermer</button>
+	<button mat-raised-button color="primary" (click)="save()" cdkFocusInitial>Enregistrer</button>
+</mat-dialog-actions>

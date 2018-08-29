@@ -4,7 +4,7 @@ import {
     ActionReducerMap,
   } from '@ngrx/store';
 
-  import * as fromParticipants from '../../participant/reducers/participant.reducer';
+  import * as fromParticipants from './participant.reducer';
   import * as fromRoot from '../../reducers';
   
   export interface ParticipantsState {

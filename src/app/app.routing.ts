@@ -62,6 +62,10 @@ const appRoutes: Routes = [
     path: 'comptabilite',
     loadChildren: './comptabilite/core/core.module#CoreModule',
   },
+  {
+    path: 'mailing',
+    loadChildren: './emailing/core/core.module#CoreModule',
+  },
  /* {
     path: 'setup', 
     component: SetupComponent

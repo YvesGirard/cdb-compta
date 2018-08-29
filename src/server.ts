@@ -134,6 +134,9 @@ exercices.exercices(app, checkJwt, checkScopes);
 import * as participants from "./api/participant";
 participants.participants(app, checkJwt, checkScopes);
 
+import * as mailinglists from "./api/mailinglist";
+mailinglists.mailinglists(app, checkJwt, checkScopes);
+
 
 console.log(__dirname)
 

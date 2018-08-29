@@ -62,6 +62,7 @@ import { AuthModule } from './auth/auth.module';
 import { ParticipantModule } from './core/participant/participant.module';
 
 import { UiParticipantModule } from './ui/participant/ui.participant.module';
+import { UiMailingModule } from './ui/mailing/ui.mailing.module';
 
 import * as fromMail from './mailing/reducers';
   
@@ -97,6 +98,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   ]),
   // Shared presentational components
   UiParticipantModule,
+  UiMailingModule,
+  
   //CoreModule.forRoot(),
   ],
   exports: [

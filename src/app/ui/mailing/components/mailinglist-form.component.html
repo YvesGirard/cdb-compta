@@ -1,0 +1,40 @@
+<form role="form" [formGroup]="form">
+    <fieldset>
+        <div class="cdb-list-separator">
+            <mat-form-field class="cdb-input-full-width" dividerColor="primary">
+                <input matInput formControlName="address" placeholder="Adresse email" name="address">
+                <mat-error *ngIf="AdresseControlInvalid">
+                    Adresse email obligatoire
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="cdb-list-separator">
+            <mat-form-field class="cdb-input-full-width" dividerColor="primary">
+                <input matInput formControlName="name" placeholder="Nom" name="name">
+                <mat-error *ngIf="nameControlInvalid">
+                    Nom obligatoire
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="cdb-list-separator">
+            <mat-form-field class="cdb-input-full-width" dividerColor="primary">
+                <input matInput formControlName="description" placeholder="Description" name="description">
+                <mat-error *ngIf="descriptionControlInvalid">
+                    Description obligatoire
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="cdb-list-separator">
+            <mat-form-field class="cdb-input-full-width" dividerColor="primary">
+                <input matInput formControlName="access_level" placeholder="Niveau" name="access_level">
+                <mat-error *ngIf="access_levelControlInvalid">
+                    Niveau obligatoire
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+    </fieldset>
+</form>

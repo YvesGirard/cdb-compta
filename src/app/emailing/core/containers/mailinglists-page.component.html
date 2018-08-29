@@ -1,0 +1,38 @@
+<div class="">
+    <mat-grid-list cols="2" rowHeight="100px">
+
+        <mat-grid-tile class="flex-left" colspan="2">
+            <div class="header">
+                <h1>Listes de diffusion</h1>
+            </div>
+        </mat-grid-tile>
+
+        <mat-grid-tile class="flex-left">
+
+            <span class="search-area">
+                <i class="icon-budicon-489"></i>
+                <input  class="js-user-input user-input" type="text" placeholder="Recherche" spellcheck="false" #search>
+            </span>
+
+            <span class="controls pull-right">
+
+                <button type="reset">
+                    Reset
+                    <i class="icon-budicon-471"></i>
+                </button>
+            </span>
+
+        </mat-grid-tile>
+
+        <mat-grid-tile class="flex-right">
+            <button mat-raised-button color="warn" (click)="create()">
+                <mat-icon>add</mat-icon>Créer Liste de diffusion
+            </button>
+        </mat-grid-tile>
+
+    </mat-grid-list>
+    <m-mailing-lists [datasource]="dataSource$" [displayedColumns]="displayedColumns">
+        
+    </m-mailing-lists>
+
+</div>
