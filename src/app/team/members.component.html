@@ -49,6 +49,22 @@
 	  </form>
 
 	<mat-table class="lessons-table mat-elevation-z8" [dataSource]="dataSource">
+
+			<ng-container matColumnDef="select">
+					<mat-header-cell *matHeaderCellDef>
+						<mat-checkbox (change)="$event ? masterToggle() : null"
+													[checked]="selection.hasValue() && isAllSelected()"
+													[indeterminate]="selection.hasValue() && !isAllSelected()">
+						</mat-checkbox>
+					</mat-header-cell>
+					<mat-cell *matCellDef="let row">
+						<mat-checkbox (click)="$event.stopPropagation()"
+													(change)="$event ? selection.toggle(row._id) : null"
+													[checked]="selection.isSelected(row._id)">
+						</mat-checkbox>
+					</mat-cell>
+				</ng-container>
+
 		<ng-container matColumnDef="seqNo">
 			<mat-header-cell *matHeaderCellDef>#</mat-header-cell>
 			<mat-cell *matCellDef="let member">

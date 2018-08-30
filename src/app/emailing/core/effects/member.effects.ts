@@ -14,7 +14,7 @@ import {
     tap,
 } from 'rxjs/operators';
 
-//import { MailingListMemberService } from '../services';
+import { MailingListMemberService } from '../services';
 
 import {
     MailingListMemberActionTypes,
@@ -40,12 +40,12 @@ export class MailingListMemberEffects {
 
     @Effect()
     loadMailingListMembers$ = this.actions$.ofType(MailingListMemberActionTypes.LoadMailingListMember).pipe(
-        switchMap(() => {
-            console.log("loadMailingListMembers");
+        map((action: LoadMailingListMember) => action.payload),
+        switchMap((val) => {
             return this.mailingListService
-                .getMailingListMembers()
+                .getMailingListMembers(val)
                 .pipe(
-                    map((mailingList: MailingListMember[]) => new LoadMailingListMemberSuccess(mailingList)),
+                    map((mailingListMember: MailingListMember[]) => new LoadMailingListMemberSuccess(mailingListMember)),
                     catchError(error => of(new LoadMailingListMemberFail(error)))
                 );
         })

@@ -4,16 +4,17 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { SelectionModel } from '@angular/cdk/collections';
 import { MemberAddDialog } from '../entry/member-add-dialog.component';
 
 import { Member } from '../model/member';
 import { MemberService } from '../services/member.service';
 import { MemberDataSource } from '../datasource/member.data-source';
-import { tap ,  catchError, finalize, debounceTime, distinctUntilChanged  } from 'rxjs/operators';
+import { tap, catchError, finalize, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Headers, Http } from '@angular/http';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable ,  of ,  fromEvent } from 'rxjs';
+import { Observable, of, fromEvent } from 'rxjs';
 //import { LoadingService } from '../services/loading.service';
 
 @Component({
@@ -26,9 +27,10 @@ import { Observable ,  of ,  fromEvent } from 'rxjs';
 export class MembersComponent implements AfterViewInit, OnInit {
 
   members: Member[];
-  displayedColumns = ['seqNo', 'Nom', 'email'];
+  displayedColumns = ['select', 'seqNo', 'Nom', 'email'];
   dataSource: MemberDataSource;
   membersCount: Number;
+  selection: SelectionModel<number>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('search') search: ElementRef;
@@ -38,13 +40,18 @@ export class MembersComponent implements AfterViewInit, OnInit {
     this.dataSource.loadMembers();
     this.dataSource.count$.subscribe((data) => {
       if (this.membersCount != data)
-            this.membersCount = data;
+        this.membersCount = data;
       //this.paginator.pageIndex = 0;
+    });
+
+    this.dataSource.members$.subscribe((data) => {
+      console.log("dataSource.members$")
+      console.log(data)
     });
 
     /*this.dataSource.loading$.subscribe((data) => {
       this.loadingService.loadingSubject.next(data);
-    });*/   
+    });*/
 
     this.membersCount = this.route.snapshot.data["membersCount"];
   }
@@ -57,6 +64,10 @@ export class MembersComponent implements AfterViewInit, OnInit {
     private http: HttpClient,
     //private loadingService: LoadingService,
   ) {
+    const initialSelection = [];
+    const allowMultiSelect = true;
+    this.selection = new SelectionModel<number>(allowMultiSelect, initialSelection);
+
   }
 
   ngAfterViewInit() {
@@ -75,8 +86,12 @@ export class MembersComponent implements AfterViewInit, OnInit {
 
     this.paginator.page
       .pipe(
-        tap(() => this.loadMembersPage())
-      )
+        tap(() => {
+          console.log(this.selection.selected);
+          this.loadMembersPage();
+          console.log(this.selection.selected);
+        }
+        ))
       .subscribe();
   }
 
@@ -143,6 +158,20 @@ export class MembersComponent implements AfterViewInit, OnInit {
       this.dataSource.updateMembers(formData);
 
     }
+  }
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.membersCount;
+    return numSelected == numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+      this.selection.clear() :
+      this.dataSource.data.forEach(row => this.selection.select(row._id));
   }
 
 }

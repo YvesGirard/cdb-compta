@@ -16,7 +16,7 @@ export function mailinglists(app: express.Express, authCheck: any, checkScopes: 
   const listapi = `https://api:${api_key}@api.mailgun.net/v3/lists`;
 
 
-  // sample api route
+  // GET all mailing lists
   app.get('/api/lists', authCheck, checkScopes, function (req, res) {
 
     console.log("get list");
@@ -33,6 +33,12 @@ export function mailinglists(app: express.Express, authCheck: any, checkScopes: 
       },
       json: true
     };
+
+    if (process.env.PROXY) {
+      var HttpsProxyAgent = require('https-proxy-agent');
+      var agent = new HttpsProxyAgent(process.env.PROXY);
+      options["agent"] = agent;
+    }
 
     request(options, function (error, response, body) {
       console.log(options);
@@ -87,6 +93,47 @@ export function mailinglists(app: express.Express, authCheck: any, checkScopes: 
 
 
 
+
+  });
+
+
+  // GET all mailing lists members
+  app.get('/api/lists/:id/members', authCheck, checkScopes, function (req, res) {
+
+    console.log("get list members");
+
+    let request = require("request");
+    let address = req.params.id;
+
+    let options = {
+      method: 'GET',
+      url: `${listapi}/${address}/members/pages`,
+      headers: { 'content-type': 'application/json' },
+      body:
+      {
+        limit: '100',
+      },
+      json: true
+    };
+
+    if (process.env.PROXY) {
+      var HttpsProxyAgent = require('https-proxy-agent');
+      var agent = new HttpsProxyAgent(process.env.PROXY);
+      options["agent"] = agent;
+    }
+
+    request(options, function (error, response, body) {
+      console.log(options);
+      console.log(body);
+
+      if (error) {
+        return res.status(400).json(error);
+      } else {
+        return res.json(body.items);
+      };
+
+
+    });
 
   });
 

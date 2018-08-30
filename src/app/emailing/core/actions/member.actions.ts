@@ -80,7 +80,7 @@ export class LoadMailingListMember implements Action {
   export class LoadMailingListMemberSuccess implements Action {
     readonly type = MailingListMemberActionTypes.LoadMailingListMemberSuccess;
 
-    constructor(public payload: MailingListMember) { }
+    constructor(public payload: MailingListMember[]) { }
 }
 
 export class LoadMailingListMemberFail implements Action {

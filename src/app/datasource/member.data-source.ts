@@ -2,7 +2,7 @@ import { CollectionViewer, DataSource } from "@angular/cdk/collections";
 import { BehaviorSubject ,  Observable ,  of } from 'rxjs';
 import { Member } from "../model/member";
 import { MemberService } from "../services/member.service";
-import { catchError, finalize } from 'rxjs/operators';
+import { catchError, finalize, withLatestFrom, tap } from 'rxjs/operators';
 
 export class MemberDataSource implements DataSource<Member> {
 
@@ -37,8 +37,8 @@ export class MemberDataSource implements DataSource<Member> {
                 finalize(() => this.loadingSubject.next(false))
             )
             .subscribe(data => {
-                this.membersSubject.next(data['members']);   
-                this.countSubject.next(data['count']);
+                this.membersSubject.next(data.data['members']);   
+                this.countSubject.next(data.data['count']);
             });
     }
 
@@ -73,5 +73,10 @@ export class MemberDataSource implements DataSource<Member> {
             this.countSubject.next(data['count']);
         });
 
+    }
+
+
+    get data() {
+        return this.membersSubject.getValue();
     }
 }

@@ -13,7 +13,7 @@ import './rxjs-extensions';
 
 import { AppComponent } from './app.component';
 import { HeroesComponent } from './team/heroes.component';
-import { MembersComponent } from './team/members.component';
+//import { MembersComponent } from './team/members.component';
 import { MemberDetailComponent } from './team/member-detail.component';
 import { HeroDetailComponent } from './team/hero-detail.component';
 import { HeroService } from './services/hero.service';
@@ -64,6 +64,8 @@ import { ParticipantModule } from './core/participant/participant.module';
 import { UiParticipantModule } from './ui/participant/ui.participant.module';
 import { UiMailingModule } from './ui/mailing/ui.mailing.module';
 
+import { SharedModule } from './shared.module';
+
 import * as fromMail from './mailing/reducers';
   
 /*
@@ -80,6 +82,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     routing,
     HttpModule,    
     MaterialModule,
+    SharedModule,
     HttpClientModule,
     AuthModule.forRoot(),
     ParticipantModule.forRoot(),
@@ -110,7 +113,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AppComponent,
     DashboardComponent,
     HeroesComponent,
-    MembersComponent,
+    //MembersComponent,
     MailsComponent,    
     HeroDetailComponent,
     HeroSearchComponent,
