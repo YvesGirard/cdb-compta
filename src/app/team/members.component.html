@@ -13,7 +13,11 @@
 				<button mat-icon-button (click)="excelFileInput.click()">
 					<mat-icon aria-label="File">file_upload</mat-icon>
 					<input hidden id="file_input_file" #excelFileInput (change)="fileChange($event)" type="file" />
-				  </button>
+					</button>
+					
+					<button mat-raised-button color="primary" (click)="ajouterListe()">
+							Ajouter à la liste
+						</button>
 		</mat-grid-tile>
 	</mat-grid-list>
 

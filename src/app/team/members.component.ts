@@ -174,5 +174,10 @@ export class MembersComponent implements AfterViewInit, OnInit {
       this.dataSource.data.forEach(row => this.selection.select(row._id));
   }
 
+  ajouterListe() {
+    this.selection.selected.forEach((id) => {
+      console.log(id);
+    });
+  }
 }
 
