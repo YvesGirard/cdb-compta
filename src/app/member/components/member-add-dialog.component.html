@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>
+	<div>Création de {{ name }}</div>
+</h2>
+<mat-dialog-content>
+	<m-member-form [form]="form" [member]="member"></m-member-form>
+</mat-dialog-content>
+<mat-dialog-actions>
+	<button mat-button (click)="onNoClick()">Fermer</button>
+	<button mat-raised-button color="primary" (click)="save()" cdkFocusInitial>Enregistrer</button>
+</mat-dialog-actions>

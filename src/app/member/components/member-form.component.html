@@ -1,0 +1,32 @@
+<form role="form" [formGroup]="form">
+    <fieldset>
+
+        <div class="cdb-list-separator">
+            <mat-form-field class="cdb-input-full-width" dividerColor="primary">
+                <input matInput formControlName="given_name" placeholder="Prénom" name="given_name">
+                <mat-error *ngIf="given_nameControlInvalid">
+                    Prénom
+                    <strong>obligatoire</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="cdb-input-full-width" dividerColor="primary">
+                <input matInput formControlName="family_name" placeholder="Nom" name="family_name">
+                <mat-error *ngIf="family_nameControlInvalid">
+                    Nom
+                    <strong>obligatoire</strong>
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="cdb-list-separator">
+            <mat-form-field class="cdb-input-full-width" dividerColor="primary">
+                <input matInput formControlName="email" placeholder="Email" name="email">
+                <mat-error *ngIf="emailControlInvalid">
+                    Email
+                    <strong>obligatoire</strong>
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+    </fieldset>
+</form>

@@ -1,0 +1,44 @@
+<mat-table class="lessons-table mat-elevation-z8" [dataSource]="datasource">
+    <ng-container matColumnDef="_id">
+        <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+        <mat-cell *matCellDef="let member">
+            <a [routerLink]="['/member', member._id]">{{member._id}}</a>
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="given_name">
+        <mat-header-cell *matHeaderCellDef>Prénom</mat-header-cell>
+        <mat-cell class="description-cell" *matCellDef="let member">
+            {{member.given_name}}
+        </mat-cell>
+
+    </ng-container>
+
+    <ng-container matColumnDef="family_name">
+        <mat-header-cell *matHeaderCellDef>Nom</mat-header-cell>
+        <mat-cell class="description-cell" *matCellDef="let member">
+            {{member.family_name}}
+        </mat-cell>
+
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef>email</mat-header-cell>
+        <mat-cell class="description-cell" *matCellDef="let member">
+            {{member.email}}
+        </mat-cell>
+
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</mat-table>
+
+<ng-content></ng-content>
+<!--
+<div class="spinner-container" *ngIf="dataSource.loading$ | async">
+    <mat-spinner></mat-spinner>
+</div>-->
+
+

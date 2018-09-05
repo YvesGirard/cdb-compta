@@ -170,8 +170,8 @@ export class MembersComponent implements AfterViewInit, OnInit {
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
     this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.data.forEach(row => this.selection.select(row._id));
+      this.selection.clear() : true
+      //this.dataSource.data.forEach(row => this.selection.select(row._id));
   }
 
   ajouterListe() {

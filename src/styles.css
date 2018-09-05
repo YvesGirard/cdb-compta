@@ -1,12 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import url('//fonts.googleapis.com/icon?family=Material+Icons');
-
+@import url('//fonts.googleapis.com/css?family=Montserrat');
 
 body {
     padding-top:100px;
     margin: 0px;
-    font:500 20px/32px Roboto,"Helvetica Neue",sans-serif;
+    /*font:500 20px/32px Roboto,"Helvetica Neue",sans-serif;*/
+    font:500 20px/32px 'Montserrat', sans-serif;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
 }
@@ -17,7 +18,8 @@ main {
 .cdb-toolbar {
     background: rgba(255,255,255,.97)!important;
     color: rgba(0,0,0,.54)!important;
-    font-size: 16px;
+    font-size: 16px!important;
+    font-family:'Montserrat', sans-serif!important;
     position: fixed!important;
     top: 0;
     letter-spacing: 0;

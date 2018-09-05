@@ -23,10 +23,11 @@ const appRoutes: Routes = [
   },
   {
     path: 'members',
-    component: MembersComponent,
+    loadChildren: './member/member.module#MemberModule',
+    /*component: MembersComponent,
     resolve: {
       membersCount: MembersResolver
-    }
+    }*/
   },
   {
     path: 'mails',
@@ -36,10 +37,6 @@ const appRoutes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent
-  },
-  {
-    path: 'member/:id', 
-    component: MemberDetailComponent
   },
   {
     path: 'mail/:id', 

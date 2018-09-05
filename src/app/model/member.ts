@@ -1,9 +1,9 @@
 import {IMember} from "./imember"
 
 export class Member implements IMember { 
-  _id: number;
+  _id: string;
   name: string;
-  given_name: String;
-  family_name: String;
-  email: String;
+  given_name: string;
+  family_name: string;
+  email: string;
 }
