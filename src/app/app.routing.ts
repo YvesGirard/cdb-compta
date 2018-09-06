@@ -23,7 +23,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'members',
-    loadChildren: './member/member.module#MemberModule',
+    loadChildren: './member/member-route.module#MemberRouteModule',
     /*component: MembersComponent,
     resolve: {
       membersCount: MembersResolver

@@ -61,18 +61,9 @@ export class MemberDetailComponent implements OnChanges {
 
     createForm(): void {
         this.form = this.fb.group({
-            serie: ['', Validators.required],
-            licence: ['', Validators.required],
             given_name: ['', Validators.required],
             family_name: ['', Validators.required],
-            gender: ['', Validators.required],
-            birthday: ['', Validators.required],
-            licence_validity: this.fb.array(
-                [this.fb.group({
-                    type: [''],
-                    saison: [''],
-                })]
-            )
+            email: ['', Validators.required],
         });
     }
 

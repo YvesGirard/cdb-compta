@@ -51,7 +51,18 @@ export class MailingListMemberEffects {
         })
     );
 
-
+    @Effect()
+    addMailingListMembers$ = this.actions$.ofType(MailingListMemberActionTypes.AddMailingListMember).pipe(
+        map((action: AddMailingListMember) => action.payload),
+        switchMap((val) => {
+            return this.mailingListService
+                .getMailingListMembers(val)
+                .pipe(
+                    map((mailingListMember: MailingListMember[]) => new LoadMailingListMemberSuccess(mailingListMember)),
+                    catchError(error => of(new LoadMailingListMemberFail(error)))
+                );
+        })
+    );
 
     constructor(
         private actions$: Actions,

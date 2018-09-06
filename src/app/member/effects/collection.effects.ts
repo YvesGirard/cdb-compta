@@ -10,7 +10,7 @@ import { Member } from '../../model/member';
 import { MemberService } from '../services/member.service';
 
 import {
-  CollectionActionTypes,
+  MemberCollectionActionTypes,
   Load,
   LoadFail,
   LoadSuccess,
@@ -20,11 +20,11 @@ import {
 } from '../actions/collection.actions';
 
 @Injectable()
-export class CollectionEffects {
+export class MemberCollectionEffects {
 
   @Effect()
-  loadCollection$ = this.actions$.pipe(
-    ofType(CollectionActionTypes.Load),
+  loadMemberCollection$ = this.actions$.pipe(
+    ofType(MemberCollectionActionTypes.Load),
     map((action: Load) => action.payload),
     switchMap((query) => {
       return forkJoin(
@@ -32,7 +32,7 @@ export class CollectionEffects {
           query.filter,
           query.sortOrder,
           query.sortField,
-          query.pageIndex,
+          query.pageNumber,
           query.pageSize,
           query.searchField
         ),
@@ -53,7 +53,7 @@ export class CollectionEffects {
   );
 
   @Effect()
-  getTotal$ = this.actions$.ofType(CollectionActionTypes.GetTotal).pipe(
+  getTotal$ = this.actions$.ofType(MemberCollectionActionTypes.GetTotal).pipe(
     switchMap(() => {
       return this.participantService
         .getTotalMember()

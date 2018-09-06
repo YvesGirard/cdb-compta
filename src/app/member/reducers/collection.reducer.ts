@@ -1,6 +1,6 @@
 import {
-  CollectionActionTypes,
-  CollectionActionsUnion,
+  MemberCollectionActionTypes,
+  MemberCollectionActionsUnion,
 } from '../actions/collection.actions';
 import { MemberActionsUnion, MemberActionTypes } from '../actions/member.actions';
 
@@ -20,10 +20,10 @@ const initialState: State = {
 
 export function reducer(
   state = initialState,
-  action: MemberActionsUnion | CollectionActionsUnion
+  action: MemberActionsUnion | MemberCollectionActionsUnion
 ): State {
   switch (action.type) {
-    case CollectionActionTypes.Load:
+    case MemberCollectionActionTypes.Load:
     case MemberActionTypes.LoadMember: {
 
       return {
@@ -33,7 +33,7 @@ export function reducer(
       };
     }
 
-    case CollectionActionTypes.GetTotalSuccess: {
+    case MemberCollectionActionTypes.GetTotalSuccess: {
 
       return {
         ...state,
@@ -41,7 +41,7 @@ export function reducer(
       };
     }
 
-    case CollectionActionTypes.LoadSuccess:
+    case MemberCollectionActionTypes.LoadSuccess:
      {
       return {
         ...state,

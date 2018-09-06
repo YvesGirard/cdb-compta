@@ -56,8 +56,6 @@ export class MemberService {
   }
 
   updateMember(payload: Member): Observable<Member> {
-    console.log("payload")
-    console.log(payload)
     return this.http
       .put<Member>(`/api/members/${payload._id}`,
         payload,

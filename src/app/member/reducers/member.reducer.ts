@@ -2,8 +2,8 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Member } from '../../model/member';
 import { MemberActionsUnion, MemberActionTypes } from '../actions/member.actions';
 import {
-  CollectionActionsUnion,
-  CollectionActionTypes,
+  MemberCollectionActionsUnion,
+  MemberCollectionActionTypes,
 } from '../actions/collection.actions';
 
 /**
@@ -41,7 +41,7 @@ export const initialState: State = adapter.getInitialState({
 
 export function reducer(
   state = initialState,
-  action: MemberActionsUnion | CollectionActionsUnion
+  action: MemberActionsUnion | MemberCollectionActionsUnion
 ): State {
   switch (action.type) {
     case MemberActionTypes.LoadMember: {
@@ -51,7 +51,7 @@ export function reducer(
       };
     }
 
-    case CollectionActionTypes.LoadSuccess: {
+    case MemberCollectionActionTypes.LoadSuccess: {
 
       return adapter.addMany(action.payload, {
         ...state,

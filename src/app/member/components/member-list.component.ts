@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter, } from '@angular/core';
 import { MemberDataSource } from '../datasource/member.data-source';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
     selector: 'm-member-list',
@@ -35,9 +36,45 @@ import { MemberDataSource } from '../datasource/member.data-source';
 export class MemberListComponent {
     @Input() datasource: MemberDataSource;
     @Input() displayedColumns: Array<string>;
+   // @Input() selected: Array<any>;
+
+    selection: SelectionModel<any>;
+
+   // @Output() readonly selectedChange: EventEmitter<any> = new EventEmitter<any>()
 
     constructor() {
+        const initialSelection = [];
+        const allowMultiSelect = true;
+        this.selection = new SelectionModel<number>(allowMultiSelect, initialSelection);
     }
 
+    isAllSelected() {
+        const numSelected = this.selection.selected.length;
+        const numRows = 10;
+        return numSelected == numRows;
+    }
 
+    /** Selects all rows if they are not all selected; otherwise clear selection. */
+    masterToggle() {
+        this.isAllSelected() ?
+            this.selection.clear() : true
+        //this.dataSource.data.forEach(row => this.selection.select(row._id));
+    }
+
+    ajouterListe() {
+        this.selection.selected.forEach((id) => {
+            console.log(id);
+        });
+    }
+
+    selectionToggle(row: any) {
+        this.selection.toggle(row._id);
+        //this.selectedChange.emit(this.selection.selected.values);
+    }
+
+    get selected(): Array<any> {
+        return Array.from(this.selection.selected.entries());
+    }
+
+    //selection.toggle(row._id)
 }

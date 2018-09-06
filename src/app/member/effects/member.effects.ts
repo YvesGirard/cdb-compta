@@ -99,7 +99,7 @@ export class MemberEffects {
     )
     .pipe(
       map((member) => {
-        let link = ['/member'];
+        let link = ['/members'];
         this.router.navigate(link);
       })
     );

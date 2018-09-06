@@ -27,11 +27,7 @@ const defaultDialogConfig = new MatDialogConfig();
   `,
   ],
 })
-export class MemberPageComponent implements OnInit, AfterViewInit {
-  dataSource$: MemberDataSource;
-  total$: Observable<number>;
-  pageIndex: number;
-  pageSize: number;
+export class MemberPageComponent  {
 
   config = {
     disableClose: false,
@@ -52,55 +48,17 @@ export class MemberPageComponent implements OnInit, AfterViewInit {
     'email'
   ];
 
-  @ViewChild('search') search: ElementRef;
 
   constructor(private store: Store<fromMembers.State>, public dialog: MatDialog, ) {
-    this.total$ = this.store.pipe(select(fromMembers.getCollectionTotal));
-    this.pageIndex = 0;
-    this.pageSize = 10;
+
   }
 
-
-  ngOnInit(): void {
-    this.dataSource$ = new MemberDataSource(this.store);
-    this.dataSource$.loadMembers();
-  }
-
-  ngAfterViewInit(): void {
-    fromEvent(this.search.nativeElement, 'keyup')
-      .pipe(
-        debounceTime(200),
-        distinctUntilChanged(),
-        tap(() => {
-          this.pageIndex = 0;
-          this.dataSource$.loadMembers(
-            this.search.nativeElement.value,
-            'asc',
-            '',
-            this.pageIndex,
-            this.pageSize,
-            '',
-          );
-        })
-      ).subscribe();
-  }
-
-  onPage(event: PageEvent) {
-    this.dataSource$.loadMembers(
-      this.search.nativeElement.value,
-      'asc',
-      '',//this.search.nativeElement.value,
-      event.pageIndex,
-      event.pageSize,
-      '',
-    );
-  }
 
   create() {
     let dialogRef = this.dialog.open(MemberAddDialog, this.config);
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result && result.licence !== undefined)
+      if (result && result.email !== undefined)
         this.store.dispatch(new MembersActions.AddMember(result));
     });
   }

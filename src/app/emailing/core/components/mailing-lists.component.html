@@ -3,7 +3,7 @@
     <ng-container matColumnDef="address">
         <mat-header-cell *matHeaderCellDef>Adresse</mat-header-cell>
         <mat-cell class="description-cell" *matCellDef="let mailinglist">
-            <a [routerLink]="['/mailing/mailinglist', mailinglist._id]">>{{mailinglist.address}}</a>
+            <a [routerLink]="['/mailing/mailinglist', mailinglist._id]">{{mailinglist.address}}</a>
         </mat-cell>
 
     </ng-container>

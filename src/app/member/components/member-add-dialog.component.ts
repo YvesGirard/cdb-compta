@@ -41,27 +41,14 @@ export class MemberAddDialog implements OnChanges {
 
   createForm(): void {
     this.form = this.fb.group({
-      serie: ['', Validators.required],
-      licence: ['', Validators.required],
       given_name: ['', Validators.required],
       family_name: ['', Validators.required],
-      birthday: ['', Validators.required],
-      gender: ['', Validators.required],
-      licence_validity: this.fb.array(
-        [this.fb.group({
-          type: [''],
-          saison: [''],
-        })]
-      )
+      email: ['', Validators.required],
     });
 
   }
 
   // Model
-
-  get licence() {
-    return this.form.value.licence;
-  }
 
   get name() {
     return this.form.value.given_name + " " + this.form.value.family_name;

@@ -6,11 +6,14 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { reducers } from './reducers';
 import { MemberEffects } from './effects/member.effects';
-import { CollectionEffects } from './effects/collection.effects';
+import { MemberCollectionEffects } from './effects/collection.effects';
 
 import { MemberPageComponent } from './containers/member-page.component';
 import { ViewMemberPageComponent } from './containers/view-member-page.component';
 import { MemberListComponent } from './components/member-list.component';
+import { MemberSearchComponent } from './components/member-search.component';
+import { MemberPageListComponent } from './containers/member-page-list.component';
+
 import { MemberAddDialog } from './components/member-add-dialog.component';
 
 import { SelectedMemberPageComponent } from './containers/selected-member-page.component';
@@ -40,6 +43,8 @@ export const COMPONENTS = [
     SelectedMemberPageComponent,
     MemberDetailComponent,
     MemberFormComponent,
+    MemberSearchComponent,
+    MemberPageListComponent,
   ];
 
 @NgModule({
@@ -47,19 +52,11 @@ export const COMPONENTS = [
         CommonModule,
         ReactiveFormsModule,
         MaterialModule,
-        //UiMemberModule,
-        RouterModule.forChild([
-            {
-              path: ':id',
-              component: ViewMemberPageComponent,
-              canActivate: [MemberExistsGuard],
-            },
-            { path: '', component: MemberPageComponent, },
-        ]),
+        RouterModule,
         StoreModule.forFeature('members', reducers),
         EffectsModule.forFeature([
             MemberEffects,
-            CollectionEffects,
+            MemberCollectionEffects,
         ]),
     ],
     entryComponents: ENTRY_COMPONENTS,

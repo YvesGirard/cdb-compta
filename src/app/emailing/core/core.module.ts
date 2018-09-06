@@ -21,11 +21,13 @@ import { MailingListsComponent } from './components/mailing-lists.component';
 import { MailingListsMembersComponent } from './components/members.component';
 
 import { MailingListLoadedGuard } from './guards/mailinglist-loaded.guard';
-import { MembersComponent } from '../../team/members.component';
+import { SearchMemberPageComponent } from './containers/search-members-page.component';
 
 import { UiMailingModule } from '../../ui/mailing/ui.mailing.module';
 
 import { SharedModule } from '../../shared.module';
+import { MemberModule } from '../../member/member.module';
+
 
 import * as fromServices from './services';
 
@@ -38,6 +40,7 @@ export const COMPONENTS = [
   ViewMailingListPageComponent,
   MailingListDetailComponent,
   MailingListsMembersComponent,
+  SearchMemberPageComponent,
 ];
 
 
@@ -63,7 +66,7 @@ export const ROUTES: Routes = [
       },
       {
         path: 'mailinglist/:id/members',
-        component: MembersComponent,
+        component: SearchMemberPageComponent,
       },
     ]
   },
@@ -76,6 +79,7 @@ export const ROUTES: Routes = [
     MaterialModule,
     UiMailingModule,
     SharedModule,
+    MemberModule,
     RouterModule.forChild(ROUTES),
     StoreModule.forFeature('mailinglists', reducers),
     EffectsModule.forFeature([

@@ -1,55 +1,55 @@
 import { Action } from '@ngrx/store';
 import { Member } from '../../model/member';
 
-export enum CollectionActionTypes {
-    Load = '[Collection] Load',
-    LoadSuccess = '[Collection] Load Success',
-    LoadFail = '[Collection] Load Fail',
-    GetTotal = '[Collection] GetTotal',
-    GetTotalSuccess = '[Collection] GetTotal Success',
-    GetTotalFail = '[Collection] GetTotal Fail',
+export enum MemberCollectionActionTypes {
+    Load = '[MemberCollection] Load',
+    LoadSuccess = '[MemberCollection] Load Success',
+    LoadFail = '[MemberCollection] Load Fail',
+    GetTotal = '[MemberCollection] GetTotal',
+    GetTotalSuccess = '[MemberCollection] GetTotal Success',
+    GetTotalFail = '[MemberCollection] GetTotal Fail',
   }
   
   
   /**
-   * Load Collection Actions
+   * Load MemberCollection Actions
    */
   export class Load implements Action {
-    readonly type = CollectionActionTypes.Load;
+    readonly type = MemberCollectionActionTypes.Load;
 
     constructor(public payload: any) {}
 
   }
   
   export class LoadSuccess implements Action {
-    readonly type = CollectionActionTypes.LoadSuccess;
+    readonly type = MemberCollectionActionTypes.LoadSuccess;
   
     constructor(public payload: Member[]) {}
   }
   
   export class LoadFail implements Action {
-    readonly type = CollectionActionTypes.LoadFail;
+    readonly type = MemberCollectionActionTypes.LoadFail;
   
     constructor(public payload: any) {}
   }
 
   export class GetTotal implements Action {
-    readonly type = CollectionActionTypes.GetTotal;
+    readonly type = MemberCollectionActionTypes.GetTotal;
   }
   
   export class GetTotalSuccess implements Action {
-    readonly type = CollectionActionTypes.GetTotalSuccess;
+    readonly type = MemberCollectionActionTypes.GetTotalSuccess;
   
     constructor(public payload: any) {}
   }
   
   export class GetTotalFail implements Action {
-    readonly type = CollectionActionTypes.GetTotalFail;
+    readonly type = MemberCollectionActionTypes.GetTotalFail;
   
     constructor(public payload: any) {}
   }
   
-  export type CollectionActionsUnion =
+  export type MemberCollectionActionsUnion =
     | Load
     | LoadSuccess
     | LoadFail
