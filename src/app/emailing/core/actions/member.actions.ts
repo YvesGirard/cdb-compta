@@ -20,7 +20,7 @@ export enum MailingListMemberActionTypes {
 export class AddMailingListMember implements Action {
     readonly type = MailingListMemberActionTypes.AddMailingListMember;
 
-    constructor(public payload: MailingListMember[]) { }
+    constructor(public payload: string[]) { }
 }
 
 export class AddMailingListMemberSuccess implements Action {

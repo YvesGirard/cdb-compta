@@ -56,12 +56,24 @@ export class MailingListMemberEffects {
         map((action: AddMailingListMember) => action.payload),
         switchMap((val) => {
             return this.mailingListService
-                .getMailingListMembers(val)
+                .addMailingListMembers(val)
                 .pipe(
-                    map((mailingListMember: MailingListMember[]) => new LoadMailingListMemberSuccess(mailingListMember)),
-                    catchError(error => of(new LoadMailingListMemberFail(error)))
+                    map((mailingListMember: MailingListMember[]) => new AddMailingListMemberSuccess(mailingListMember)),
+                    catchError(error => of(new AddMailingListMemberFail(error)))
                 );
         })
+    );
+
+    @Effect({ dispatch: false })
+    handleMemberSuccess$ = this.actions$
+    .ofType(
+        MailingListMemberActionTypes.AddMailingListMemberSuccess,
+    )
+    .pipe(
+      map((member) => {
+        let link = ['/members'];
+        this.router.navigate(link);
+      })
     );
 
     constructor(
