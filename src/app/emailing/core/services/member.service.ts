@@ -15,9 +15,9 @@ export class MailingListMemberService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  addMailingListMembers(payload: Array<string>): Observable<MailingListMember[]> {
+  addMailingListMembers(payload: any): Observable<MailingListMember[]> {
     return this.http
-      .put<MailingListMember[]>(`/api/lists/${payload}/members`, payload)
+      .put<MailingListMember[]>(`/api/lists/${payload.address}/members`, payload.members)
       .pipe(catchError((error: any) => throwError(error)));
   }
 

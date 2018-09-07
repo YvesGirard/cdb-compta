@@ -12,6 +12,7 @@ import {
     switchMap,
     takeUntil,
     tap,
+    withLatestFrom,
 } from 'rxjs/operators';
 
 import { MailingListService } from '../services';
@@ -108,6 +109,6 @@ export class MailingListEffects {
     constructor(
         private actions$: Actions,
         private mailingListService: MailingListService,
-        private router: Router
+        private router: Router,
     ) { }
 }

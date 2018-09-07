@@ -1,6 +1,8 @@
 // app/routes.js
 import * as express from "express";
 import * as MailingList from "./mongoose/mailinglist";
+import * as MailingListMember from "./mongoose/mailinglistmember";
+import * as Member from "./mongoose/member";
 import { forkJoin, throwError } from 'rxjs';
 
 const _ = require('lodash');
@@ -137,4 +139,70 @@ export function mailinglists(app: express.Express, authCheck: any, checkScopes: 
 
   });
 
+  // PUT add mailing lists members
+  app.put('/api/lists/:id/members', authCheck, checkScopes, function (req, res) {
+
+    console.log("put list members");
+
+    let request = require("request");
+    let address = req.params.id;
+
+    const _member = req.body;
+
+    console.log(_member);
+
+    Member.find(
+      {
+        '_id': { $in: _member }
+      }, function (err, docs) {
+
+        const _member = _.map(docs, (e) => {
+          return _(e).pick(e, ["name", "email"]).assign({ subscribed: "yes" }).value()
+        });
+
+        requestAddListMembers(_member, (error, response) => {
+          if (error) {
+            return res.status(400).json(error);
+          } else {
+            return res.json(response);
+          };
+        });
+
+      });
+
+    function requestAddListMembers(_member: any[], callback) {
+
+      /** Update mailing list **/
+      let options = {
+        method: 'POST',
+        url: `${listapi}/${address}/members.json`,
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        body:`members=${JSON.stringify(_member)}&upsert=yes`,
+
+      };
+
+      console.log("options.body >>>")
+      console.log(options.body)
+
+      if (process.env.PROXY) {
+        var HttpsProxyAgent = require('https-proxy-agent');
+        var agent = new HttpsProxyAgent(process.env.PROXY);
+        options["agent"] = agent;
+      }
+
+      request(options, function (error, response, body) {
+        console.log(options);
+        console.log(body);
+
+        if (error) {
+          callback(error, null);
+        } else {
+          callback(null, body.items);
+        };
+
+      });
+    }
+
+
+  });
 };

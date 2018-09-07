@@ -73,7 +73,7 @@ export class MemberListComponent {
     }
 
     get selected(): Array<any> {
-        return Array.from(this.selection.selected.entries());
+        return Array.from(this.selection.selected.values());
     }
 
     //selection.toggle(row._id)
