@@ -1,5 +1,8 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, EventEmitter, Output } from '@angular/core';
 import { MailinglistsMembersDataSource } from '../datasource/members.data-source';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MailingListMember } from '../../../model/mail';
+
 
 @Component({
     selector: 'm-mailing-lists-members',
@@ -34,15 +37,48 @@ import { MailinglistsMembersDataSource } from '../datasource/members.data-source
 })
 export class MailingListsMembersComponent {
     @Input() datasource: MailinglistsMembersDataSource;
+    @Output() remove = new EventEmitter<MailingListMember[]>();
+
+    selection: SelectionModel<any>;
 
     displayedColumns = [
+        'select',
         'address',
         'name',
         'subscribed',
-      ];
+    ];
 
     constructor() {
+        const initialSelection = [];
+        const allowMultiSelect = true;
+        this.selection = new SelectionModel<number>(allowMultiSelect, initialSelection);
     }
 
+    isAllSelected() {
+        const numSelected = this.selection.selected.length;
+        const numRows = 10;
+        return numSelected == numRows;
+    }
+
+    /** Selects all rows if they are not all selected; otherwise clear selection. */
+    masterToggle() {
+        this.isAllSelected() ?
+            this.selection.clear() : true
+        //this.dataSource.data.forEach(row => this.selection.select(row._id));
+    }
+
+    _remove(): void {
+        this.remove.emit({ ...this.selected });
+    }
+
+    selectionToggle(row: any) {
+        this.selection.toggle(row.address);
+        //this.selectedChange.emit(this.selection.selected.values);
+    }
+
+    get selected(): Array<any> {
+        console.log(this.selection.selected.values())
+        return Array.from(this.selection.selected.values());
+    }
 
 }

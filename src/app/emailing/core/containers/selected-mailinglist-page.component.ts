@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewChild } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import {
@@ -11,7 +11,7 @@ import * as MailinglistsActions from '../actions/mailinglist.actions';
 
 import * as MailinglistsMemberActions from '../actions/member.actions';
 import { MailinglistsMembersDataSource } from '../datasource/members.data-source';
-
+import { MailingListsMembersComponent } from '../components/members.component';
 
 import { MailingList } from '../../../model/mail';
 import { MailingListMember } from '../../../model/mail';
@@ -26,7 +26,8 @@ import { MailingListMember } from '../../../model/mail';
       (remove)="remove($event)">
     </m-mailinglist-detail>
     <a [routerLink]="['/mailing/mailinglist', (mailinglist$ | async)?._id, 'members']">Ajouter des membres</a>
-    <m-mailing-lists-members [datasource]="dataSource$">
+    <button mat-raised-button color="warn" (click)="removeMember()">Retirer</button>
+    <m-mailing-lists-members [datasource]="dataSource$" >
     </m-mailing-lists-members>
   `,
 })
@@ -34,6 +35,8 @@ export class SelectedMailingListPageComponent {
   mailinglist$: Observable<MailingList>;
   //mailinglistMembers$: Observable<MailingListMember[]>;
   dataSource$: MailinglistsMembersDataSource;
+
+  @ViewChild(MailingListsMembersComponent) _memberlist: MailingListsMembersComponent;
 
   constructor(private store: Store<fromMailinglists.State>) {
     this.mailinglist$ = store.pipe(select(fromMailinglists.getSelectedMailingList)) as Observable<MailingList>;
@@ -58,5 +61,11 @@ export class SelectedMailingListPageComponent {
   remove(mailinglist: MailingList) {
     this.store.dispatch(new MailinglistsActions.DeleteMailingList(mailinglist));
   }
+
+  removeMember() {
+    this.store.dispatch(new MailinglistsMemberActions.DeleteMailingListMember(this._memberlist.selected));
+  }
+
+  
 
 }

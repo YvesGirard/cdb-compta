@@ -56,13 +56,13 @@ export class UpdateMailingListMemberFail implements Action {
 export class DeleteMailingListMember implements Action {
     readonly type = MailingListMemberActionTypes.DeleteMailingListMember;
 
-    constructor(public payload: MailingListMember) { }
+    constructor(public payload: string[]) { }
 }
 
 export class DeleteMailingListMemberSuccess implements Action {
     readonly type = MailingListMemberActionTypes.DeleteMailingListMemberSuccess;
 
-    constructor(public payload: MailingListMember) { }
+    constructor(public payload: MailingListMember[]) { }
 }
 
 export class DeleteMailingListMemberFail implements Action {

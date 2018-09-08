@@ -69,6 +69,20 @@ export class MailingListMemberEffects {
         })
     );
 
+    @Effect()
+    deleteMailingListMembers$ = this.actions$.ofType(MailingListMemberActionTypes.DeleteMailingListMember).pipe(
+        withLatestFrom(this.store.pipe(select(fromMailinglists.getSelectedMailingList))),
+        map(([action, mailinglist]: ([DeleteMailingListMember, MailingList])) => [action.payload, mailinglist.address]),
+        switchMap((val) => {
+            return this.mailingListService
+                .removeMailingListMembers({address:val[1], members:val[0]})
+                .pipe(
+                    map((mailingListMember: MailingListMember[]) => new DeleteMailingListMemberSuccess(mailingListMember)),
+                    catchError(error => of(new DeleteMailingListMemberFail(error)))
+                );
+        })
+    );
+
     @Effect({ dispatch: false })
     handleMemberSuccess$ = this.actions$
     .ofType(

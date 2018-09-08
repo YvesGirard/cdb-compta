@@ -148,6 +148,10 @@ export function mailinglists(app: express.Express, authCheck: any, checkScopes: 
     let address = req.params.id;
 
     const _member = req.body;
+    
+    let serverKeyMap = {
+      "email": "address"
+    };
 
     console.log(_member);
 
@@ -157,7 +161,10 @@ export function mailinglists(app: express.Express, authCheck: any, checkScopes: 
       }, function (err, docs) {
 
         const _member = _.map(docs, (e) => {
-          return _(e).pick(e, ["name", "email"]).assign({ subscribed: "yes" }).value()
+          return _(e).pick(e, ["name", "email"]).assign({ subscribed: true }).mapKeys(
+            (value, key) => {
+              return serverKeyMap[key] ? serverKeyMap[key] : key;
+            }).value()
         });
 
         requestAddListMembers(_member, (error, response) => {
@@ -177,7 +184,8 @@ export function mailinglists(app: express.Express, authCheck: any, checkScopes: 
         method: 'POST',
         url: `${listapi}/${address}/members.json`,
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
-        body:`members=${JSON.stringify(_member)}&upsert=yes`,
+        body: `members=${JSON.stringify(_member)}&upsert=yes`,
+       // body: `members=[{"name":"test6","address":"bob@example.com","subscribed":false}, {"name":"test022","address":"alice@example.com","subscribed":true}]&upsert=yes`
 
       };
 
@@ -205,4 +213,76 @@ export function mailinglists(app: express.Express, authCheck: any, checkScopes: 
 
 
   });
+
+  // DELETE mailing lists members
+  app.delete('/api/lists/:id/members', authCheck, checkScopes, function (req, res) {
+
+    console.log("delete list members");
+
+    let request = require("request");
+    let address = req.params.id;
+
+    const _member = req.body;
+
+    console.log(_member);
+
+    requestRemoveListMembers(_member, (error, response) => {
+      console.log("callback")
+      console.log(error)
+      console.log(response)
+      if (error) {
+        return res.status(400).json(error);
+      } else {
+        return res.json(response);
+      };
+    });
+
+
+    function requestRemoveListMembers(_member: string[], callback) {
+
+      /** Update mailing list **/
+      let options = {
+        method: 'DELETE',
+        // url: `${listapi}/${address}/members/${_member}`,
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      };
+
+      if (process.env.PROXY) {
+        var HttpsProxyAgent = require('https-proxy-agent');
+        var agent = new HttpsProxyAgent(process.env.PROXY);
+        options["agent"] = agent;
+      }
+
+      let batch = _.map(_member, (e) => {
+        let url = `${listapi}/${address}/members/${e}`;
+        let option = { ...options, url: url };
+
+        return request(option, function (error, response, body) {
+          console.log(option);
+          console.log(body);
+          console.log(error);
+          if (error) {
+            throwError(error);
+          } else {
+            return body;
+          }
+
+        });
+      })
+
+      const example = forkJoin(
+        batch,
+      );
+
+      const subscribe = example.subscribe(
+        value => { callback(null, value); },
+        err => { callback(err, null); },
+      );
+
+    }
+
+
+  });
 };
+
+
