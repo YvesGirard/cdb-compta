@@ -78,6 +78,10 @@ import {
     getCollectionState,
     fromCollection.getLoaded
   );
+  export const getCollectionQuery = createSelector(
+    getCollectionState,
+    fromCollection.getQuery
+  );  
   export const getCollectionLoading = createSelector(
     getCollectionState,
     fromCollection.getLoading

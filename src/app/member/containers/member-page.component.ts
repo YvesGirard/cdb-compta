@@ -27,13 +27,13 @@ const defaultDialogConfig = new MatDialogConfig();
   `,
   ],
 })
-export class MemberPageComponent  {
+export class MemberPageComponent {
 
   config = {
     disableClose: false,
-   // panelClass: 'custom-overlay-pane-class',
-   // hasBackdrop: true,
-   // backdropClass: '',
+    // panelClass: 'custom-overlay-pane-class',
+    // hasBackdrop: true,
+    // backdropClass: '',
     width: '',
     height: '',
     minWidth: '',
@@ -70,4 +70,26 @@ export class MemberPageComponent  {
     //this.actionsSubscription.unsubscribe();
   }
 
+  fileChange(event) {
+
+
+    let fileList: FileList = event.target.files;
+    console.log(event.target.files)
+
+    if (fileList.length > 0) {
+      let file: File = fileList[0];
+      let formData: FormData = new FormData();
+      formData.append('uploadFile', file, file.name);
+
+      let fileHeaders = new Headers({
+        'Content-Type': 'multipart/form-data',
+        'Accept': 'application/json'
+      });
+
+      console.log("request")
+      this.store.dispatch(new MembersActions.UploadMember(formData));
+      //this.dataSource.updateMembers(formData);
+
+    }
+  }
 }

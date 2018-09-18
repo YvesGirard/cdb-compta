@@ -11,6 +11,11 @@
             <button mat-raised-button color="warn" (click)="create()">
                 <mat-icon>add</mat-icon>Créer Adhérent
             </button>
+            <button mat-icon-button (click)="excelFileInput.click()">
+                <mat-icon aria-label="File">file_upload</mat-icon>
+                <input hidden id="file_input_file" #excelFileInput (change)="fileChange($event)" type="file" />
+                </button>
+                
         </mat-grid-tile>
 
     </mat-grid-list>

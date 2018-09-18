@@ -8,6 +8,7 @@ export enum MemberCollectionActionTypes {
     GetTotal = '[MemberCollection] GetTotal',
     GetTotalSuccess = '[MemberCollection] GetTotal Success',
     GetTotalFail = '[MemberCollection] GetTotal Fail',
+    Search = '[MemberCollection] Search',    
   }
   
   
@@ -49,10 +50,25 @@ export enum MemberCollectionActionTypes {
     constructor(public payload: any) {}
   }
   
+  export class Search implements Action {
+    readonly type = MemberCollectionActionTypes.Search;
+
+    constructor(public payload: {
+      filter:string,
+      sortOrder:string,
+      sortField:string,
+      pageNumber:number,
+      pageSize:number,
+      searchField:string,
+    }) {}
+
+  }
+
   export type MemberCollectionActionsUnion =
     | Load
     | LoadSuccess
     | LoadFail
     | GetTotal
     | GetTotalSuccess
-    | GetTotalFail;
+    | GetTotalFail
+    | Search;

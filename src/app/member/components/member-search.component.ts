@@ -20,7 +20,7 @@ import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
         <mat-grid-tile class="flex-left">
             <span class="search-area">
                 <i class="icon-budicon-489"></i>
-                <input  class="js-user-input user-input" type="text" placeholder="Recherche" spellcheck="false" #search>
+                <input  class="js-user-input user-input" type="text" [value]="query" placeholder="Recherche" spellcheck="false" #search>
             </span>
             <span class="controls pull-right">
                 <button type="reset">
@@ -40,6 +40,7 @@ import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 export class MemberSearchComponent implements AfterViewInit {
 
     @ViewChild('search') _search: ElementRef;
+    @Input() query = '';
 
     constructor() {
     }

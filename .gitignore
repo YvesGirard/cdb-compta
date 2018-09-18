@@ -35,6 +35,8 @@ npm-debug.log
 testem.log
 /typings
 /.env
+public/uploads/*
+!public/uploads/.gitkeep
 
 # e2e
 /e2e/*.js

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, ViewChild, AfterViewInit, E
 import { select, Store } from '@ngrx/store';
 import { Observable, fromEvent } from 'rxjs';
 
-import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { tap, debounceTime, distinctUntilChanged, take, map, switchMap } from 'rxjs/operators';
 
 import { MatDialog, PageEvent, MatDialogConfig } from '@angular/material';
 import { MemberAddDialog } from '../components/member-add-dialog.component';
@@ -24,9 +24,9 @@ const defaultDialogConfig = new MatDialogConfig();
   selector: 'm-member-page-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-  <m-member-search (search)="search($event)"></m-member-search>
+  <m-member-search [query]="searchQuery$ | async" (search)="search($event)"></m-member-search>
   <m-member-list [datasource]="dataSource$" [displayedColumns]="displayedColumns">
-    <mat-paginator (page)="onPage($event)" [length]="total$ | async"  [(pageIndex)]="pageIndex" [(pageSize)]="pageSize" [pageSizeOptions]="[10, 50, 100]"></mat-paginator>
+    <mat-paginator (page)="onPage($event)" [length]="total$ | async"  [pageIndex]="pageIndex$ | async" [pageSize]="pageSize$ | async" [pageSizeOptions]="[10, 50, 100]"></mat-paginator>
   </m-member-list>
   `,
   styles: [
@@ -35,20 +35,42 @@ const defaultDialogConfig = new MatDialogConfig();
   `,
   ],
 })
-export class MemberPageListComponent implements OnInit {
+export class MemberPageListComponent implements OnInit, AfterViewInit {
   @Input() displayedColumns: Array<string>;
   dataSource$: MemberDataSource;
+  searchQuery$: Observable<string>;
   total$: Observable<number>;
-  pageIndex: number;
-  pageSize: number;
+  pageIndex$: Observable<number>;
+  pageSize$: Observable<number>;
 
   @ViewChild(MemberSearchComponent) _search: MemberSearchComponent;
   @ViewChild(MemberListComponent) _list: MemberListComponent;
 
   constructor(private store: Store<fromMembers.State>, public dialog: MatDialog, ) {
     this.total$ = this.store.pipe(select(fromMembers.getCollectionTotal));
-    this.pageIndex = 0;
-    this.pageSize = 10;
+
+    this.searchQuery$ = this.store.pipe(
+      select(fromMembers.getCollectionQuery),
+      map(val => {
+        return val.filter;
+      }),
+    );
+
+    this.pageIndex$ = this.store.pipe(
+      select(fromMembers.getCollectionQuery),
+      map(val => {
+        return val.pageIndex;
+      }),
+    );
+
+
+    this.pageSize$ = this.store.pipe(
+      select(fromMembers.getCollectionQuery),
+      map(val => {
+        return val.pageSize;
+      }),
+    );
+  
   }
 
   get selected(): Array<any> {
@@ -57,7 +79,20 @@ export class MemberPageListComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataSource$ = new MemberDataSource(this.store);
-    this.dataSource$.loadMembers();
+    //this.dataSource$.loadMembers();
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource$.loadMembers(
+     /* this._search.value,
+      'asc',
+      '',//this.search.nativeElement.value,
+      this.pageIndex,
+      this.pageSize,
+    '',*/);
+    console.log("this._search.value ngAfterViewInit");
+    console.log(this._search.value);
+
   }
 
   search(input: string): void {
@@ -65,23 +100,23 @@ export class MemberPageListComponent implements OnInit {
     this.pageIndex = 0;
 
     this.dataSource$.loadMembers(
-      input,
+     /* input,
       'asc',
       '',
       this.pageIndex,
       this.pageSize,
-      '',
+      '',*/
     );
   }
 
   onPage(event: PageEvent) {
     this.dataSource$.loadMembers(
-      this._search.value,
+    /*  this._search.value,
       'asc',
       '',//this.search.nativeElement.value,
       event.pageIndex,
       event.pageSize,
-      '',
+      '',*/
     );
   }
 

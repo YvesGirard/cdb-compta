@@ -8,6 +8,9 @@ export enum MemberActionTypes {
     UpdateMember = '[Member] Update',
     UpdateMemberSuccess = '[Member] Update Success',
     UpdateMemberFail = '[Member] Update Fail',   
+    UploadMember = '[Member] UploadMember',
+    UploadMemberSuccess = '[Member] UploadMember Success',
+    UploadMemberFail = '[Member] UploadMember Fail',     
     DeleteMember = '[Member] Delete',
     DeleteMemberSuccess = '[Member] Delete Success',
     DeleteMemberFail = '[Member] Delete Fail',    
@@ -49,6 +52,24 @@ export class UpdateMemberSuccess implements Action {
 
 export class UpdateMemberFail implements Action {
     readonly type = MemberActionTypes.UpdateMemberFail;
+
+    constructor(public payload: any) { }
+}
+
+export class UploadMember implements Action {
+    readonly type = MemberActionTypes.UploadMember;
+
+    constructor(public payload: FormData) { }
+}
+
+export class UploadMemberSuccess implements Action {
+    readonly type = MemberActionTypes.UploadMemberSuccess;
+
+    constructor(public payload: any) { }
+}
+
+export class UploadMemberFail implements Action {
+    readonly type = MemberActionTypes.UploadMemberFail;
 
     constructor(public payload: any) { }
 }

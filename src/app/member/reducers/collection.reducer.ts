@@ -9,6 +9,14 @@ export interface State {
   loading: boolean;
   ids: string[];
   total: number;
+  query: {
+    filter:string,
+    sortOrder:string,
+    sortField:string,
+    pageNumber:number,
+    pageSize:number,
+    searchField:string,
+  };
 }
 
 const initialState: State = {
@@ -16,6 +24,12 @@ const initialState: State = {
   loading: false,
   ids: [],
   total: 0,
+  query: { filter: '', 
+          sortOrder: 'asc', 
+          sortField: 'name',
+          pageNumber: 0, 
+          pageSize: 10,
+          searchField: 'name'},
 };
 
 export function reducer(
@@ -23,7 +37,22 @@ export function reducer(
   action: MemberActionsUnion | MemberCollectionActionsUnion
 ): State {
   switch (action.type) {
-    case MemberCollectionActionTypes.Load:
+    case MemberCollectionActionTypes.Load: {
+
+      return {
+        ...state,
+        //query: action.payload
+      };
+    }
+
+    case MemberCollectionActionTypes.Search: {
+
+      return {
+        ...state, 
+        query: {...state.query, ...action.payload}
+      };
+    }
+
     case MemberActionTypes.LoadMember: {
 
       return {
@@ -42,24 +71,24 @@ export function reducer(
     }
 
     case MemberCollectionActionTypes.LoadSuccess:
-     {
-      return {
-        ...state,
-        loaded: true,
-        loading: false,
-        ids: action.payload.map(participant => participant._id),
-      };
-    }
+      {
+        return {
+          ...state,
+          loaded: true,
+          loading: false,
+          ids: action.payload.map(participant => participant._id),
+        };
+      }
 
     case MemberActionTypes.LoadMemberSuccess:
-    {
-      return {
-        ...state,
-        loaded: true,
-        loading: false,
-        ids: [...state.ids, action.payload._id],
-      };
-    }
+      {
+        return {
+          ...state,
+          loaded: true,
+          loading: false,
+          ids: [...state.ids, action.payload._id],
+        };
+      }
 
     case MemberActionTypes.AddMemberSuccess:
     case MemberActionTypes.DeleteMemberFail: {
@@ -91,6 +120,8 @@ export function reducer(
 }
 
 export const getLoaded = (state: State) => state.loaded;
+
+export const getQuery = (state: State) => state.query;
 
 export const getLoading = (state: State) => state.loading;
 

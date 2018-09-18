@@ -69,19 +69,13 @@ export class MemberService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  public uploadFile(formData: FormData): Observable<Object> {
+  public uploadMember(formData: FormData): Observable<Object> {
     let uploadMemberUrl = '/api/members/upload';
 
     return this.http
       .post(uploadMemberUrl, formData)
-      .pipe(map((res) => {
-        return res['data'];
-      }
-      ));
+      .pipe(catchError((error: any) => throwError(error)));
   }
-
-
-
 
 }
 

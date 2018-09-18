@@ -1,6 +1,6 @@
 import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { select, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { asyncScheduler, empty, Observable, of } from 'rxjs';
@@ -11,6 +11,7 @@ import {
     skip,
     switchMap,
     takeUntil,
+    withLatestFrom,
 } from 'rxjs/operators';
 
 import { MemberService } from '../services/member.service';
@@ -23,6 +24,9 @@ import {
     UpdateMember,
     UpdateMemberSuccess,
     UpdateMemberFail,
+    UploadMember,
+    UploadMemberSuccess,
+    UploadMemberFail,
     DeleteMember,
     DeleteMemberSuccess,
     DeleteMemberFail,
@@ -31,8 +35,13 @@ import {
     LoadMemberFail,
 } from '../actions/member.actions';
 
+import {
+    Load,
+  } from '../actions/collection.actions';
+
 import { Member } from '../../model/member';
 
+import * as fromMembers from '../reducers';
 
 @Injectable()
 export class MemberEffects {
@@ -91,22 +100,46 @@ export class MemberEffects {
         })
     );
 
+    @Effect()
+    uploadFile$ = this.actions$.ofType(MemberActionTypes.UploadMember).pipe(
+        map((action: UploadMember) => action.payload),
+        switchMap(file => {
+            return this.memberService
+                .uploadMember(file)
+                .pipe(
+                    map(any => new UploadMemberSuccess(any)),
+                    catchError(error => of(new UploadMemberFail(error)))
+                );
+        })
+    );
+
+    @Effect()
+    handleUploadFileSuccess$ = this.actions$.ofType(MemberActionTypes.UploadMemberSuccess)
+        .pipe(
+            withLatestFrom(this.store.pipe(select(fromMembers.getCollectionQuery))),
+            map(([action, query]: ([UploadMemberSuccess, any])) => [action.payload, query]),
+            map((val) => {
+                return new Load(val[1]);
+            })
+        );
+
     @Effect({ dispatch: false })
     handleMemberSuccess$ = this.actions$
-    .ofType(
-        MemberActionTypes.DeleteMemberSuccess,
-        MemberActionTypes.UpdateMemberSuccess,
-    )
-    .pipe(
-      map((member) => {
-        let link = ['/members'];
-        this.router.navigate(link);
-      })
-    );
+        .ofType(
+            MemberActionTypes.DeleteMemberSuccess,
+            MemberActionTypes.UpdateMemberSuccess,
+        )
+        .pipe(
+            map((member) => {
+                let link = ['/members'];
+                this.router.navigate(link);
+            })
+        );
 
     constructor(
         private actions$: Actions,
         private memberService: MemberService,
-        private router: Router
+        private router: Router,
+        private store: Store<fromMembers.State>,
     ) { }
 }
