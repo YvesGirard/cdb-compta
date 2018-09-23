@@ -6,6 +6,10 @@ import {
 
   import * as fromMembers from './member.reducer';
   import * as fromCollection from './collection.reducer';
+  
+  import * as fromAttendances from './attendance.reducer';
+  import * as fromAttendanceCollection from './attendance.collection.reducer';
+
   import * as fromRoot from '../../core/reducers';
   
   export interface MembersState {
@@ -91,3 +95,8 @@ import {
     getCollectionState,
     fromCollection.getTotal
   );
+
+
+
+
+ 

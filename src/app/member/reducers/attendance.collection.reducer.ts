@@ -1,8 +1,8 @@
 import {
-  MemberCollectionActionTypes,
-  MemberCollectionActionsUnion,
-} from '../actions/collection.actions';
-import { MemberActionsUnion, MemberActionTypes } from '../actions/member.actions';
+  AttendanceCollectionActionTypes,
+  AttendanceCollectionActionsUnion,
+} from '../actions/attendance.collection.actions';
+import { AttendanceActionsUnion, AttendanceActionTypes } from '../actions/attendance.actions';
 
 export interface State {
   loaded: boolean;
@@ -34,10 +34,10 @@ const initialState: State = {
 
 export function reducer(
   state = initialState,
-  action: MemberActionsUnion | MemberCollectionActionsUnion
+  action: AttendanceActionsUnion | AttendanceCollectionActionsUnion
 ): State {
   switch (action.type) {
-    case MemberCollectionActionTypes.Load: {
+    case AttendanceCollectionActionTypes.Load: {
 
       return {
         ...state,
@@ -45,8 +45,8 @@ export function reducer(
       };
     }
 
-    case MemberCollectionActionTypes.Search:
-    case MemberCollectionActionTypes.Page: {
+    case AttendanceCollectionActionTypes.Search:
+    case AttendanceCollectionActionTypes.Page: {
 
       return {
         ...state, 
@@ -54,7 +54,7 @@ export function reducer(
       };
     }
 
-    case MemberActionTypes.LoadMember: {
+    case AttendanceActionTypes.LoadAttendance: {
 
       return {
         ...state,
@@ -63,7 +63,7 @@ export function reducer(
       };
     }
 
-    case MemberCollectionActionTypes.GetTotalSuccess: {
+    case AttendanceCollectionActionTypes.GetTotalSuccess: {
 
       return {
         ...state,
@@ -71,7 +71,7 @@ export function reducer(
       };
     }
 
-    case MemberCollectionActionTypes.LoadSuccess:
+    case AttendanceCollectionActionTypes.LoadSuccess:
       {
         return {
           ...state,
@@ -81,7 +81,7 @@ export function reducer(
         };
       }
 
-    case MemberActionTypes.LoadMemberSuccess:
+    case AttendanceActionTypes.LoadAttendanceSuccess:
       {
         return {
           ...state,
@@ -91,8 +91,8 @@ export function reducer(
         };
       }
 
-    case MemberActionTypes.AddMemberSuccess:
-    case MemberActionTypes.DeleteMemberFail: {
+    case AttendanceActionTypes.AddAttendanceSuccess:
+    case AttendanceActionTypes.DeleteAttendanceFail: {
       if (state.ids.indexOf(action.payload._id) > -1) {
         return {
           ...state,
@@ -105,9 +105,9 @@ export function reducer(
       };
     }
 
-    case MemberActionTypes.DeleteMemberSuccess:
-    case MemberActionTypes.LoadMemberFail:
-    case MemberActionTypes.AddMemberFail: {
+    case AttendanceActionTypes.DeleteAttendanceSuccess:
+    case AttendanceActionTypes.LoadAttendanceFail:
+    case AttendanceActionTypes.AddAttendanceFail: {
       return {
         ...state,
         ids: state.ids.filter(id => id !== action.payload._id),

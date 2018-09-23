@@ -11,6 +11,7 @@ import { MemberSearchComponent } from '../components/member-search.component';
 import { MemberListComponent } from '../components/member-list.component';
 
 import * as MembersActions from '../actions/member.actions';
+import * as CollectionActions from '../actions/collection.actions';
 import * as fromMembers from '../reducers';
 import { Member } from '../../model/member';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -70,7 +71,7 @@ export class MemberPageListComponent implements OnInit, AfterViewInit {
         return val.pageSize;
       }),
     );
-  
+
   }
 
   get selected(): Array<any> {
@@ -97,27 +98,18 @@ export class MemberPageListComponent implements OnInit, AfterViewInit {
 
   search(input: string): void {
 
-    this.pageIndex = 0;
-
-    this.dataSource$.loadMembers(
-     /* input,
-      'asc',
-      '',
-      this.pageIndex,
-      this.pageSize,
-      '',*/
-    );
+    this.store.dispatch(new CollectionActions.Search({
+      filter: input,
+      searchField: 'name',
+    }));
   }
 
   onPage(event: PageEvent) {
-    this.dataSource$.loadMembers(
-    /*  this._search.value,
-      'asc',
-      '',//this.search.nativeElement.value,
-      event.pageIndex,
-      event.pageSize,
-      '',*/
-    );
+    this.store.dispatch(new CollectionActions.Page({
+      pageIndex: event.pageIndex,
+      pageSize: event.pageSize,
+    }));
+
   }
 
   gotoDetail(): void {

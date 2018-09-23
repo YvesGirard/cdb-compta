@@ -7,3 +7,18 @@ export class Member implements IMember {
   family_name: string;
   email: string;
 }
+
+export class Class { 
+  _id: string;
+  memberId: string;
+  begin_dt: Date;
+  end_dt: Date;
+  class:string;
+}
+
+export class Attendance {
+  _id: string;
+  memberId: string;
+  date: Date;
+  class:string;  
+}

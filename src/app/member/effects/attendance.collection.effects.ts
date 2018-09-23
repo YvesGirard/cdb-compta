@@ -5,12 +5,12 @@ import { Action } from '@ngrx/store';
 import { defer, Observable, of, forkJoin, } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, toArray, withLatestFrom } from 'rxjs/operators';
 
-import { Member } from '../../model/member';
+import { Attendance } from '../../model/member';
 
-import { MemberService } from '../services/member.service';
+import { AttendanceService } from '../services/attendance.service';
 
 import {
-  MemberCollectionActionTypes,
+  AttendanceCollectionActionTypes,
   Load,
   LoadFail,
   LoadSuccess,
@@ -18,22 +18,22 @@ import {
   GetTotalFail,
   GetTotalSuccess,
   Search,
-} from '../actions/collection.actions';
+} from '../actions/attendance.collection.actions';
 
-import * as fromMembers from '../reducers';
+import * as fromAttendances from '../reducers';
 
 
 @Injectable()
-export class MemberCollectionEffects {
+export class AttendanceCollectionEffects {
 
   @Effect()
-  loadMemberCollection$ = this.actions$.pipe(
-    ofType(MemberCollectionActionTypes.Load),
-    withLatestFrom(this.store.pipe(select(fromMembers.getCollectionQuery))),
+  loadAttendanceCollection$ = this.actions$.pipe(
+    ofType(AttendanceCollectionActionTypes.Load),
+    withLatestFrom(this.store.pipe(select(fromAttendances.getCollectionQuery))),
     map(([action, query]: ([Load, any])) => [action.payload, query]),
     switchMap((query) => {
       return forkJoin(
-        this.participantService.getMembers(
+        this.participantService.getAttendances(
           query[1].filter,
           query[1].sortOrder,
           query[1].sortField,
@@ -41,7 +41,7 @@ export class MemberCollectionEffects {
           query[1].pageSize,
           query[1].searchField
         ),
-        this.participantService.getTotalMember(
+        this.participantService.getTotalAttendance(
           query[1].filter,
           query[1].searchField),
       )
@@ -58,10 +58,10 @@ export class MemberCollectionEffects {
   );
 
   @Effect()
-  getTotal$ = this.actions$.ofType(MemberCollectionActionTypes.GetTotal).pipe(
+  getTotal$ = this.actions$.ofType(AttendanceCollectionActionTypes.GetTotal).pipe(
     switchMap(() => {
       return this.participantService
-        .getTotalMember()
+        .getTotalAttendance()
         .pipe(
           map((total: number) => new GetTotalSuccess(total)),
           catchError(error => of(new GetTotalFail(error)))
@@ -71,18 +71,18 @@ export class MemberCollectionEffects {
 
   @Effect()
   search$ = this.actions$.pipe(
-    ofType(MemberCollectionActionTypes.Search),
+    ofType(AttendanceCollectionActionTypes.Search),
     map((action: Search) => new Load({})),
   );
 
   @Effect()
   page$ = this.actions$.pipe(
-    ofType(MemberCollectionActionTypes.Page),
+    ofType(AttendanceCollectionActionTypes.Page),
     map((action: Search) => new Load({})),
   );
 
   constructor(private actions$: Actions, 
-    private participantService: MemberService,
-    private store: Store<fromMembers.State>,
+    private participantService: AttendanceService,
+    private store: Store<fromAttendances.State>,
   ) { }
 }
