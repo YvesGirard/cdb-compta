@@ -15,6 +15,8 @@ import {
   export interface MembersState {
     members: fromMembers.State;
     collection: fromCollection.State;
+    attendances: fromAttendances.State;
+    attendancesCollection: fromAttendanceCollection.State;
   }
   
   export interface State extends fromRoot.State {
@@ -24,6 +26,8 @@ import {
   export const reducers: ActionReducerMap<MembersState> = {
     members: fromMembers.reducer,
     collection: fromCollection.reducer,
+    attendances: fromAttendances.reducer,
+    attendancesCollection: fromAttendanceCollection.reducer,
   };
   
 
@@ -97,6 +101,68 @@ import {
   );
 
 
+  // Attendances selectors
+  export const getAttendanceEntitiesState = createSelector(
+    getMembersState,
+    state => state.attendances
+  );
+  
+  export const getSelectedAttendanceId = createSelector(
+    getAttendanceEntitiesState,
+    fromAttendances.getSelectedId
+  );
+  
+  export const {
+    selectIds: getAttendanceIds,
+    selectEntities: getAttendanceEntities,
+    selectAll: getAllAttendances,
+    selectTotal: getTotalAttendances,
+  } = fromAttendances.adapter.getSelectors(getAttendanceEntitiesState);
+  
+  export const getSelectedAttendance = createSelector(
+    getAttendanceEntities,
+    getSelectedAttendanceId,
+    (entities, selectedId) => {
+      return selectedId && entities[selectedId];
+    }
+  );
 
+   /**
+   * Some selector functions create joins across parts of state. This selector
+   * composes the search result IDs to return an array of books in the store.
+   */
+  export const getAttendanceCollectionState = createSelector(
+    getMembersState,
+    (state: MembersState) => state.attendancesCollection
+  );
 
- 
+  export const getAttendanceCollectionMemberIds = createSelector(
+    getAttendanceCollectionState,
+    fromAttendanceCollection.getIds
+  );
+
+  export const getAttendanceCollection = createSelector(
+    getAttendanceEntities,
+    getAttendanceCollectionMemberIds,
+    (entities, ids) => {
+      return ids.map(id => entities[id]);
+    }
+  );
+
+  export const getAttendanceCollectionLoaded = createSelector(
+    getAttendanceCollectionState,
+    fromAttendanceCollection.getLoaded
+  );
+  export const getAttendanceCollectionQuery = createSelector(
+    getAttendanceCollectionState,
+    fromAttendanceCollection.getQuery
+  );  
+  export const getAttendanceCollectionLoading = createSelector(
+    getAttendanceCollectionState,
+    fromAttendanceCollection.getLoading
+  );
+
+  export const getAttendanceCollectionTotal = createSelector(
+    getAttendanceCollectionState,
+    fromAttendanceCollection.getTotal
+  );
