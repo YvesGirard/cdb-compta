@@ -1,6 +1,7 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, ViewChild, AfterViewInit, } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { AttendanceDataSource } from '../datasource/attendance.data-source';
 
@@ -25,12 +26,45 @@ import { Member } from '../../model/member';
     </m-attendance-list>
   `,
 })
-export class SelectedMemberPageComponent {
+export class SelectedMemberPageComponent implements OnInit, AfterViewInit {
   member$: Observable<Member>;
   dataSource$: AttendanceDataSource;
+  total$: Observable<number>;
+  pageIndex$: Observable<number>;
+  pageSize$: Observable<number>;
+
+  displayedColumns = ['_id',
+    'date',
+    'class',
+  ];
 
   constructor(private store: Store<fromMembers.State>) {
     this.member$ = store.pipe(select(fromMembers.getSelectedMember)) as Observable<Member>;
+
+    this.total$ = this.store.pipe(select(fromMembers.getAttendanceCollectionTotal));
+
+    this.pageIndex$ = this.store.pipe(
+      select(fromMembers.getAttendanceCollectionQuery),
+      map(val => {
+        return val.pageIndex;
+      }),
+    );
+
+
+    this.pageSize$ = this.store.pipe(
+      select(fromMembers.getAttendanceCollectionQuery),
+      map(val => {
+        return val.pageSize;
+      }),
+    );
+  }
+
+  ngOnInit(): void {
+    this.dataSource$ = new AttendanceDataSource(this.store);
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource$.loadAttendances();
   }
 
   update(member: Member) {

@@ -13,34 +13,27 @@
 
     <ng-container matColumnDef="_id">
         <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
-        <mat-cell *matCellDef="let member">
-            <a [routerLink]="['/members', member._id]">{{member._id}}</a>
+        <mat-cell *matCellDef="let attendance">
+            <a [routerLink]="['/attendance', attendance._id]">{{attendance._id}}</a>
         </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="given_name">
-        <mat-header-cell *matHeaderCellDef>Prénom</mat-header-cell>
-        <mat-cell class="description-cell" *matCellDef="let member">
-            {{member.given_name}}
-        </mat-cell>
-
-    </ng-container>
-
-    <ng-container matColumnDef="family_name">
-        <mat-header-cell *matHeaderCellDef>Nom</mat-header-cell>
-        <mat-cell class="description-cell" *matCellDef="let member">
-            {{member.family_name}}
+    <ng-container matColumnDef="date">
+        <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+        <mat-cell class="description-cell" *matCellDef="let attendance">
+            {{attendance.date}}
         </mat-cell>
 
     </ng-container>
 
-    <ng-container matColumnDef="email">
-        <mat-header-cell *matHeaderCellDef>email</mat-header-cell>
-        <mat-cell class="description-cell" *matCellDef="let member">
-            {{member.email}}
+    <ng-container matColumnDef="class">
+        <mat-header-cell *matHeaderCellDef>Activité</mat-header-cell>
+        <mat-cell class="description-cell" *matCellDef="let attendance">
+            {{member.class}}
         </mat-cell>
 
     </ng-container>
+
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
