@@ -234,7 +234,7 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
       if (err)
         res.json({ info: 'error finding mails', error: err });
 
-      res.json({ info: 'mails found successfully', data: mail }); // return all users in JSON format
+      res.json(mail); // return all users in JSON format
     });
   });
 

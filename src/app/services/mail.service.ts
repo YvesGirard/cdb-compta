@@ -58,7 +58,7 @@ export class MailService {
   getMail(id: number): Promise<Mail> {
     return this.http.get<Mail>(`${this.mailUrl}/${id}`)
       .toPromise()
-      .then(response => (new Mail(response)))
+      .then(response => (response))
       .catch(this.handleError);
   }
 
