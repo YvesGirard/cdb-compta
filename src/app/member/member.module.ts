@@ -21,7 +21,7 @@ import { MemberDetailComponent } from './components/member-detail.component';
 import { MemberFormComponent } from './components/member-form.component';
 //import { UiMemberModule } from '../ui/member/ui.member.module';
 
-
+import { MemberAttendanceListComponent } from './components/member-attendance-list.component';
 
 import { MemberExistsGuard } from './guards/member-exists.guard';
 
@@ -45,6 +45,7 @@ export const COMPONENTS = [
     MemberFormComponent,
     MemberSearchComponent,
     MemberPageListComponent,
+    MemberAttendanceListComponent,
   ];
 
 @NgModule({

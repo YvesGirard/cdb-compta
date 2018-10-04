@@ -33,7 +33,7 @@ import { SelectionModel } from '@angular/cdk/collections';
   `,
     ],
 })
-export class MemberListComponent {
+export class MemberAttendanceListComponent {
     @Input() datasource: AttendanceDataSource;
     @Input() displayedColumns: Array<string>;
    // @Input() selected: Array<any>;

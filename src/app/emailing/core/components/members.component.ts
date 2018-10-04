@@ -62,9 +62,7 @@ export class MailingListsMembersComponent {
 
     /** Selects all rows if they are not all selected; otherwise clear selection. */
     masterToggle() {
-        this.isAllSelected() ?
-            this.selection.clear() : true
-        //this.dataSource.data.forEach(row => this.selection.select(row._id));
+        //this.datasource.data.forEach(row => this.selection.select(row._id));
     }
 
     _remove(): void {

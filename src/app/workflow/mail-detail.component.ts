@@ -42,7 +42,8 @@ export class MailDetailComponent implements OnChanges {
       this.mailService.getMail(id)
         .then((mail) => {
           this.mail = mail;
-          console.log(this.mail)
+          console.log(this.mail);
+          this.buildForm();
         });
     });
     this.createForm();
@@ -52,31 +53,65 @@ export class MailDetailComponent implements OnChanges {
     this.form = this.fb.group({
       from: this.fb.array(
         [this.fb.group({
-          _id:[''],
+          _id: [''],
           address: [''],
         })]
       ),
       to: this.fb.array(
         [this.fb.group({
-          _id:[''],
+          _id: [''],
           address: [''],
         })]
-      )      
+      )
     });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  buildForm(): void {
     if (this.mail && this.mail._id) {
       this.form.patchValue(this.mail);
+      //this.setFrom();
+      //this.setTo();
     }
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    this.buildForm();
+  }
+
+ /* setFrom(): void {
+    let control = <FormArray>this.form.controls.from;
+    this.mail.from.forEach(x => {
+      control.push(this.fb.group({
+        address: x.address
+      }))
+    })
+  }
+
+  setTo(): void {
+    let control = <FormArray>this.form.controls.to;
+    this.mail.to.forEach(x => {
+      control.push(this.fb.group({
+        address: x.address
+      }))
+    })
+  }*/
 
   goBack(): void {
     this.location.back();
   }
 
   save(): void {
+    const { value, valid } = this.form;
+
+    Object.keys(this.form.controls).forEach(field => {
+        const control = this.form.get(field);
+        control.markAsTouched({ onlySelf: true });
+    });
+
+    
+    this.mail = { ...this.mail, ...value };
+    console.log(this.mail)
+
     //this.loadingService.loadingSubject.next(true);
     this.mailService.update(this.mail)
       .then(() => {
