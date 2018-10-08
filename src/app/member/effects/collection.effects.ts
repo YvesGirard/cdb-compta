@@ -34,7 +34,7 @@ export class MemberCollectionEffects {
     map(([action, query]: ([Load, any])) => [action.payload, query]),
     switchMap((query) => {
       return forkJoin(
-        this.participantService.getMembers(
+        this.memberService.getMembers(
           query[1].filter,
           query[1].sortOrder,
           query[1].sortField,
@@ -42,7 +42,7 @@ export class MemberCollectionEffects {
           query[1].pageSize,
           query[1].searchField
         ),
-        this.participantService.getTotalMember(
+        this.memberService.getTotalMember(
           query[1].filter,
           query[1].searchField),
       )
@@ -61,7 +61,7 @@ export class MemberCollectionEffects {
   @Effect()
   getTotal$ = this.actions$.ofType(MemberCollectionActionTypes.GetTotal).pipe(
     switchMap(() => {
-      return this.participantService
+      return this.memberService
         .getTotalMember()
         .pipe(
           map((total: number) => new GetTotalSuccess(total)),
@@ -85,11 +85,18 @@ export class MemberCollectionEffects {
   @Effect()
   selectAll$ = this.actions$.pipe(
     ofType(MemberCollectionActionTypes.SelectAll),
-    map((action: SelectAll) => new Load({})),
+    switchMap(() => {
+      return this.memberService
+        .getTotalMember()
+        .pipe(
+          map((total: number) => new GetTotalSuccess(total)),
+        //  catchError(error => of(new GetTotalFail(error)))
+        );
+    })
   );
 
   constructor(private actions$: Actions, 
-    private participantService: MemberService,
+    private memberService: MemberService,
     private store: Store<fromMembers.State>,
   ) { }
 }
