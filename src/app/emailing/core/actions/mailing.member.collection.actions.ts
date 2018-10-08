@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
-import { Member } from '../../model/member';
+import { MailingListMember } from '../../../model/mail';
 
-export enum MemberCollectionActionTypes {
+export enum MailingMemberCollectionActionTypes {
   Load = '[MemberCollection] Load',
   LoadSuccess = '[MemberCollection] Load Success',
   LoadFail = '[MemberCollection] Load Fail',
@@ -10,52 +10,49 @@ export enum MemberCollectionActionTypes {
   GetTotalFail = '[MemberCollection] GetTotal Fail',
   Search = '[MemberCollection] Search',
   Page = '[MemberCollection] Page',
-  Select = '[MemberCollection] Select',
-  SelectAll = '[MemberCollection] SelectAll',
-  SelectAllSuccess = '[MemberCollection] SelectAllSuccess',
 }
 
 
 /**
- * Load MemberCollection Actions
+ * Load MemberCollection Actionss 
  */
 export class Load implements Action {
-  readonly type = MemberCollectionActionTypes.Load;
+  readonly type = MailingMemberCollectionActionTypes.Load;
 
   constructor(public payload: any) { }
 
 }
 
 export class LoadSuccess implements Action {
-  readonly type = MemberCollectionActionTypes.LoadSuccess;
+  readonly type = MailingMemberCollectionActionTypes.LoadSuccess;
 
-  constructor(public payload: Member[]) { }
+  constructor(public payload: MailingListMember[]) { }
 }
 
 export class LoadFail implements Action {
-  readonly type = MemberCollectionActionTypes.LoadFail;
+  readonly type = MailingMemberCollectionActionTypes.LoadFail;
 
   constructor(public payload: any) { }
 }
 
 export class GetTotal implements Action {
-  readonly type = MemberCollectionActionTypes.GetTotal;
+  readonly type = MailingMemberCollectionActionTypes.GetTotal;
 }
 
 export class GetTotalSuccess implements Action {
-  readonly type = MemberCollectionActionTypes.GetTotalSuccess;
+  readonly type = MailingMemberCollectionActionTypes.GetTotalSuccess;
 
   constructor(public payload: any) { }
 }
 
 export class GetTotalFail implements Action {
-  readonly type = MemberCollectionActionTypes.GetTotalFail;
+  readonly type = MailingMemberCollectionActionTypes.GetTotalFail;
 
   constructor(public payload: any) { }
 }
 
 export class Search implements Action {
-  readonly type = MemberCollectionActionTypes.Search;
+  readonly type = MailingMemberCollectionActionTypes.Search;
 
   constructor(public payload: {
     filter: string,
@@ -65,33 +62,12 @@ export class Search implements Action {
 }
 
 export class Page implements Action {
-  readonly type = MemberCollectionActionTypes.Page;
+  readonly type = MailingMemberCollectionActionTypes.Page;
 
   constructor(public payload: {
     pageIndex: number,
     pageSize: number,
   }) { }
-
-}
-
-export class Select implements Action {
-  readonly type = MemberCollectionActionTypes.Select;
-
-  constructor(public payload: string) { }
-
-}
-
-export class SelectAll implements Action {
-  readonly type = MemberCollectionActionTypes.SelectAll;
-
-  constructor() { }
-
-}
-
-export class SelectAllSuccess implements Action {
-  readonly type = MemberCollectionActionTypes.SelectAllSuccess;
-
-  constructor(public payload: string[]) { }
 
 }
 
@@ -103,7 +79,4 @@ export type MemberCollectionActionsUnion =
   | GetTotalSuccess
   | GetTotalFail
   | Search
-  | Page
-  | Select
-  | SelectAll
-  | SelectAllSuccess;
+  | Page;

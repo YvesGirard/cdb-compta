@@ -18,6 +18,7 @@ import {
   GetTotalFail,
   GetTotalSuccess,
   Search,
+  SelectAll,
 } from '../actions/collection.actions';
 
 import * as fromMembers from '../reducers';
@@ -79,6 +80,12 @@ export class MemberCollectionEffects {
   page$ = this.actions$.pipe(
     ofType(MemberCollectionActionTypes.Page),
     map((action: Search) => new Load({})),
+  );
+
+  @Effect()
+  selectAll$ = this.actions$.pipe(
+    ofType(MemberCollectionActionTypes.SelectAll),
+    map((action: SelectAll) => new Load({})),
   );
 
   constructor(private actions$: Actions, 

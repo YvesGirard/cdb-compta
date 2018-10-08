@@ -33,6 +33,22 @@ export class MemberService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
+  getPagedMembersIds(filter = '', sortOrder = 'asc', sortField = 'name',
+    pageNumber = 0, pageSize = 10, searchField = 'name'): Observable<Member[]> {
+    return this.http
+      .get<Member[]>(`/api/members/getpagedids`, {
+        params: new HttpParams()
+          .set('filter', filter)
+          .set('sortOrder', sortOrder)
+          .set('sortField', sortField)
+          .set('pageNumber', pageNumber.toString())
+          .set('pageSize', pageSize.toString())
+          .set('searchField', searchField)
+
+      })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
   getMember(payload: string): Observable<Member[]> {
     return this.http
       .get<Member[]>(`/api/members/${payload}`)

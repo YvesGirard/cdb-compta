@@ -156,6 +156,38 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
 
     });
 
+    // sample api route
+    app.get('/api/members/getpagedids', authCheck, checkScopes, function (req, res) {
+
+        // use mongoose to get all users in the database
+        var filter = req.param("filter");
+        var sortOrder = req.param("sortOrder") || 'asc';
+        var sortField = req.param("sortField") || 'name';
+        var pageSize = Number(req.param("pageSize"));
+        var pageSkip = Number(req.param("pageNumber")) * pageSize;
+        var searchField = req.param("searchField") || 'name';
+
+        let regex = {}
+        if (filter) {
+            _.set(regex, searchField, new RegExp(filter, 'i'));
+        }
+        let sort = {}
+        _.set(sort, sortField, sortOrder);
+
+        let query1;
+
+        query1 = Member.find(regex).sort(sort);
+
+        const example = forkJoin(
+            query1.exec().then((val) => { return val }),
+        );
+
+        const subscribe = example.subscribe(val => {
+            return res.json(val[0]);
+        });
+
+    });
+
     app.get('/api/members/total', authCheck, checkScopes, function (req, res, next) {
         const filter = req.param("filter");
         const searchField = req.param("searchField") || 'name';

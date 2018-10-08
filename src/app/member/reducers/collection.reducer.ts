@@ -17,6 +17,7 @@ export interface State {
     pageSize:number,
     searchField:string,
   };
+  selected: string[];
 }
 
 const initialState: State = {
@@ -30,6 +31,7 @@ const initialState: State = {
           pageIndex: 0, 
           pageSize: 10,
           searchField: 'name'},
+  selected: [],
 };
 
 export function reducer(
@@ -51,6 +53,30 @@ export function reducer(
       return {
         ...state, 
         query: {...state.query, ...action.payload}
+      };
+    }
+
+    case MemberCollectionActionTypes.Select: {
+
+      return {
+        ...state, 
+        selected: [...state.selected, action.payload],
+      };
+    }
+
+    case MemberCollectionActionTypes.SelectAll: {
+
+      return {
+        ...state, 
+        selected: [...state.selected, ...state.ids],
+      };
+    }
+
+    case MemberCollectionActionTypes.SelectAllSuccess: {
+
+      return {
+        ...state, 
+        selected: [...state.selected, ...action.payload],
       };
     }
 
