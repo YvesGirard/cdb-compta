@@ -19,6 +19,7 @@ import {
   GetTotalSuccess,
   Search,
   SelectAll,
+  SelectAllSuccess,
 } from '../actions/collection.actions';
 
 import * as fromMembers from '../reducers';
@@ -64,7 +65,7 @@ export class MemberCollectionEffects {
       return this.memberService
         .getTotalMember()
         .pipe(
-          map((total: number) => new GetTotalSuccess(total)),
+          map((total: string[]) => new GetTotalSuccess(total)),
           catchError(error => of(new GetTotalFail(error)))
         );
     })
@@ -82,18 +83,25 @@ export class MemberCollectionEffects {
     map((action: Search) => new Load({})),
   );
 
-  @Effect()
+ /* @Effect()
   selectAll$ = this.actions$.pipe(
     ofType(MemberCollectionActionTypes.SelectAll),
-    switchMap(() => {
+    withLatestFrom(this.store.pipe(select(fromMembers.getCollectionQuery))),
+    map(([action, query]: ([SelectAll, any])) => [action, query]),
+    switchMap((query) => {
       return this.memberService
-        .getTotalMember()
-        .pipe(
-          map((total: number) => new GetTotalSuccess(total)),
-        //  catchError(error => of(new GetTotalFail(error)))
-        );
+      .getMembers(
+        query[1].filter,
+        query[1].sortOrder,
+        query[1].sortField,
+        query[1].pageNumber,
+        query[1].pageSize,
+        query[1].searchField
+      ).pipe(
+          map((ids:  string[]) => new SelectAllSuccess(ids)),
+      );
     })
-  );
+  );*/
 
   constructor(private actions$: Actions, 
     private memberService: MemberService,

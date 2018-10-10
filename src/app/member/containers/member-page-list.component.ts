@@ -26,7 +26,13 @@ const defaultDialogConfig = new MatDialogConfig();
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
   <m-member-search [query]="searchQuery$ | async" (search)="search($event)"></m-member-search>
-  <m-member-list [datasource]="dataSource$" [displayedColumns]="displayedColumns">
+  <m-member-list [datasource]="dataSource$" 
+  [displayedColumns]="displayedColumns" 
+  [isAllSelected]="isAllSelected$ | async" 
+  [isSelected]="isSelected$ | async"
+  [_selected]="selected$ | async"
+  (masterToggle)="masterToggle($event)"
+  (selectedChange)="selectedChange($event)">
     <mat-paginator (page)="onPage($event)" [length]="total$ | async"  [pageIndex]="pageIndex$ | async" [pageSize]="pageSize$ | async" [pageSizeOptions]="[10, 50, 100]"></mat-paginator>
   </m-member-list>
   `,
@@ -41,6 +47,9 @@ export class MemberPageListComponent implements OnInit, AfterViewInit {
   dataSource$: MemberDataSource;
   searchQuery$: Observable<string>;
   total$: Observable<number>;
+  isAllSelected$: Observable<boolean>;
+  isSelected$: Observable<boolean>;
+  selected$: Observable<string[]>;
   pageIndex$: Observable<number>;
   pageSize$: Observable<number>;
 
@@ -64,7 +73,6 @@ export class MemberPageListComponent implements OnInit, AfterViewInit {
       }),
     );
 
-
     this.pageSize$ = this.store.pipe(
       select(fromMembers.getCollectionQuery),
       map(val => {
@@ -72,6 +80,17 @@ export class MemberPageListComponent implements OnInit, AfterViewInit {
       }),
     );
 
+    this.isAllSelected$ = this.store.pipe(
+      select(fromMembers.getCollectionisAllSelected),
+    );
+
+    this.isSelected$ = this.store.pipe(
+      select(fromMembers.getCollectionisSelected),
+    );
+
+    this.selected$ = this.store.pipe(
+      select(fromMembers.getCollectionSelected),
+    );
   }
 
   get selected(): Array<any> {
@@ -80,28 +99,25 @@ export class MemberPageListComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.dataSource$ = new MemberDataSource(this.store);
-    //this.dataSource$.loadMembers();
   }
 
   ngAfterViewInit(): void {
-    this.dataSource$.loadMembers(
-     /* this._search.value,
-      'asc',
-      '',//this.search.nativeElement.value,
-      this.pageIndex,
-      this.pageSize,
-    '',*/);
-    console.log("this._search.value ngAfterViewInit");
-    console.log(this._search.value);
-
+    this.dataSource$.loadMembers();
   }
 
   search(input: string): void {
-
     this.store.dispatch(new CollectionActions.Search({
       filter: input,
       searchField: 'name',
     }));
+  }
+
+  masterToggle(): void {
+    this.store.dispatch(new CollectionActions.SelectAll());
+  }
+
+  selectedChange(input: string): void {
+    this.store.dispatch(new CollectionActions.Select(input));
   }
 
   onPage(event: PageEvent) {
@@ -109,7 +125,6 @@ export class MemberPageListComponent implements OnInit, AfterViewInit {
       pageIndex: event.pageIndex,
       pageSize: event.pageSize,
     }));
-
   }
 
   gotoDetail(): void {

@@ -100,6 +100,20 @@ import {
     fromCollection.getTotal
   );
 
+  export const getCollectionisAllSelected = createSelector(
+    getCollectionState,
+    fromCollection.isAllSelected
+  );
+
+  export const getCollectionisSelected = createSelector(
+    getCollectionState,
+    fromCollection.isSelected
+  );
+
+  export const getCollectionSelected = createSelector(
+    getCollectionState,
+    fromCollection.getSelected
+  );
 
   // Attendances selectors
   export const getAttendanceEntitiesState = createSelector(

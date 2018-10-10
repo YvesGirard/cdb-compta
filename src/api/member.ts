@@ -197,14 +197,23 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
             _.set(regex, searchField, new RegExp(filter, 'i'));
         }
 
-        Member.find(regex).count({}, function (err, result) {
+        /* Member.find(regex).count({}, function (err, result) {
+             if (err) {
+                 return res.status(400).json(err);
+             } else {
+                 return res.json({ "total": result });
+             }
+         })*/
+
+        Member.find(regex, '_id', (err, result) => {
             if (err) {
                 return res.status(400).json(err);
             } else {
-                return res.json({ "total": result });
+                return res.json(result.map((val) => {
+                    return val._id
+                }));
             }
         })
-
     });
 
     app.get('/api/members/:id', authCheck, checkScopes, function (req, res) {
@@ -257,7 +266,7 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
         ]);
 
         _.set(_member, "name", _member.given_name + " " + _member.family_name);
-      
+
 
         Member.findOneAndUpdate({
             _id: req.body._id

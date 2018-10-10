@@ -30,7 +30,6 @@ export class MemberDataSource implements DataSource<Member> {
 
     loadMembers(filter = '', sortOrder = 'asc', sortField = 'name',
     pageNumber = 0, pageSize = 10, searchField = 'name') {
-        console.log(pageNumber)
         this.store.dispatch(new CollectionActions.Load({
             filter: filter,
             sortOrder: sortOrder,

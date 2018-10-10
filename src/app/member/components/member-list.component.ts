@@ -36,45 +36,41 @@ import { SelectionModel } from '@angular/cdk/collections';
 export class MemberListComponent {
     @Input() datasource: MemberDataSource;
     @Input() displayedColumns: Array<string>;
-   // @Input() selected: Array<any>;
+    @Input() isAllSelected: boolean;
+    @Input() isSelected: boolean;
+    //@Input() _selected: string[];
 
-    selection: SelectionModel<any>;
+    //selection: SelectionModel<any>;
+    selection: string[];
 
-   // @Output() readonly selectedChange: EventEmitter<any> = new EventEmitter<any>()
+   @Output() selectedChange = new EventEmitter<string>()
+   @Output() masterToggle = new EventEmitter<any>();
 
     constructor() {
-        const initialSelection = [];
-        const allowMultiSelect = true;
-        this.selection = new SelectionModel<number>(allowMultiSelect, initialSelection);
+        //const initialSelection = [];
+       // const allowMultiSelect = true;
+        //this.selection = new SelectionModel<number>(allowMultiSelect, initialSelection);
     }
 
-    isAllSelected() {
-        const numSelected = this.selection.selected.length;
-        const numRows = 10;
-        return numSelected == numRows;
-    }
+    @Input() set _selected(value: string[]) {
+        this.selection = value;
+     }
 
     /** Selects all rows if they are not all selected; otherwise clear selection. */
-    masterToggle() {
-        this.isAllSelected() ?
-            this.selection.clear() : true
-        //this.dataSource.data.forEach(row => this.selection.select(row._id));
+    _masterToggle() {
+        this.masterToggle.emit();
     }
 
-    ajouterListe() {
-        this.selection.selected.forEach((id) => {
-            console.log(id);
-        });
+    isRowSelected(row: any):boolean {
+        return this.selection.includes(row._id)
     }
 
     selectionToggle(row: any) {
-        this.selection.toggle(row._id);
-        //this.selectedChange.emit(this.selection.selected.values);
+        this.selectedChange.emit(row._id);
     }
 
     get selected(): Array<any> {
-        return Array.from(this.selection.selected.values());
+        return this.selection;
     }
 
-    //selection.toggle(row._id)
 }
