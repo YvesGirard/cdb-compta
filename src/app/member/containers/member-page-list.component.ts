@@ -121,6 +121,8 @@ export class MemberPageListComponent implements OnInit, AfterViewInit {
   }
 
   onPage(event: PageEvent) {
+    console.log("page")
+    console.log(event.pageIndex)
     this.store.dispatch(new CollectionActions.Page({
       pageIndex: event.pageIndex,
       pageSize: event.pageSize,

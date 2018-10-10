@@ -42,6 +42,7 @@ export class MemberListComponent {
 
     //selection: SelectionModel<any>;
     selection: string[];
+    //_isSelected: boolean;
 
    @Output() selectedChange = new EventEmitter<string>()
    @Output() masterToggle = new EventEmitter<any>();
@@ -55,6 +56,11 @@ export class MemberListComponent {
     @Input() set _selected(value: string[]) {
         this.selection = value;
      }
+
+    /* @Input() set isSelected(value: boolean) {
+         console.log("isSelected: " + value)
+        this._isSelected = value;
+     }*/
 
     /** Selects all rows if they are not all selected; otherwise clear selection. */
     _masterToggle() {

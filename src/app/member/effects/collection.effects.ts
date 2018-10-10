@@ -34,12 +34,14 @@ export class MemberCollectionEffects {
     withLatestFrom(this.store.pipe(select(fromMembers.getCollectionQuery))),
     map(([action, query]: ([Load, any])) => [action.payload, query]),
     switchMap((query) => {
+      console.log("load")
+      console.log(query[1])
       return forkJoin(
         this.memberService.getMembers(
           query[1].filter,
           query[1].sortOrder,
           query[1].sortField,
-          query[1].pageNumber,
+          query[1].pageIndex,
           query[1].pageSize,
           query[1].searchField
         ),

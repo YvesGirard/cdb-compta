@@ -50,9 +50,15 @@ export function reducer(
       };
     }
 
-    case MemberCollectionActionTypes.Search:
-    case MemberCollectionActionTypes.Page: {
+    case MemberCollectionActionTypes.Search:{
 
+      return {
+        ...state,
+        query: { ...state.query, ...action.payload, ...{pageIndex:0}}
+      };
+    }
+
+    case MemberCollectionActionTypes.Page: {
       return {
         ...state,
         query: { ...state.query, ...action.payload }
@@ -60,45 +66,56 @@ export function reducer(
     }
 
     case MemberCollectionActionTypes.Select: {
-
-      return {
-        ...state,
-        selected: [...state.selected, action.payload],
-      };
+      if (state.selected.includes(action.payload)) {
+        return {
+          ...state,
+          selected: state.selected.filter(id => id !== action.payload),
+        };
+      }
+      else {
+        return {
+          ...state,
+          selected: [...state.selected, action.payload],
+        };
+      }
     }
 
     case MemberCollectionActionTypes.SelectAll: {
       let selected: string[];
-    
+      console.log("test")
+      console.log(_.difference(state.total, state.selected))
       if ((_.difference(state.total, state.selected)).length) {
-        selected = state.selected.filter(val => state.total.find((f) => f == val));
+        selected = [...state.selected, ...state.total];
+        selected = _.uniq([...state.selected, ...selected]);
       }
       else {
-        selected = [...state.selected, ...state.total];       
+        console.log("else")
+        selected = state.selected.filter(val => !state.total.includes(val));
       }
+      
       console.log(selected)
-      return {
-        ...state,
-        selected: [...state.selected, ...selected],
-      };
-    }
-
-   /* case MemberCollectionActionTypes.SelectAllSuccess: {
-      let selected: string[];
-
-      let notSelected = _.difference(action.payload, state.selected)
-      if (notSelected.length) {
-        selected = [...state.selected, ...action.payload];
-      }
-      else {
-        selected = state.selected.filter(val => action.payload.find((f) => f == val));
-      }
-
       return {
         ...state,
         selected: selected,
       };
-    }*/
+    }
+
+    /* case MemberCollectionActionTypes.SelectAllSuccess: {
+       let selected: string[];
+ 
+       let notSelected = _.difference(action.payload, state.selected)
+       if (notSelected.length) {
+         selected = [...state.selected, ...action.payload];
+       }
+       else {
+         selected = state.selected.filter(val => action.payload.find((f) => f == val));
+       }
+ 
+       return {
+         ...state,
+         selected: selected,
+       };
+     }*/
 
     case MemberActionTypes.LoadMember: {
 
@@ -174,9 +191,10 @@ export const getLoading = (state: State) => state.loading;
 
 export const getTotal = (state: State) => state.total.length;
 
-export const isAllSelected = (state: State) => (! (_.difference(state.total, state.selected)).length);
+export const isAllSelected = (state: State) => ((_.difference(state.total, state.selected)).length==0 && (state.total.length>0));
 
-export const isSelected = (state: State) => (!isAllSelected && (_.difference(state.total, state.selected)).length != state.total.length);
+export const isSelected = (state: State) => (!((_.difference(state.total, state.selected)).length==0 && (state.total.length>0))
+ && (_.difference(state.total, state.selected)).length !== state.total.length);
 
 export const getSelected = (state: State) => state.selected;
 
