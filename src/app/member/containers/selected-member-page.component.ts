@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { AttendanceDataSource } from '../datasource/attendance.data-source';
+import { PageEvent } from '@angular/material';
 
 import * as fromMembers from '../reducers';
 import * as CollectionActions from '../actions/collection.actions';
@@ -57,6 +58,10 @@ export class SelectedMemberPageComponent implements OnInit, AfterViewInit {
         return val.pageSize;
       }),
     );
+  }
+  
+  onPage(event: PageEvent): void {
+    
   }
 
   ngOnInit(): void {

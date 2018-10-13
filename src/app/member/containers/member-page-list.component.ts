@@ -112,7 +112,7 @@ export class MemberPageListComponent implements OnInit, AfterViewInit {
     }));
   }
 
-  masterToggle(): void {
+  masterToggle(event: Event): void {
     this.store.dispatch(new CollectionActions.SelectAll());
   }
 
