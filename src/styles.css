@@ -30,6 +30,9 @@ main {
 }
 
 .cdb-toolbar a {
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
     color: rgba(0,0,0,0.86);
     padding-left: 10px;
     padding-right: 10px;
