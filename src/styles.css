@@ -164,3 +164,7 @@ fieldset {
     flex: initial !important;
     width: 240px;
 }
+
+.mat-drawer-container {
+    background-color: white !important;
+}
