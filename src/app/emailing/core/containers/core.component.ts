@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <mat-drawer-container class="core-container">
-        <mat-drawer mode="side" opened="true"><a routerLink="mailinglist" class="" routerLinkActive="active">Listes de diffusion</a></mat-drawer>
+        <mat-drawer mode="side" opened><a routerLink="mailinglist" class="" routerLinkActive="active">Listes de diffusion</a></mat-drawer>
         <mat-drawer-content><router-outlet></router-outlet></mat-drawer-content>
     </mat-drawer-container>
   `,
@@ -24,9 +24,9 @@ import { Observable } from 'rxjs';
     styles: [
         `
     .core-container {
-        display: flex;
+            background: #eee;
       }
-      .core-container mat-drawer {
+      /*.core-container mat-drawer {
         display: flex;
         overflow-y: initial;
         flex: 1;
@@ -36,7 +36,7 @@ import { Observable } from 'rxjs';
         display: block;
         position:relative;
         width: 100%;
-      }
+      }*/
   `,
     ],
 })

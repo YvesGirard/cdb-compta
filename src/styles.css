@@ -161,8 +161,8 @@ fieldset {
 }
 
 .core-container .mat-drawer {
-    flex: initial !important;
-    width: 240px;
+   /* flex: initial !important;
+    width: 240px;*/
 }
 
 .mat-drawer-container {
