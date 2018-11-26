@@ -11,7 +11,14 @@ import { Observable } from 'rxjs';
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <mat-drawer-container class="core-container">
-        <mat-drawer mode="side" opened><a routerLink="mailinglist" class="" routerLinkActive="active">Listes de diffusion</a></mat-drawer>
+        <mat-drawer mode="side" opened>
+            <div class="cdb-drawer-inner-container">
+                <ul class="side-nav">
+                    <li><a routerLink="mails" class="" routerLinkActive="active">Mails</a></li>
+                    <li><a routerLink="mailinglist" class="" routerLinkActive="active">Listes de diffusion</a></li>
+                </ul>
+            </div>
+        </mat-drawer>
         <mat-drawer-content><router-outlet></router-outlet></mat-drawer-content>
     </mat-drawer-container>
   `,

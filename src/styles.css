@@ -162,9 +162,66 @@ fieldset {
 
 .core-container .mat-drawer {
    /* flex: initial !important;
-    width: 240px;*/
+    width: 240px;
+    position: relative;*/
 }
 
 .mat-drawer-container {
     background-color: white !important;
 }
+.mat-drawer-inner-container {
+    width:200px !important;
+  /* position: fixed;*/
+}
+.cdb-drawer-inner-container {
+    position: fixed;
+ }
+
+
+
+ .side-nav {
+    font-size: 13px;
+    line-height: 20px;
+    list-style: none;
+ }
+
+ .side-nav li {
+    margin-bottom: 30px;
+    cursor: pointer;
+ }
+
+ .side-nav li a {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 30px;
+    padding-left: 7px;
+    color: #294661;
+    text-decoration: none;
+    opacity: 0.6;
+    box-sizing: border-box;
+    padding-left: 15px;
+ }
+
+ .link, a {
+    color: #489be8;
+    text-decoration: none;
+    transition: color .3s;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
