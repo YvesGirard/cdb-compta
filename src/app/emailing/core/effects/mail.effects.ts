@@ -1,6 +1,6 @@
 import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { select, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { asyncScheduler, empty, Observable, of } from 'rxjs';
@@ -11,94 +11,98 @@ import {
     skip,
     switchMap,
     takeUntil,
-    tap,
     withLatestFrom,
 } from 'rxjs/operators';
 
-import { MailingListService } from '../services';
+import { MailingListService } from '../services/';
 
 import {
-    MailCollectionActionTypes,
+    MailActionTypes,
+    AddMail,
+    AddMailSuccess,
+    AddMailFail,
+    UpdateMail,
+    UpdateMailSuccess,
+    UpdateMailFail,
+    UploadMail,
+    UploadMailSuccess,
+    UploadMailFail,
+    DeleteMail,
+    DeleteMailSuccess,
+    DeleteMailFail,
+    LoadMail,
+    LoadMailSuccess,
+    LoadMailFail,
+} from '../actions/mail.actions';
+
+import {
     Load,
-    LoadSuccess,
-    LoadFail,
-} from '../actions/mail.collection.actions';
+  } from '../actions/mail.collection.actions';
 
 import { Mail } from '../../../model/mail';
 
+import * as fromMails from '../reducers';
 
 @Injectable()
 export class MailEffects {
 
     @Effect()
-    loadMails$ = this.actions$.ofType(MailCollectionActionTypes.Load).pipe(
-        switchMap(() => {
-            return this.mailingListService
-                .getMailingLists()
+    loadMails$ = this.actions$.ofType(MailActionTypes.LoadMail).pipe(
+        map((action: LoadMail) => action.payload),
+        switchMap((id) => {
+            return this.mailService
+                .getMail(id)
                 .pipe(
-                    map((mailingList: MailingList[]) => new LoadMailingListSuccess(mailingList)),
-                    catchError(error => of(new LoadMailingListFail(error)))
+                    map((mail: Mail) => new LoadMailSuccess(mail)),
+                    catchError(error => of(new LoadMailFail(error)))
                 );
         })
     );
 
 
     @Effect()
-    createMailingList$ = this.actions$.ofType(MailingListActionTypes.AddMailingList).pipe(
-        map((action: AddMailingList) => action.payload),
-        switchMap(mailingList => {
-            return this.mailingListService
-                .createMailingList(mailingList)
+    updateMail$ = this.actions$.ofType(MailActionTypes.UpdateMail).pipe(
+        map((action: UpdateMail) => action.payload),
+        switchMap(mail => {
+            return this.mailService
+                .updateMail(mail)
                 .pipe(
-                    map(mailingList => new AddMailingListSuccess(mailingList)),
-                    catchError(error => of(new AddMailingListFail(error)))
+                    map(mail => new UpdateMailSuccess(mail)),
+                    catchError(error => of(new UpdateMailFail(error)))
                 );
         })
     );
 
-
-    @Effect()
-    updateMailingList$ = this.actions$.ofType(MailingListActionTypes.UpdateMailingList).pipe(
-        map((action: UpdateMailingList) => action.payload),
-        switchMap(mailingList => {
-            return this.mailingListService
-                .updateMailingList(mailingList)
+    /*@Effect()
+    removeMail$ = this.actions$.ofType(MailActionTypes.DeleteMail).pipe(
+        map((action: DeleteMail) => action.payload),
+        switchMap(mail => {
+            return this.mailService
+                .removeMail(mail)
                 .pipe(
-                    map(mailingList => new UpdateMailingListSuccess(mailingList)),
-                    catchError(error => of(new UpdateMailingListFail(error)))
+                    map(() => new DeleteMailSuccess(mail)),
+                    catchError(error => of(new DeleteMailFail(error)))
                 );
         })
-    );
-
-    @Effect()
-    removeMailingList$ = this.actions$.ofType(MailingListActionTypes.DeleteMailingList).pipe(
-        map((action: DeleteMailingList) => action.payload),
-        switchMap(mailingList => {
-            return this.mailingListService
-                .removeMailingList(mailingList)
-                .pipe(
-                    map(() => new DeleteMailingListSuccess(mailingList)),
-                    catchError(error => of(new DeleteMailingListFail(error)))
-                );
-        })
-    );
+    );*/
 
     @Effect({ dispatch: false })
-    handleMailingListSuccess$ = this.actions$
-    .ofType(
-        MailingListActionTypes.DeleteMailingListSuccess,
-        MailingListActionTypes.UpdateMailingListSuccess,
-    )
-    .pipe(
-      map((mailingList) => {
-        let link = ['/mailinglist'];
-        this.router.navigate(link);
-      })
-    );
+    handleMailSuccess$ = this.actions$
+        .ofType(
+            MailActionTypes.DeleteMailSuccess,
+            MailActionTypes.UpdateMailSuccess,
+        )
+        .pipe(
+            map((mail) => {
+                let link = ['/mails'];
+                this.router.navigate(link);
+            })
+        );
 
     constructor(
         private actions$: Actions,
-        private mailingListService: MailingListService,
+        private mailService: MailingListService,
         private router: Router,
+        private store: Store<fromMails.State>,
     ) { }
 }

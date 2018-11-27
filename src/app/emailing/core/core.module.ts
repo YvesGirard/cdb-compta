@@ -7,6 +7,9 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers } from './reducers';
 import { MailingListEffects } from './effects/mailinglist.effects';
 import { MailingListMemberEffects } from './effects/member.effects';
+import { MailEffects } from './effects/mail.effects';
+import { MailCollectionEffects } from './effects/mail.collection.effects';
+
 
 import { CoreComponent } from './containers/core.component';
 import { MaterialModule } from '../../material.module';
@@ -22,6 +25,13 @@ import { MailingListsMembersComponent } from './components/members.component';
 
 import { MailingListLoadedGuard } from './guards/mailinglist-loaded.guard';
 import { SearchMemberPageComponent } from './containers/search-members-page.component';
+
+// MAILS
+import { MailPageListComponent } from './containers/mail-page-list.component';
+import { MailPageComponent } from './containers/mail-page.component';
+import { MailSearchComponent } from './components/mail-search.component';
+import { MailListComponent } from './components/mail-list.component';
+
 
 import { UiMailingModule } from '../../ui/mailing/ui.mailing.module';
 
@@ -41,6 +51,10 @@ export const COMPONENTS = [
   MailingListDetailComponent,
   MailingListsMembersComponent,
   SearchMemberPageComponent,
+  MailPageListComponent,
+  MailPageComponent,
+  MailSearchComponent,
+  MailListComponent,
 ];
 
 
@@ -68,6 +82,10 @@ export const ROUTES: Routes = [
         path: 'mailinglist/:id/members',
         component: SearchMemberPageComponent,
       },
+      {
+        path: 'mails',
+        component: MailPageComponent,
+      },
     ]
   },
 ];
@@ -85,6 +103,8 @@ export const ROUTES: Routes = [
     EffectsModule.forFeature([
       MailingListEffects,
       MailingListMemberEffects,
+      MailEffects,
+      MailCollectionEffects,
     ]),
   ],
   declarations: COMPONENTS,

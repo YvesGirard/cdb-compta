@@ -6,7 +6,7 @@ import * as Mail from "./mongoose/mail";
 import * as _ from "lodash";
 import { forkJoin } from 'rxjs';
 
-export function mails(app: express.Express, authCheck: any, authScopes: any) {
+export function mails(app: express.Express, authCheck: any, checkScopes: any) {
   // test : curl -d "param1=value1&param2=value2" -X POST http://localhost:8080/api/mails/verification
   // test : curl -d "param1=value1&param2=value2" -X POST https://cdb-eugenie.herokuapp.com/api/mails/verification
 
@@ -180,14 +180,13 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
   // sample api route
   app.get('/api/mails', authCheck, function (req, res) {
 
-    var count = req.param("count");
-
     // use mongoose to get all users in the database
     var filter = req.param("filter");
     var sortOrder = req.param("sortOrder");
     var sortField = req.param("sortField") || 'name';
     var pageSize = Number(req.param("pageSize"));
     var pageSkip = Number(req.param("pageNumber")) * pageSize;
+    var searchField = req.param("searchField") || 'name';
 
     console.log(sortOrder);
     let regex = {}
@@ -198,32 +197,42 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
     let sort = {}
     _.set(sort, sortField, sortOrder);
 
-    if (!count) {
+    let query1;
 
-      let query1 = Mail.find(regex).sort(sort).skip(pageSkip).limit(pageSize);
-      let query2 = Mail.find(regex).count();
-
-      const example = forkJoin(
-        query1.exec().then((val) => { return val }),
-        query2.exec().then((val) => { return val }),
-      );
-
-      const subscribe = example.subscribe(val => {
-        res.json({ info: 'mails found successfully', data: { mails: val[0], count: val[1] } });
-      });
+    if (pageSize) {
+      query1 = Mail.find(regex).sort(sort).skip(pageSkip).limit(pageSize);
     }
     else {
-      Mail.find().count({}, function (err, count) {
-
-        // if there is an error retrieving, send the error. 
-        // nothing after res.send(err) will execute
-        if (err)
-          res.json({ info: 'error finding mail', error: err });
-
-        res.json(count); // return all users in JSON format
-      });
+      query1 = Mail.find(regex).sort(sort);
     }
+    const example = forkJoin(
+      query1.exec().then((val) => { return val }),
+    );
+
+    const subscribe = example.subscribe(val => {
+      return res.json(val[0]);
+    });
   });
+
+  app.get('/api/mails/total', authCheck, function (req, res, next) {
+    const filter = req.param("filter");
+    const searchField = req.param("searchField") || 'name';
+
+    let regex = {}
+    if (filter) {
+        _.set(regex, searchField, new RegExp(filter, 'i'));
+    }
+
+    Mail.find(regex, '_id', (err, result) => {
+        if (err) {
+            return res.status(400).json(err);
+        } else {
+            return res.json(result.map((val) => {
+                return val._id
+            }));
+        }
+    })
+});
 
   app.get('/api/mails/:id', authCheck, function (req, res) {
     var _id = req.params.id;
@@ -266,7 +275,7 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
       }
       console.log("updMember")
       console.log(updMember)
-      console.log("end updMember")      
+      console.log("end updMember")
       tmp = _.omit(tmp, ['attachments']);
 
       console.log("tmp")
@@ -274,12 +283,12 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
       console.log("end tmp")
 
       for (var n in tmp) {
-          updMember[n] = tmp[n];
+        updMember[n] = tmp[n];
       }
 
       console.log("updMember")
       console.log(updMember)
-      console.log("end updMember") 
+      console.log("end updMember")
 
       Mail.update({
         _id: tmp._id
@@ -386,12 +395,12 @@ export function mails(app: express.Express, authCheck: any, authScopes: any) {
       url: process.env.AUTH0_TOKEN_URL,
       headers: { 'content-type': 'application/json' },
       body:
-        {
-          grant_type: 'client_credentials',
-          client_id: process.env.MAIL_CLIENT_ID,
-          client_secret: process.env.MAIL_CLIENT_SECRET,
-          audience: process.env.MAIL_CLIENT_AUDIENCE
-        },
+      {
+        grant_type: 'client_credentials',
+        client_id: process.env.MAIL_CLIENT_ID,
+        client_secret: process.env.MAIL_CLIENT_SECRET,
+        audience: process.env.MAIL_CLIENT_AUDIENCE
+      },
       json: true
     };
 

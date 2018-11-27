@@ -1,0 +1,59 @@
+<mat-table class="lessons-table mat-elevation-z8" [dataSource]="datasource">
+
+    <ng-container matColumnDef="_id">
+        <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+        <mat-cell *matCellDef="let mail">
+            <a [routerLink]="['/mails', mail._id]">{{mail._id}}</a>
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="from">
+        <mat-header-cell *matHeaderCellDef>De</mat-header-cell>
+        <mat-cell class="description-cell" *matCellDef="let mail">
+            <mat-list role="list">
+                <mat-list-item role="listitem" *ngFor="let adress of mail.from">{{ adress.address }} </mat-list-item>
+            </mat-list>
+        </mat-cell>
+
+    </ng-container>
+
+    <ng-container matColumnDef="to">
+        <mat-header-cell *matHeaderCellDef>A</mat-header-cell>
+        <mat-cell class="description-cell" *matCellDef="let mail">
+            <mat-list role="list">
+                <mat-list-item role="listitem" *ngFor="let adress of mail.to">{{ adress.address }} </mat-list-item>
+            </mat-list>
+        </mat-cell>
+
+    </ng-container>
+
+    <ng-container matColumnDef="subject">
+        <mat-header-cell *matHeaderCellDef>Objet</mat-header-cell>
+        <mat-cell class="description-cell" *matCellDef="let mail">
+            {{mail.subject}}
+        </mat-cell>
+
+    </ng-container>
+
+    <ng-container matColumnDef="html">
+        <mat-header-cell *matHeaderCellDef>Message</mat-header-cell>
+		<mat-cell class="description-cell" *matCellDef="let mail">
+            <span matTooltip="{{mail.text}}">{{mail.resume}}</span>
+    </mat-cell>
+
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+        <mat-cell class="description-cell" *matCellDef="let mail">
+                <button mat-raised-button color="primary" (click)="send(mail)">Envoyer</button>
+        </mat-cell>
+
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</mat-table>
+
+<ng-content></ng-content>

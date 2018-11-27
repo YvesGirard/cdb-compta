@@ -10,15 +10,17 @@ import { Mail } from '../../../model/mail';
 export class MailingListService {
   constructor(private http: HttpClient) { }
   /* MAIL */
-  getMails(filter = '', sortOrder = 'asc',
-    pageNumber = 0, pageSize = 10): Observable<Mail[]> {
+  getMails(filter = '', sortOrder = 'asc', sortField = 'name',
+  pageNumber = 0, pageSize = 10, searchField = 'name'): Observable<Mail[]> {
 
     return this.http.get<Mail[]>(`/api/mails`, {
       params: new HttpParams()
         .set('filter', filter)
         .set('sortOrder', sortOrder)
+        .set('sortField', sortField)
         .set('pageNumber', pageNumber.toString())
         .set('pageSize', pageSize.toString())
+        .set('searchField', searchField)
     }).pipe(catchError((error: any) => throwError(error)));
 
   }
@@ -38,18 +40,19 @@ export class MailingListService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  public update(payload: Mail): Observable<Mail> {
+  updateMail(payload: Mail): Observable<Mail> {
     return this.http
       .put<Mail>(`/api/mails`, payload)
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  public send(payload: Mail): Observable<Mail> {
+  send(payload: Mail): Observable<Mail> {
     return this.http
       .post<Mail>(`/api/mails/send`, payload)
       .pipe(catchError((error: any) => throwError(error)));
   }
 
+  
   /* MAILING LISTS */
   getMailingLists(): Observable<MailingList[]> {
     return this.http

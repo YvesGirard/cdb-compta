@@ -50,21 +50,22 @@ export function reducer(
       };
     }
 
-    /*case MemberCollectionActionTypes.Search:{
+    case MailCollectionActionTypes.Search:{
 
       return {
         ...state,
         query: { ...state.query, ...action.payload, ...{pageIndex:0}}
       };
-    }*/
+    }
 
-    /*case MemberCollectionActionTypes.Page: {
+    case MailCollectionActionTypes.Page: {
       return {
         ...state,
         query: { ...state.query, ...action.payload }
       };
     }
 
+    /*
     case MemberCollectionActionTypes.Select: {
       if (state.selected.includes(action.payload)) {
         return {
@@ -124,9 +125,9 @@ export function reducer(
         loading: true,
         loaded: false,
       };
-    }
+    }*/
 
-    case MemberCollectionActionTypes.GetTotalSuccess: {
+    case MailCollectionActionTypes.GetTotalSuccess: {
 
       return {
         ...state,
@@ -134,17 +135,17 @@ export function reducer(
       };
     }
 
-    case MemberCollectionActionTypes.LoadSuccess:
+    case MailCollectionActionTypes.LoadSuccess:
       {
         return {
           ...state,
           loaded: true,
           loading: false,
-          ids: action.payload.map(participant => participant._id),
+          ids: action.payload.map(mail => mail._id),
         };
       }
 
-    case MemberActionTypes.LoadMemberSuccess:
+    /*case MemberActionTypes.LoadMemberSuccess:
       {
         return {
           ...state,
