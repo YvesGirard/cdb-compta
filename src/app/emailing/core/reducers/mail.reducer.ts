@@ -26,7 +26,7 @@ export interface State extends EntityState<Mail> {
  * function if the records are to be sorted.
  */
 export const adapter: EntityAdapter<Mail> = createEntityAdapter<Mail>({
-  selectId: (member: Mail) => member._id,
+  selectId: (mail: Mail) => mail._id,
   sortComparer: false,
 });
 
@@ -100,7 +100,7 @@ export function reducer(
  * Because the data structure is defined within the reducer it is optimal to
  * locate our selector functions at this level. If store is to be thought of
  * as a database, and reducers the tables, selectors can be considered the
- * queries into said database. Remember to keep your selectors small and
+ * queries into said database. Remail to keep your selectors small and
  * focused so they can be combined and composed to fit each particular
  * use-case.
  */
