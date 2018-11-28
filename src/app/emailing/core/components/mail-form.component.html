@@ -1,0 +1,30 @@
+<form role="form" [formGroup]="form">
+    <div class="cdb-list-separator" formArrayName="to">
+      <mat-list role="list">
+        <mat-list-item role="listitem" *ngFor="let address of form.controls.to.controls; let i=index">
+          <mat-form-field class="cdb-input-full-width" dividerColor="primary" [formGroupName]="i">
+            <input matInput formControlName="address" placeholder="A" name="address">
+          </mat-form-field>
+        </mat-list-item>
+      </mat-list>
+
+     <!-- <mat-select placeholder="Liste de diffusion" [(ngModel)]="selectedValue" name="food">
+        <mat-option *ngFor="let food of foods" [value]="food.value">
+          {{food.viewValue}}
+        </mat-option>
+      </mat-select>-->
+    </div>
+    <div class="cdb-list-separator" formArrayName="from">
+      <mat-list role="list">
+        <mat-list-item role="listitem" *ngFor="let address of form.controls.from.controls; let i=index">
+          <mat-form-field class="cdb-input-full-width" dividerColor="primary" [formGroupName]="i">
+            <input matInput formControlName="address" placeholder="De" name="address">
+          </mat-form-field>
+        </mat-list-item>
+      </mat-list>
+    </div>
+
+  </form>
+  <div class="cdb-list-separator">
+    <span [innerHTML]="mail.html"></span>
+  </div>

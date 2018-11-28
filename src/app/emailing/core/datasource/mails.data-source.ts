@@ -16,6 +16,7 @@ export class MailsDataSource implements DataSource<Mail> {
         this.MailSubject$ = this.store.pipe(select(fromMailingLists.getMailCollection));
     }
 
+
     connect(collectionViewer: CollectionViewer): Observable<Mail[]> {
         return this.MailSubject$;
     }

@@ -38,7 +38,7 @@
     <ng-container matColumnDef="html">
         <mat-header-cell *matHeaderCellDef>Message</mat-header-cell>
 		<mat-cell class="description-cell" *matCellDef="let mail">
-            <span matTooltip="{{mail.text}}">{{mail.resume}}</span>
+            <span matTooltip="{{mail.text}}">{{ mail.text | slice:0:20 }}</span>
     </mat-cell>
 
     </ng-container>

@@ -1,0 +1,19 @@
+<mat-card *ngIf="mail">
+	<mat-card-title-group>
+	  <mat-card-title>{{ subject }}</mat-card-title>
+	</mat-card-title-group>
+	<mat-card-content>
+	<m-member-form [form]="form" [mail]="mail"></m-member-form>
+	</mat-card-content>
+	<mat-card-footer class="footer">
+
+	</mat-card-footer>
+	<mat-card-actions align="start">
+	  <button mat-raised-button color="warn" (click)="_remove(mail)">
+	  Supprimer
+	  </button>
+	  <button mat-raised-button color="primary" (click)="_update()">
+	  Mise à jour
+	  </button>
+	</mat-card-actions>
+  </mat-card>
