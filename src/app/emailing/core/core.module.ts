@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { reducers } from './reducers';
 import { MailingListEffects } from './effects/mailinglist.effects';
@@ -31,7 +32,10 @@ import { MailPageListComponent } from './containers/mail-page-list.component';
 import { MailPageComponent } from './containers/mail-page.component';
 import { MailSearchComponent } from './components/mail-search.component';
 import { MailListComponent } from './components/mail-list.component';
-
+import { SelectedMailPageComponent } from './containers/selected-mail-page.component';
+import { ViewMailPageComponent } from './containers/view-mail-page.component';
+import { MailDetailComponent } from './components/mail-detail.component';
+import { MailFormComponent } from './components/mail-form.component';
 
 import { UiMailingModule } from '../../ui/mailing/ui.mailing.module';
 
@@ -55,6 +59,10 @@ export const COMPONENTS = [
   MailPageComponent,
   MailSearchComponent,
   MailListComponent,
+  MailFormComponent,
+  MailDetailComponent,
+  SelectedMailPageComponent,
+  ViewMailPageComponent,
 ];
 
 
@@ -86,6 +94,10 @@ export const ROUTES: Routes = [
         path: 'mails',
         component: MailPageComponent,
       },
+      {
+        path: 'mails/:id',
+        component: ViewMailPageComponent,
+      },
     ]
   },
 ];
@@ -93,6 +105,7 @@ export const ROUTES: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     RouterModule,
     MaterialModule,
     UiMailingModule,

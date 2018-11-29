@@ -38,7 +38,7 @@ export class MailFormComponent {
 
     // Controles 
 
-    get given_nameControl() {
+    /*get given_nameControl() {
         return this.form.get('from') as FormControl;
     }
 
@@ -60,10 +60,10 @@ export class MailFormComponent {
 
     get emailControlInvalid() {
         return this.emailControl.hasError('required') && this.emailControl.touched;
-    }
+    }*/
 
     // Model
-    get id() {
+   /* get id() {
         return this.mail._id;
     }
 
@@ -77,10 +77,10 @@ export class MailFormComponent {
 
     get name() {
         return this.mail.name;
-    }
+    }*/
 
-    get email() {
-        return this.email
+    get html() {
+        return this.mail.html;
     }
 
 }
