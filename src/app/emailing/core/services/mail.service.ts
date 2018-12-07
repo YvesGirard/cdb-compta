@@ -42,7 +42,7 @@ export class MailingListService {
 
   updateMail(payload: Mail): Observable<Mail> {
     return this.http
-      .put<Mail>(`/api/mails`, payload)
+      .put<Mail>(`/api/mails/${payload._id}`, payload)
       .pipe(catchError((error: any) => throwError(error)));
   }
 

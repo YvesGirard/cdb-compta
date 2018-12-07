@@ -2,7 +2,7 @@ import {
     Component, Input, Output, EventEmitter, OnChanges,
     SimpleChanges,
 } from '@angular/core';
-import { Mail } from '../../../model/mail';
+import { Mail, MailingList } from '../../../model/mail';
 
 import {
     FormControl,
@@ -56,6 +56,7 @@ export class MailDetailComponent implements OnChanges {
     }
 
     @Input() mail: Mail;
+    @Input() mailingLists: MailingList[];
     @Input() inCollection: boolean;
     @Output() update = new EventEmitter<Mail>();
     @Output() remove = new EventEmitter<Mail>();
@@ -68,18 +69,15 @@ export class MailDetailComponent implements OnChanges {
                 address: [''],
               })]
             ),
-            to: this.fb.array(
-              [this.fb.group({
-                _id: [''],
-                address: [''],
-              })]
-            )
+            to: ['', Validators.required],
           });
     }
 
     ngOnChanges(changes: SimpleChanges) {
         if (this.mail && this.mail._id) {
             this.form.patchValue(this.mail);
+            //if (this.mail.to.length )
+            this.form.controls['to'].patchValue('');
         }
     }
 

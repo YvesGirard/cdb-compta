@@ -2,7 +2,7 @@ import {
     Component, Input, Output, EventEmitter, OnChanges,
     SimpleChanges,
 } from '@angular/core';
-import { Mail } from '../../../model/mail';
+import { Mail, MailingList } from '../../../model/mail';
 
 import {
     FormControl,
@@ -30,6 +30,7 @@ export class MailFormComponent {
     }
 
     @Input() mail: Mail;
+    @Input() mailingLists: MailingList[];
     @Input() form: FormGroup;
 
     @Input() inCollection: boolean;

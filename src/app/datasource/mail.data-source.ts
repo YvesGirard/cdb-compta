@@ -38,7 +38,7 @@ export class MailDataSource implements DataSource<Mail> {
                 finalize(() => this.loadingSubject.next(false))
             )
             .subscribe(data => {
-                this.mailsSubject.next(_.map(data['mails'], (val) => {return new Mail(val)})  as Mail[]);   
+                this.mailsSubject.next(_.map(data['mails'], (val) => {return new Mail()})  as Mail[]);   
                 this.countSubject.next(data['count']);
             });
     }
