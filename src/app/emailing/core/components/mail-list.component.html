@@ -46,7 +46,7 @@
     <ng-container matColumnDef="action">
         <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
         <mat-cell class="description-cell" *matCellDef="let mail">
-                <button mat-raised-button color="primary" (click)="send(mail)">Envoyer</button>
+                <button mat-raised-button color="primary" (click)="_send(mail)">Envoyer</button>
         </mat-cell>
 
     </ng-container>

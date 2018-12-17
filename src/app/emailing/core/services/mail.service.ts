@@ -48,7 +48,7 @@ export class MailingListService {
 
   send(payload: Mail): Observable<Mail> {
     return this.http
-      .post<Mail>(`/api/mails/send`, payload)
+      .post<Mail>(`/api/mails/send/${payload._id}`, payload)
       .pipe(catchError((error: any) => throwError(error)));
   }
 

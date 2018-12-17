@@ -1,21 +1,21 @@
-<form role="form" [formGroup]="form">
+<form role="form" [formGroup]="form" class="mail-form">
     <div class="cdb-list-separator">
         <mat-list role="list">
-           <!-- <mat-list-item role="listitem" *ngFor="let address of form.controls.to.controls; let i=index">
+            <!-- <mat-list-item role="listitem" *ngFor="let address of form.controls.to.controls; let i=index">
                 <mat-form-field class="cdb-input-full-width" dividerColor="primary" [formGroupName]="i">
                     <input matInput formControlName="address" placeholder="A" name="address">
                 </mat-form-field>
             </mat-list-item> [formControl]="to" -->
 
-
-            <mat-form-field class="cdb-input-full-width" dividerColor="primary">
-                <mat-select placeholder="Liste de diffusion" formControlName="to">
-                    <mat-option *ngFor="let mailingList of mailingLists" [value]="mailingList.address">
-                        {{mailingList.address}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-
+            <mat-list-item role="listitem">
+                <mat-form-field class="cdb-input-full-width" dividerColor="primary">
+                    <mat-select placeholder="Liste de diffusion" formControlName="to">
+                        <mat-option *ngFor="let mailingList of mailingLists" [value]="mailingList.address">
+                            {{mailingList.address}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-list-item>
 
         </mat-list>
 
@@ -37,5 +37,9 @@
 
 </form>
 <div class="cdb-list-separator">
-    <span [innerHTML]="html"></span>
+    <mat-list role="list">
+        <mat-list-item role="listitem">
+            <span [innerHTML]="html"></span>
+        </mat-list-item>
+    </mat-list>
 </div>

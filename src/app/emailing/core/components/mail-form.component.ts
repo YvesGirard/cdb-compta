@@ -17,6 +17,9 @@ import {
     templateUrl: 'mail-form.component.html',
     styles: [
         `
+        .mail-form{
+            width: 600px;
+        }
     `,
     ],
 })

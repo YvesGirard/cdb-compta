@@ -77,7 +77,7 @@ export class MailDetailComponent implements OnChanges {
         if (this.mail && this.mail._id) {
             this.form.patchValue(this.mail);
             //if (this.mail.to.length )
-            this.form.controls['to'].patchValue('');
+            this.form.controls['to'].patchValue(this.mail.to[0].address);
         }
     }
 
@@ -96,7 +96,10 @@ export class MailDetailComponent implements OnChanges {
         });
 
         if (valid) {
-            this.update.emit({ ...this.mail, ...value });
+            let updated_mail = { ...this.mail, ...value };
+            updated_mail.to = [{address : updated_mail.to}];
+            console.log(updated_mail);
+            this.update.emit(updated_mail);
         }
     }
 

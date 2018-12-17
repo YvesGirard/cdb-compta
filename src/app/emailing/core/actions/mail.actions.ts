@@ -18,6 +18,9 @@ export enum MailActionTypes {
     LoadMailSuccess = '[Mail] Load Success',
     LoadMailFail = '[Mail] Load Fail',
     SelectMail = '[Mail] Select',      
+    SendMail = '[Mail] Send',  
+    SendMailSuccess = '[Mail] Send Success',
+    SendMailFail = '[Mail] Send Fail',    
 }
 
 export class AddMail implements Action {
@@ -116,6 +119,24 @@ export class LoadMailFail implements Action {
     constructor(public payload: string) {}
   }
 
+  export class SendMail implements Action {
+    readonly type = MailActionTypes.SendMail;
+  
+    constructor(public payload: Mail) {}
+  }
+
+  export class SendMailSuccess implements Action {
+    readonly type = MailActionTypes.SendMailSuccess;
+
+    constructor(public payload: Mail) { }
+}
+
+export class SendMailFail implements Action {
+    readonly type = MailActionTypes.SendMailFail;
+
+    constructor(public payload: any) { }
+}
+
 export type MailActionsUnion =
     | AddMail
     | AddMailSuccess
@@ -129,4 +150,7 @@ export type MailActionsUnion =
     | LoadMail
     | LoadMailSuccess
     | LoadMailFail   
-    | SelectMail;
+    | SelectMail
+    | SendMail
+    | SendMailSuccess
+    | SendMailFail;

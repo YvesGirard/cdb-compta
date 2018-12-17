@@ -44,8 +44,8 @@ import { Http, RequestOptions } from '@angular/http';
 //import { AuthHttp, AuthConfig } from '@auth0/angular-jwt';
 import { HttpClientModule } from '@angular/common/http';  // replaces previous Http service
 import { MailResolver } from './services/mail.resolver';
-import { MailsComponent }      from './workflow/mails.component';
-import { MailDetailComponent }   from './workflow/mail-detail.component';
+//import { MailsComponent }      from './workflow/mails.component';
+//import { MailDetailComponent }   from './workflow/mail-detail.component';
 import { LoaderService } from './loader/loader.service';
 import { LoaderComponent } from './loader/loader.component';
 import { httpInterceptorProviders } from './services/interceptor';
@@ -114,7 +114,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     DashboardComponent,
     HeroesComponent,
     //MembersComponent,
-    MailsComponent,    
+    //MailsComponent,    
     HeroDetailComponent,
     HeroSearchComponent,
     HighlightDirective,
@@ -123,7 +123,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     CallbackComponent,
     MemberAddDialog,
     MemberDetailComponent,
-    MailDetailComponent,
+    //MailDetailComponent,
     LoaderComponent,
     //MdlUpgradeElementDirective,
    // SetupComponent,

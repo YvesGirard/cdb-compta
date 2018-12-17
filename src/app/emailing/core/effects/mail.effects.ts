@@ -33,6 +33,9 @@ import {
     LoadMail,
     LoadMailSuccess,
     LoadMailFail,
+    SendMail,
+    SendMailFail,
+    SendMailSuccess,
 } from '../actions/mail.actions';
 
 import {
@@ -73,6 +76,19 @@ export class MailEffects {
         })
     );
 
+    @Effect()
+    sendMail$ = this.actions$.ofType(MailActionTypes.SendMail).pipe(
+        map((action: SendMail) => action.payload),
+        switchMap(mail => {
+            return this.mailService
+                .send(mail)
+                .pipe(
+                    map(mail => new SendMailSuccess(mail)),
+                    catchError(error => of(new SendMailFail(error)))
+                );
+        })
+    );
+
     /*@Effect()
     removeMail$ = this.actions$.ofType(MailActionTypes.DeleteMail).pipe(
         map((action: DeleteMail) => action.payload),
@@ -94,7 +110,7 @@ export class MailEffects {
         )
         .pipe(
             map((mail) => {
-                let link = ['/mails'];
+                let link = ['mailing/mails'];
                 this.router.navigate(link);
             })
         );

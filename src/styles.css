@@ -209,7 +209,9 @@ fieldset {
     transition: color .3s;
 }
 
-
+.cdb-input-full-width {
+    width: 100%;
+}
 
 
 

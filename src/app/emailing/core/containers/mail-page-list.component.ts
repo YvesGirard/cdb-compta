@@ -27,7 +27,7 @@ const defaultDialogConfig = new MatDialogConfig();
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
   <m-mail-search [query]="searchQuery$ | async" (search)="search($event)"></m-mail-search>
-  <m-mail-list [datasource]="dataSource$" 
+  <m-mail-list [datasource]="dataSource$" (send)="send($event)"
   [displayedColumns]="displayedColumns">
     <mat-paginator (page)="onPage($event)" [length]="total$ | async"  [pageIndex]="pageIndex$ | async" [pageSize]="pageSize$ | async" [pageSizeOptions]="[10, 50, 100]"></mat-paginator>
   </m-mail-list>
@@ -103,6 +103,10 @@ export class MailPageListComponent implements OnInit, AfterViewInit {
 
   ngOnDestroy() {
     //this.actionsSubscription.unsubscribe();
+  }
+
+  send(mail: Mail) {
+    this.store.dispatch(new MailsActions.SendMail(mail));
   }
 
 }

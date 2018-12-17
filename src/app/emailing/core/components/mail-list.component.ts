@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter, } from '@angular/core';
 import { MailsDataSource } from '../datasource/mails.data-source';
 import { SelectionModel } from '@angular/cdk/collections';
+import { Mail, MailingList } from '../../../model/mail';
 
 @Component({
     selector: 'm-mail-list',
@@ -37,7 +38,15 @@ export class MailListComponent {
     @Input() datasource: MailsDataSource;
     @Input() displayedColumns: Array<string>;
 
+    @Output() send = new EventEmitter<Mail>();
+
     constructor() {
+
+    }
+
+    _send(mail : Mail): void {
+
+            this.send.emit(mail);
 
     }
 

@@ -290,15 +290,15 @@ export function mails(app: express.Express, authCheck: any, checkScopes: any) {
       console.log(updMember)
       console.log("end updMember")
 
-      Mail.update({
+      Mail.findOneAndUpdate({
         _id: tmp._id
       }, tmp, {
-          multi: false
+          new: true
         }, function (err, result) {
           if (err) {
             res.json({ info: 'error during mail update', error: err });
           } else {
-            res.json({ info: 'mail updated successfully', data: result });
+            res.json(result);
           }
         });
     });
