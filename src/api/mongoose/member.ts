@@ -10,8 +10,8 @@ var MemberSchema = new mongoose.Schema({
   given_name: String,
   family_name: String,
   email: String,
+  id_ac: String,
 });
-
 var Member = mongoose.model<IMemberModel>("Member", MemberSchema);
 
 export = Member;    

@@ -42,25 +42,33 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
                 input: req.file.path,
                 output: null, //since we don't need output.json
                 lowerCaseHeaders: true,
-                sheet: "Who's who"
+                //sheet: "Who's who",
+                sheet: "Export 1",
             }, function (err, result) {
                 if (err) {
                     return res.json({ error_code: 1, err_desc: err, data: null });
                 }
 
                 const map = {
-                    nom: "family_name",
-                    prénom: "given_name"
+                    "nom participant": "family_name",
+                    "prénom participant": "given_name",
+                    "numéro billet": "id_ac",
+                    "email de l'acheteur":"email",
                 }
 
                 const key = "";
+
+                console.log("--------ROW-------");
+                console.log(result[0]);
 
                 let col = _(result).filter((o, i) => {
                     return i > 0;
                 }).map((row) => {
 
                     return _(row).mapKeys((value, key) => {
-                        key = (result[0][key]).toLowerCase().trim();
+                       // console.log("--------KEY-------");
+                       // console.log(key)
+                       // key = (result[0][key]).toLowerCase().trim();
                         return map[key] || key;
                     }).mapValues((value, key) => {
                         if (value.charAt(0) == "$")
@@ -71,6 +79,7 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
 
                 }).value();
 
+                console.log(col);
 
                 const bulkOps = [];
                 _.forEach(col, (row) => {
@@ -81,6 +90,7 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
                             update: {
                                 name: row.given_name + " " + row.family_name,
                                 email: row.email,
+                                id_ac: row.id_ac,
                             },
                             upsert: true,
                         }

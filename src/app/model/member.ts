@@ -6,6 +6,7 @@ export class Member implements IMember {
   given_name: string;
   family_name: string;
   email: string;
+  id_ac: string;
 }
 
 export class Class { 
