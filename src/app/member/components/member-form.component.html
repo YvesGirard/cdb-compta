@@ -1,8 +1,8 @@
 <form role="form" [formGroup]="form">
     <fieldset>
-            <div class="cdb-list-separator">
-                {{ id_ac }}
-            </div>
+        <div class="cdb-list-separator">
+            {{ id_ac }}
+        </div>
         <div class="cdb-list-separator">
             <mat-form-field class="cdb-input-full-width" dividerColor="primary">
                 <input matInput formControlName="given_name" placeholder="Prénom" name="given_name">
@@ -30,5 +30,39 @@
             </mat-form-field>
         </div>
 
+        <div class="cdb-list-separator">
+            <mat-form-field class="cdb-input-full-width" dividerColor="primary">
+                <mat-select placeholder="Niveau associatif" formControlName="rank">
+                    <mat-option value="conseil">
+                        Membre du conseil
+                    </mat-option>
+                    <mat-option value="elargi">
+                        Membre du conseil élargi
+                    </mat-option>
+                    <mat-option value="coopte">
+                        Coopté dans le conseil
+                    </mat-option>
+                    <mat-option value="honneur">
+                        Président d'honneur
+                    </mat-option>
+                    <mat-option value="president">
+                        Président
+                    </mat-option>
+                    <mat-option value="secretaire">
+                        Secrétaire
+                    </mat-option>
+                    <mat-option value="adherent">
+                        Adhérent
+                    </mat-option>
+                    <mat-option value="tresorier">
+                        Trésorier
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="rankControlInvalid">
+                    Niveau associatif
+                    <strong>obligatoire</strong>
+                </mat-error>
+            </mat-form-field>
+        </div>
     </fieldset>
 </form>

@@ -61,6 +61,14 @@ export class MemberFormComponent {
         return this.emailControl.hasError('required') && this.emailControl.touched;
     }
 
+    get rankControl() {
+        return this.form.get('rank') as FormControl;
+    }
+
+    get rankControlInvalid() {
+        return this.rankControl.hasError('required') && this.rankControl.touched;
+    }
+
     // Model
     get id() {
         return this.member._id;
@@ -80,6 +88,10 @@ export class MemberFormComponent {
 
     get email() {
         return this.email
+    }
+
+    get rank() {
+        return this.rank
     }
 
     get id_ac() {

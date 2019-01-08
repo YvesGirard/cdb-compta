@@ -11,6 +11,7 @@ var MemberSchema = new mongoose.Schema({
   family_name: String,
   email: String,
   id_ac: String,
+  rank: String,
 });
 var Member = mongoose.model<IMemberModel>("Member", MemberSchema);
 

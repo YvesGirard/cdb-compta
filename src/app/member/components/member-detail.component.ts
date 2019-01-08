@@ -64,6 +64,7 @@ export class MemberDetailComponent implements OnChanges {
             given_name: ['', Validators.required],
             family_name: ['', Validators.required],
             email: ['', Validators.required],
+            rank: ['', Validators.required],
         });
     }
 

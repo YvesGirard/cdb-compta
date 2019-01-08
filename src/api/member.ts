@@ -57,7 +57,7 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
                     
                 }
 
-                "Paiement"
+              //  "Paiement"
 
                 const key = "";
 
@@ -262,6 +262,7 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
         })
     });
 
+    // route update user
     app.put('/api/members/:id', authCheck, checkScopes, function (req, res) {
 
         console.log(req.body)
@@ -276,6 +277,7 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
             "given_name",
             "family_name",
             "email",
+            "rank",
         ]);
 
         _.set(_member, "name", _member.given_name + " " + _member.family_name);
