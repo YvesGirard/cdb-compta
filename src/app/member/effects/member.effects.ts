@@ -33,11 +33,14 @@ import {
     LoadMember,
     LoadMemberSuccess,
     LoadMemberFail,
+    GetInscriptions,
+    GetInscriptionsSuccess,
+    GetInscriptionsFail,
 } from '../actions/member.actions';
 
 import {
     Load,
-  } from '../actions/collection.actions';
+} from '../actions/collection.actions';
 
 import { Member } from '../../model/member';
 
@@ -122,6 +125,19 @@ export class MemberEffects {
                 return new Load(val[1]);
             })
         );
+
+    @Effect()
+    getInscriptions$ = this.actions$.ofType(MemberActionTypes.GetInscriptions).pipe(
+        map((action: GetInscriptions) => action.payload),
+        switchMap((member) => {
+            return this.memberService
+                .getMemberInscriptions(member)
+                .pipe(
+                    map(member => new UpdateMemberSuccess(member)),
+                    catchError(error => of(new UpdateMemberFail(error)))
+                );
+        })
+    );
 
     @Effect({ dispatch: false })
     handleMemberSuccess$ = this.actions$

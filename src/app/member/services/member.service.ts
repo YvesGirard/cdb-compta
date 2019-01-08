@@ -49,9 +49,9 @@ export class MemberService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  getMember(payload: string): Observable<Member[]> {
+  getMember(payload: string): Observable<Member> {
     return this.http
-      .get<Member[]>(`/api/members/${payload}`)
+      .get<Member>(`/api/members/${payload}`)
       .pipe(catchError((error: any) => throwError(error)));
   }
 
@@ -79,6 +79,14 @@ export class MemberService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
+  getMemberInscriptions(payload: Member): Observable<Member> {
+    return this.http
+      .put<Member>(`/api/members/${payload._id}`,
+        payload,
+        this.httpOptions)
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+  
   removeMember(payload: Member): Observable<Member> {
     return this.http
       .delete<any>(`/api/members/${payload._id}`)

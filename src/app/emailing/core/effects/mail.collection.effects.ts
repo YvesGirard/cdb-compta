@@ -65,7 +65,7 @@ export class MailCollectionEffects {
       return this.mailService
         .getTotalMails()
         .pipe(
-          map((total: string[]) => new GetTotalSuccess(total)),
+          map((total: number) => new GetTotalSuccess(total)),
           catchError(error => of(new GetTotalFail(error)))
         );
     })

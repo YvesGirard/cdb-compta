@@ -17,7 +17,10 @@ export enum MemberActionTypes {
     LoadMember = '[Member] Load',
     LoadMemberSuccess = '[Member] Load Success',
     LoadMemberFail = '[Member] Load Fail',
-    SelectMember = '[Member] Select',      
+    SelectMember = '[Member] Select',    
+    GetInscriptions =   '[Member] GetInscriptions',  
+    GetInscriptionsSuccess = '[Member] GetInscriptions Success',
+    GetInscriptionsFail = '[Member] GetInscriptions Fail',  
 }
 
 export class AddMember implements Action {
@@ -116,6 +119,23 @@ export class LoadMemberFail implements Action {
     constructor(public payload: string) {}
   }
 
+  export class GetInscriptions implements Action {
+    readonly type = MemberActionTypes.GetInscriptions;
+  
+    constructor(public payload: Member) {}
+  }
+
+  export class GetInscriptionsSuccess implements Action {
+    readonly type = MemberActionTypes.GetInscriptionsSuccess;
+  
+    constructor() {}
+  }
+
+  export class GetInscriptionsFail implements Action {
+    readonly type = MemberActionTypes.GetInscriptionsFail;
+  
+    constructor() {}
+  }
 export type MemberActionsUnion =
     | AddMember
     | AddMemberSuccess
@@ -129,4 +149,7 @@ export type MemberActionsUnion =
     | LoadMember
     | LoadMemberSuccess
     | LoadMemberFail   
-    | SelectMember;
+    | SelectMember
+    | GetInscriptions
+    | GetInscriptionsSuccess
+    | GetInscriptionsFail;

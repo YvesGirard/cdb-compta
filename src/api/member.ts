@@ -54,7 +54,10 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
                     "prénom participant": "given_name",
                     "numéro billet": "id_ac",
                     "email de l'acheteur":"email",
+                    
                 }
+
+                "Paiement"
 
                 const key = "";
 

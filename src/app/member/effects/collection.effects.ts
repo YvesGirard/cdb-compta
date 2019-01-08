@@ -67,7 +67,7 @@ export class MemberCollectionEffects {
       return this.memberService
         .getTotalMember()
         .pipe(
-          map((total: string[]) => new GetTotalSuccess(total)),
+          map((total: number) => new GetTotalSuccess(total)),
           catchError(error => of(new GetTotalFail(error)))
         );
     })

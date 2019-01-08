@@ -3,7 +3,17 @@
 	  <mat-card-title>{{ name }}</mat-card-title>
 	</mat-card-title-group>
 	<mat-card-content>
-	<m-member-form [form]="form" [member]="member"></m-member-form>
+			<mat-tab-group animationDuration="0ms">
+					<mat-tab label="Détails">
+							<m-member-form [form]="form" [member]="member"></m-member-form>
+					</mat-tab>
+					<mat-tab label="Incriptions"> Content 2 
+
+						
+					</mat-tab>
+					<mat-tab label="Third"> Content 3 </mat-tab>
+				</mat-tab-group>
+	
 	</mat-card-content>
 	<mat-card-footer class="footer">
 	  <!--<bc-member-authors [member]="member"></bc-member-authors>-->

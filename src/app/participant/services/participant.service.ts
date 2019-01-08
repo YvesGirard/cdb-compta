@@ -25,9 +25,9 @@ export class ParticipantService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  getParticipant(payload: string): Observable<Participant[]> {
+  getParticipant(payload: string): Observable<Participant> {
     return this.http
-      .get<Participant[]>(`/api/participants/${payload}`)
+      .get<Participant>(`/api/participants/${payload}`)
       .pipe(catchError((error: any) => throwError(error)));
   }
 

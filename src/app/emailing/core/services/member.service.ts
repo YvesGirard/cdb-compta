@@ -21,7 +21,7 @@ export class MailingListMemberService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  removeMailingListMembers(payload: any): Observable<MailingListMember> {
+  removeMailingListMembers(payload: any): Observable<MailingListMember[]> {
     return this.http.request<any>('delete', `/api/lists/${payload.address}/members`, { body: payload.members })
       .pipe(catchError((error: any) => throwError(error)));
   }
