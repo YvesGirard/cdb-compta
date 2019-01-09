@@ -53,11 +53,10 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
                     "nom participant": "family_name",
                     "prénom participant": "given_name",
                     "numéro billet": "id_ac",
-                    "email de l'acheteur":"email",
-                    
+                    "email de l'acheteur": "email",
                 }
 
-              //  "Paiement"
+                //  "Paiement"
 
                 const key = "";
 
@@ -69,9 +68,9 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
                 }).map((row) => {
 
                     return _(row).mapKeys((value, key) => {
-                       // console.log("--------KEY-------");
-                       // console.log(key)
-                       // key = (result[0][key]).toLowerCase().trim();
+                        // console.log("--------KEY-------");
+                        // console.log(key)
+                        // key = (result[0][key]).toLowerCase().trim();
                         return map[key] || key;
                     }).mapValues((value, key) => {
                         if (value.charAt(0) == "$")
@@ -84,49 +83,79 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
 
                 console.log(col);
 
-                const bulkOps = [];
-                _.forEach(col, (row) => {
+                var type_extraction = req.param("type");
 
-                    bulkOps.push({
-                        updateOne: {
-                            filter: { given_name: row.given_name, family_name: row.family_name },
-                            update: {
-                                name: row.given_name + " " + row.family_name,
-                                email: row.email,
-                                id_ac: row.id_ac,
-                            },
-                            upsert: true,
-                        }
-                    });
-                });
+                if (type_extraction == "member") {
+                    const bulkOps = [];
+                    _.forEach(col, (row) => {
 
-                Member.bulkWrite(bulkOps).then((bulkWriteOpResult) => {
-                    if (bulkWriteOpResult['ok'] != 1) {
-                        res.json({ info: 'error finding members', error: err });
-                    }
-
-                    Member.find().count({}, function (err, count) {
-
-                        // if there is an error retrieving, send the error. 
-                        // nothing after res.send(err) will execute
-                        if (err) {
-                            res.json({ info: 'error finding members', error: err });
-                        }
-
-
-                        Member.find().sort({ 'name': 'asc' }).skip(0).limit(10).exec(function (err, members) {
-
-                            // if there is an error retrieving, send the error. 
-                            // nothing after res.send(err) will execute
-                            if (err)
-                                res.json({ info: 'error finding members', error: err });
-
-                            res.json({ info: 'members found successfully', data: { members: members, count: count } }); // return all users in JSON format
+                        bulkOps.push({
+                            updateOne: {
+                                filter: { given_name: row.given_name, family_name: row.family_name },
+                                update: {
+                                    name: row.given_name + " " + row.family_name,
+                                    email: row.email,
+                                    id_ac: row.id_ac,
+                                },
+                                upsert: true,
+                            }
                         });
                     });
 
-                });
+                    Member.bulkWrite(bulkOps).then((bulkWriteOpResult) => {
+                        if (bulkWriteOpResult['ok'] != 1) {
+                            res.json({ info: 'error finding members', error: err });
+                        }
 
+                        Member.find().count({}, function (err, count) {
+
+                            // if there is an error retrieving, send the error. 
+                            // nothing after res.send(err) will execute
+                            if (err) {
+                                res.json({ info: 'error finding members', error: err });
+                            }
+
+
+                            Member.find().sort({ 'name': 'asc' }).skip(0).limit(10).exec(function (err, members) {
+
+                                // if there is an error retrieving, send the error. 
+                                // nothing after res.send(err) will execute
+                                if (err)
+                                    res.json({ info: 'error finding members', error: err });
+
+                                res.json({ info: 'members found successfully', data: { members: members, count: count } }); // return all users in JSON format
+                            });
+                        });
+
+                    });
+                }
+                if (type_extraction == "activity") {
+                    const bulkOps = [];
+                    _.forEach(col, (row) => {
+
+                        const _id = await Member.find({ given_name: row.given_name, family_name: row.family_name }).exec(
+                            function (err, members) {
+                                
+                            }
+
+                        );
+
+                        bulkOps.push({
+                            updateOne: {
+                                filter: { given_name: row.given_name, family_name: row.family_name },
+                                update: {
+                                    name: row.given_name + " " + row.family_name,
+                                    email: row.email,
+                                    id_ac: row.id_ac,
+                                },
+                                upsert: true,
+                            }
+                        });
+
+                    });
+                    
+                    
+                }
             });
         }
     });

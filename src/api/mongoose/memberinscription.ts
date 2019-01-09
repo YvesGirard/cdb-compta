@@ -2,7 +2,7 @@
 import * as mongoose from "mongoose";
 
 interface IMemberInscription extends mongoose.Document {
-  name: String,
+  member_id: String,
   given_name: String,
   family_name: String,
   email: String,
