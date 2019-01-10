@@ -30,7 +30,7 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
     }
     );
 
-    app.post('/api/members/upload', upload.single('uploadFile'), function (req, res, next) {
+    app.post('/api/members/upload', upload.single('uploadFile'), async (req, res, next) => {
 
         if (req.file) {
             console.log('Uploaded: ', req.file)
@@ -133,12 +133,7 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
                     const bulkOps = [];
                     _.forEach(col, (row) => {
 
-                        const _id = await Member.find({ given_name: row.given_name, family_name: row.family_name }).exec(
-                            function (err, members) {
-                                
-                            }
-
-                        );
+                        const _id = await Member.find({ given_name: row.given_name, family_name: row.family_name });;
 
                         bulkOps.push({
                             updateOne: {
