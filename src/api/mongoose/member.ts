@@ -12,6 +12,7 @@ var MemberSchema = new mongoose.Schema({
   email: String,
   id_ac: String,
   rank: String,
+  inscriptions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'MemberInscription' }],
 });
 var Member = mongoose.model<IMemberModel>("Member", MemberSchema);
 

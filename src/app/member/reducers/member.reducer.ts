@@ -1,4 +1,4 @@
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+  import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Member } from '../../model/member';
 import { MemberActionsUnion, MemberActionTypes } from '../actions/member.actions';
 import {
