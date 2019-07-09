@@ -25,6 +25,7 @@ export interface State extends fromRoot.State {
   mails: MailinglistsState;
 }
 
+
 export const reducers: ActionReducerMap<MailinglistsState> = {
   mailinglists: fromMailingLists.reducer,
   members: fromMailingListsMembers.reducer,
