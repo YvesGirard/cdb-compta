@@ -2,6 +2,7 @@
 import * as express from "express";
 import { IMember } from "../app/model/imember";
 import * as Member from "./mongoose/member";
+import * as MemberInscription from "./mongoose/memberinscription";
 import { forkJoin } from 'rxjs';
 
 const multer = require('multer')
@@ -30,7 +31,7 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
     }
     );
 
-    app.post('/api/members/upload', upload.single('uploadFile'), async (req, res, next) => {
+    app.post('/api/members/upload', upload.single('uploadFile'),  (req, res, next) => {
 
         if (req.file) {
             console.log('Uploaded: ', req.file)
@@ -53,7 +54,12 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
                     "nom participant": "family_name",
                     "prénom participant": "given_name",
                     "numéro billet": "id_ac",
-                    "email de l'acheteur": "email",
+                    "email de l'acheteur": "buyer_email",
+                    "paiement": "payment",
+                    "montant dû":"amount",
+                    "moyen de paiement":"method",
+                    "prestations":"product",
+                    "date de paiement":"payment_date",                   
                 }
 
                 //  "Paiement"
@@ -117,7 +123,7 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
 
 
                             Member.find().sort({ 'name': 'asc' }).skip(0).limit(10).exec(function (err, members) {
-
+                 
                                 // if there is an error retrieving, send the error. 
                                 // nothing after res.send(err) will execute
                                 if (err)
@@ -131,24 +137,86 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
                 }
                 if (type_extraction == "activity") {
                     const bulkOps = [];
-                    _.forEach(col, (row) => {
+                    _.forEach(col, async (row) => {
 
-                        const _id = await Member.find({ given_name: row.given_name, family_name: row.family_name });;
+                        const member = await Member.findOne({ given_name: row.given_name, family_name: row.family_name });
+                        /*  member_id: String,
+  payment: String,
+  amount: Number,
+  method: String,
+  product: String,
+  price_type: String,
+  date: Date,
+  id_ac: String,  
+  class: String,
 
-                        bulkOps.push({
-                            updateOne: {
-                                filter: { given_name: row.given_name, family_name: row.family_name },
-                                update: {
-                                    name: row.given_name + " " + row.family_name,
-                                    email: row.email,
-                                    id_ac: row.id_ac,
-                                },
-                                upsert: true,
-                            }
-                        });
+  ---------------
+                      "nom participant": "family_name",
+                    "prénom participant": "given_name",
+                    "numéro billet": "id_ac",
+                    "email de l'acheteur": "buyer_email",
+                    "paiement": "payment",
+                    "montant dû":"amount",
+                    "moyen de paiement":"method",
+                    "prestations":"product",
+                    "date de paiement":"payment_date", 
+  */
+
+                        const _memberinscription = _.pick(row, [
+                            "payment",
+                            "amount",
+                            "id_ac",
+                            "method",
+                            "payment_date",
+                            "product",
+                            "class"
+                        ]);
+                        
+                        // map paiement
+                        const map_payment = {
+                            "Paiement reçu":"P",
+                            "Aucun paiement":"N",
+                        }
+
+                        _memberinscription.payment=map_payment[_memberinscription.payment];
+
+                        let product = _memberinscription.product;
+                        if (product.search("réduit")) {
+                            _.set(_memberinscription, "price_type", "R");
+                        } else {
+                            _.set(_memberinscription, "price_type", "P");
+                        }
+
+                        if (product.search("principale")) {
+                            _.set(_memberinscription, "product", "P");
+                        } 
+                        if (product.search("supplémentaire")) {
+                            _.set(_memberinscription, "product", "S");
+                        }
+                    
+                        // map method
+                        const map_method = {
+                            "Chèque":"CHK",
+                            "Paiement hors ligne":"NA",
+                        }
+
+                        _memberinscription.method=map_method[_memberinscription.method];
+
+                        _.set(_memberinscription, "member_id", member._id);
+
+                        const memberinscirption = await MemberInscription.findOneAndUpdate({
+                            id_ac: _memberinscription.id_ac
+                        }, _memberinscription,
+                            { 
+                                new: true,
+                                upsert: true, });
+
+                        
+
+                        bulkOps.push(memberinscirption);
 
                     });
-                    
+                    res.json(bulkOps);   
                     
                 }
             });
