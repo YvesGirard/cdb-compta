@@ -27,7 +27,7 @@
     "@angular/cdk": "^8.0.2",
     "@angular/common": "^8.1.0",
     "@angular/compiler": "^8.1.0",
-    "@angular/core": "8.1.0",
+    "@angular/core": "8.1.1",
     "@angular/forms": "^8.1.0",
     "@angular/http": "^7.2.15",
     "@angular/material": "^8.0.2",
@@ -95,7 +95,7 @@
     "protractor": "~5.4.2",
     "ts-node": "~8.3.0",
     "tslint": "~5.18.0",
-    "typescript": "^3.5.3",
+    "typescript": "^3.4.5",
     "webpack-cli": "^3.3.5"
   }
 }
