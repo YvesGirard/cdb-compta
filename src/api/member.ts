@@ -140,6 +140,9 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
                     _.forEach(col, async (row) => {
 
                         const member = await Member.findOne({ given_name: row.given_name, family_name: row.family_name });
+                        console.log("-------------------")
+                        console.log(member)
+                        console.log("-------------------")
                         /*  member_id: String,
   payment: String,
   amount: Number,
@@ -202,18 +205,21 @@ export function members(app: express.Express, authCheck: any, checkScopes: any) 
 
                         _memberinscription.method=map_method[_memberinscription.method];
 
-                        _.set(_memberinscription, "member_id", member._id);
-
-                        const memberinscirption = await MemberInscription.findOneAndUpdate({
-                            id_ac: _memberinscription.id_ac
-                        }, _memberinscription,
-                            { 
-                                new: true,
-                                upsert: true, });
-
                         
 
-                        bulkOps.push(memberinscirption);
+                        if (member) {
+                            _.set(_memberinscription, "member", member._id);
+                            const memberinscirption = await MemberInscription.findOneAndUpdate({
+                                id_ac: _memberinscription.id_ac
+                            }, _memberinscription,
+                                { 
+                                    new: true,
+                                    upsert: true, });
+  
+                            
+
+                            bulkOps.push(memberinscirption);
+                        }
 
                     });
                     res.json(bulkOps);   

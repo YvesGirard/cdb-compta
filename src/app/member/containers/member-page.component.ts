@@ -28,6 +28,7 @@ const defaultDialogConfig = new MatDialogConfig();
   ],
 })
 export class MemberPageComponent {
+  fileOption: string;
 
   config = {
     disableClose: false,
@@ -80,6 +81,7 @@ export class MemberPageComponent {
       let file: File = fileList[0];
       let formData: FormData = new FormData();
       formData.append('uploadFile', file, file.name);
+      formData.append("type", this.fileOption);
 
       let fileHeaders = new Headers({
         'Content-Type': 'multipart/form-data',

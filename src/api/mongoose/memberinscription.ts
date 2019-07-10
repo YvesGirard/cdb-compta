@@ -10,6 +10,7 @@ interface IMemberInscription extends mongoose.Document {
   price_type: String,
   date: Date,
   id_ac: String,
+  class:String,
 }
 
 interface IMemberInscriptionModel extends IMemberInscription, mongoose.Document {}
@@ -23,6 +24,7 @@ var MemberInscriptionSchema = new mongoose.Schema({
   price_type: String,
   date: Date,
   id_ac: String,  
+  class:String,
 });
 
 var MemberInscription = mongoose.model<IMemberInscriptionModel>("MemberInscription", MemberInscriptionSchema);
