@@ -1,10 +1,34 @@
-<h1 mat-dialog-title>Création Compte</h1>
+<h1 mat-dialog-title>Création Compétition</h1>
 <div mat-dialog-content>
 	<form role="form" [formGroup]="form" (ngSubmit)="save()">
 		<fieldset>
 			<div class="cdb-list-separator">
 				<mat-form-field class="cdb-input-full-width" dividerColor="primary">
 					<input matInput formControlName="descr" placeholder="Description" name="descr">
+				</mat-form-field>
+			</div>
+
+			<div class="cdb-list-separator">
+				<mat-form-field class="cdb-input-full-width" dividerColor="primary">
+					<input matInput [matDatepicker]="picker" placeholder="Date de début" formControlName="start_dt">
+					<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+					<mat-datepicker #picker></mat-datepicker>
+					<mat-error *ngIf="start_dtControlInvalid">
+						Date de début
+						<strong>obligatoire</strong>
+					</mat-error>
+				</mat-form-field>
+			</div>
+
+			<div class="cdb-list-separator">
+				<mat-form-field class="cdb-input-full-width" dividerColor="primary">
+					<input matInput [matDatepicker]="picker" placeholder="Date de fin" formControlName="end_dt">
+					<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+					<mat-datepicker #picker></mat-datepicker>
+					<mat-error *ngIf="end_dtControlInvalid">
+						Date de fin
+						<strong>obligatoire</strong>
+					</mat-error>
 				</mat-form-field>
 			</div>
 		</fieldset>

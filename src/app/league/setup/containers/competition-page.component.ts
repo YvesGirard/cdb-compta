@@ -18,13 +18,13 @@ import * as fromCompetitions from '../store/reducers';
 
 		<mat-grid-tile class="flex-left">
 			<div class="header">
-				<h1>Comptes</h1>
+				<h1>Compétitions</h1>
 			</div>
 		</mat-grid-tile>
 
 		<mat-grid-tile class="flex-right">
 			<button mat-raised-button color="warn" (click)="newCompetition()">
-				<mat-icon>add</mat-icon>Créer compte
+				<mat-icon>add</mat-icon>Créer compétition
 				  </button>
 		</mat-grid-tile>
 	</mat-grid-list>

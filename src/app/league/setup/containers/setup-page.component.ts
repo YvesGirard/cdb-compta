@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
     template: `
     <div class="setup-page">
         <mat-tab-group>
-            <mat-tab label="Competition">
+            <mat-tab label="Compétition">
                 <st-competition-setup-page></st-competition-setup-page>
             </mat-tab>
             <mat-tab label="????">
