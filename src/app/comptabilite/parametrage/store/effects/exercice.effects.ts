@@ -25,7 +25,8 @@ import {
 export class ExerciceEffects {
 
   @Effect()
-  loadExercices$ = this.actions$.ofType(ExerciceActionTypes.LoadExercices).pipe(
+  loadExercices$ = this.actions$.pipe(
+    ofType(ExerciceActionTypes.LoadExercices),
     switchMap(() => {
       return this.exerciceService
         .getExercices()
@@ -38,7 +39,8 @@ export class ExerciceEffects {
 
 
   @Effect()
-  createExercice$ = this.actions$.ofType(ExerciceActionTypes.AddExercice).pipe(
+  createExercice$ = this.actions$.pipe(
+    ofType(ExerciceActionTypes.AddExercice),
     map((action: AddExercice) => action.payload), 
     switchMap(exercice => {
       
@@ -62,7 +64,8 @@ export class ExerciceEffects {
     );*/
 
   @Effect()
-  updateExercice$ = this.actions$.ofType(ExerciceActionTypes.UpdateExercice).pipe(
+  updateExercice$ = this.actions$.pipe(
+    ofType(ExerciceActionTypes.UpdateExercice),
     map((action: UpdateExercice) => action.payload),
     switchMap(exercice => {
       return this.exerciceService
@@ -75,7 +78,8 @@ export class ExerciceEffects {
   );
 
   @Effect()
-  removeExercice$ = this.actions$.ofType(ExerciceActionTypes.RemoveExercice).pipe(
+  removeExercice$ = this.actions$.pipe(
+    ofType(ExerciceActionTypes.RemoveExercice),
     map((action: RemoveExercice) => action.payload),
     switchMap(exercice => {
       return this.exerciceService

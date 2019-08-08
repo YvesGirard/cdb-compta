@@ -56,7 +56,7 @@ export class SearchMemberPageComponent {
     'email'
   ];
 
-  @ViewChild(MemberPageListComponent) _list: MemberPageListComponent;
+  @ViewChild(MemberPageListComponent, {static: true}) _list: MemberPageListComponent;
 
   constructor(private store: Store<frommailinglists.State>, route: ActivatedRoute) {
     this.actionsSubscription = route.params

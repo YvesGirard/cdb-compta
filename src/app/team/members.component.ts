@@ -32,8 +32,8 @@ export class MembersComponent implements AfterViewInit, OnInit {
   membersCount: Number;
   selection: SelectionModel<number>;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild('search') search: ElementRef;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild('search', {static: true}) search: ElementRef;
 
   ngOnInit(): void {
     this.dataSource = new MemberDataSource(this.memberService);

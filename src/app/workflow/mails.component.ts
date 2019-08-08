@@ -35,8 +35,8 @@ export class MailsComponent implements AfterViewInit, OnInit {
   dataSource: MailDataSource;
   mailsCount: Number;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild('search') search: ElementRef;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild('search', {static: true}) search: ElementRef;
 
   ngOnInit(): void {
     this.dataSource = new MailDataSource(this.mailService);

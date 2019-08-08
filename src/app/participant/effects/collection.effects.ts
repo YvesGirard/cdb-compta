@@ -53,7 +53,8 @@ export class CollectionEffects {
   );
 
   @Effect()
-  getTotal$ = this.actions$.ofType(CollectionActionTypes.GetTotal).pipe(
+  getTotal$ = this.actions$.pipe(
+    ofType(CollectionActionTypes.GetTotal),
     switchMap(() => {
       return this.participantService
         .getTotalParticipant()

@@ -50,7 +50,8 @@ import * as fromMembers from '../reducers';
 export class MemberEffects {
 
     @Effect()
-    loadMembers$ = this.actions$.ofType(MemberActionTypes.LoadMember).pipe(
+    loadMembers$ = this.actions$.pipe(
+        ofType(MemberActionTypes.LoadMember),
         map((action: LoadMember) => action.payload),
         switchMap((id) => {
             return this.memberService
@@ -64,7 +65,8 @@ export class MemberEffects {
 
 
     @Effect()
-    createMember$ = this.actions$.ofType(MemberActionTypes.AddMember).pipe(
+    createMember$ = this.actions$.pipe(
+        ofType(MemberActionTypes.AddMember),
         map((action: AddMember) => action.payload),
         switchMap(member => {
             return this.memberService
@@ -78,7 +80,8 @@ export class MemberEffects {
 
 
     @Effect()
-    updateMember$ = this.actions$.ofType(MemberActionTypes.UpdateMember).pipe(
+    updateMember$ = this.actions$.pipe(
+        ofType(MemberActionTypes.UpdateMember),
         map((action: UpdateMember) => action.payload),
         switchMap(member => {
             return this.memberService
@@ -91,7 +94,8 @@ export class MemberEffects {
     );
 
     @Effect()
-    removeMember$ = this.actions$.ofType(MemberActionTypes.DeleteMember).pipe(
+    removeMember$ = this.actions$.pipe(
+        ofType(MemberActionTypes.DeleteMember),
         map((action: DeleteMember) => action.payload),
         switchMap(member => {
             return this.memberService
@@ -104,7 +108,8 @@ export class MemberEffects {
     );
 
     @Effect()
-    uploadFile$ = this.actions$.ofType(MemberActionTypes.UploadMember).pipe(
+    uploadFile$ = this.actions$.pipe(
+        ofType(MemberActionTypes.UploadMember),
         map((action: UploadMember) => action.payload),
         switchMap(file => {
             return this.memberService
@@ -117,8 +122,8 @@ export class MemberEffects {
     );
 
     @Effect()
-    handleUploadFileSuccess$ = this.actions$.ofType(MemberActionTypes.UploadMemberSuccess)
-        .pipe(
+    handleUploadFileSuccess$ = this.actions$.pipe(
+        ofType(MemberActionTypes.UploadMemberSuccess),
             withLatestFrom(this.store.pipe(select(fromMembers.getCollectionQuery))),
             map(([action, query]: ([UploadMemberSuccess, any])) => [action.payload, query]),
             map((val) => {
@@ -127,7 +132,8 @@ export class MemberEffects {
         );
 
     @Effect()
-    getInscriptions$ = this.actions$.ofType(MemberActionTypes.GetInscriptions).pipe(
+    getInscriptions$ = this.actions$.pipe(
+        ofType(MemberActionTypes.GetInscriptions),
         map((action: GetInscriptions) => action.payload),
         switchMap((member) => {
             return this.memberService
@@ -140,12 +146,11 @@ export class MemberEffects {
     );
 
     @Effect({ dispatch: false })
-    handleMemberSuccess$ = this.actions$
-        .ofType(
+    handleMemberSuccess$ = this.actions$.pipe(
+        ofType(
             MemberActionTypes.DeleteMemberSuccess,
             MemberActionTypes.UpdateMemberSuccess,
-        )
-        .pipe(
+        ),
             map((member) => {
                 let link = ['/members'];
                 this.router.navigate(link);

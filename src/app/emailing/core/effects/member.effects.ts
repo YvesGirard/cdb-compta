@@ -42,7 +42,8 @@ import * as fromMailinglists from '../reducers';
 export class MailingListMemberEffects {
 
     @Effect()
-    loadMailingListMembers$ = this.actions$.ofType(MailingListMemberActionTypes.LoadMailingListMember).pipe(
+    loadMailingListMembers$ = this.actions$.pipe(
+        ofType(MailingListMemberActionTypes.LoadMailingListMember),
         map((action: LoadMailingListMember) => action.payload),
         switchMap((val) => {
             return this.mailingListService
@@ -55,7 +56,8 @@ export class MailingListMemberEffects {
     );
 
     @Effect()
-    addMailingListMembers$ = this.actions$.ofType(MailingListMemberActionTypes.AddMailingListMember).pipe(
+    addMailingListMembers$ = this.actions$.pipe(
+        ofType(MailingListMemberActionTypes.AddMailingListMember),
         withLatestFrom(this.store.pipe(select(fromMailinglists.getSelectedMailingList))),
         map(([action, mailinglist]: ([AddMailingListMember, MailingList])) => [action.payload, mailinglist.address]),
         switchMap((val) => {
@@ -70,7 +72,8 @@ export class MailingListMemberEffects {
     );
 
     @Effect()
-    deleteMailingListMembers$ = this.actions$.ofType(MailingListMemberActionTypes.DeleteMailingListMember).pipe(
+    deleteMailingListMembers$ = this.actions$.pipe(
+        ofType(MailingListMemberActionTypes.DeleteMailingListMember),
         withLatestFrom(this.store.pipe(select(fromMailinglists.getSelectedMailingList))),
         map(([action, mailinglist]: ([DeleteMailingListMember, MailingList])) => [action.payload, mailinglist.address]),
         switchMap((val) => {
@@ -84,12 +87,11 @@ export class MailingListMemberEffects {
     );
 
     @Effect({ dispatch: false })
-    handleMemberSuccess$ = this.actions$
-    .ofType(
+    handleMemberSuccess$ = this.actions$.pipe(
+    ofType(
         MailingListMemberActionTypes.AddMailingListMemberSuccess,
         MailingListMemberActionTypes.AddMailingListMemberFail,
-    )
-    .pipe(
+    ),    
     withLatestFrom(this.store.pipe(select(fromMailinglists.getSelectedMailingList))),
       map(([payload, mailinglist]) => {
         let link = ['/mailing/mailinglist', mailinglist._id];

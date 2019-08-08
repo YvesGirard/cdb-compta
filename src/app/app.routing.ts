@@ -51,6 +51,10 @@ const appRoutes: Routes = [
     loadChildren: './comptabilite/core/core.module#CoreModule',
   },
   {
+    path: 'league',
+    loadChildren: './league/core/core.module#CoreModule',
+  },
+  {
     path: 'mailing',
     loadChildren: './emailing/core/core.module#CoreModule',
   },

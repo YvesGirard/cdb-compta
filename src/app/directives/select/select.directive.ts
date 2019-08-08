@@ -134,8 +134,8 @@ export class CdbSelect implements ControlValueAccessor, AfterContentInit/*, OnCh
   /** Subscriptions to option events. */
   private _subscriptions: Subscription[] = [];
 
-  @ViewChild('trigger') trigger: ElementRef;
-  @ViewChild('input') _inputElement: ElementRef;
+  @ViewChild('trigger', {static: true}) trigger: ElementRef;
+  @ViewChild('input', {static: true}) _inputElement: ElementRef;
 
   constructor(private _element: ElementRef, private _renderer: Renderer) { }
 

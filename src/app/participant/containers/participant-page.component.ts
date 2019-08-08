@@ -53,7 +53,7 @@ export class ParticipantPageComponent implements OnInit, AfterViewInit {
     'serie'
   ];
 
-  @ViewChild('search') search: ElementRef;
+  @ViewChild('search', {static: true}) search: ElementRef;
 
   constructor(private store: Store<fromParticipants.State>, public dialog: MatDialog, ) {
     this.total$ = this.store.pipe(select(fromParticipants.getCollectionTotal));

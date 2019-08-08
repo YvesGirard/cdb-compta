@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { UserService } from "../services/user.service";
@@ -16,7 +16,8 @@ import {
 export class ProfileEffects {
 
   @Effect()
-  updateUserProfile$ = this.actions$.ofType(UserActionTypes.UpdateUserProfile).pipe(
+  updateUserProfile$ = this.actions$.pipe(
+    ofType(UserActionTypes.UpdateUserProfile),
     map((action: UpdateUserProfile) => action.payload),
     switchMap(user => {
       return this.userService

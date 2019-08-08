@@ -38,7 +38,8 @@ import { Participant } from '../../../model/participant';
 export class ParticipantEffects {
 
     @Effect()
-    loadParticipants$ = this.actions$.ofType(ParticipantActionTypes.LoadParticipant).pipe(
+    loadParticipants$ = this.actions$.pipe(
+        ofType(ParticipantActionTypes.LoadParticipant),
         map((action: LoadParticipant) => action.payload),
         switchMap((id) => {
             return this.participantService
@@ -52,7 +53,8 @@ export class ParticipantEffects {
 
 
     @Effect()
-    createParticipant$ = this.actions$.ofType(ParticipantActionTypes.AddParticipant).pipe(
+    createParticipant$ = this.actions$.pipe(
+        ofType(ParticipantActionTypes.AddParticipant),
         map((action: AddParticipant) => action.payload),
         switchMap(participant => {
             return this.participantService
@@ -66,7 +68,8 @@ export class ParticipantEffects {
 
 
     @Effect()
-    updateParticipant$ = this.actions$.ofType(ParticipantActionTypes.UpdateParticipant).pipe(
+    updateParticipant$ = this.actions$.pipe(
+        ofType(ParticipantActionTypes.UpdateParticipant),
         map((action: UpdateParticipant) => action.payload),
         switchMap(participant => {
             return this.participantService
@@ -79,7 +82,8 @@ export class ParticipantEffects {
     );
 
     @Effect()
-    removeParticipant$ = this.actions$.ofType(ParticipantActionTypes.DeleteParticipant).pipe(
+    removeParticipant$ = this.actions$.pipe(
+        ofType(ParticipantActionTypes.DeleteParticipant),
         map((action: DeleteParticipant) => action.payload),
         switchMap(participant => {
             return this.participantService
@@ -92,12 +96,11 @@ export class ParticipantEffects {
     );
 
     @Effect({ dispatch: false })
-    handleParticipantSuccess$ = this.actions$
-    .ofType(
+    handleParticipantSuccess$ = this.actions$.pipe(
+    ofType(
         ParticipantActionTypes.DeleteParticipantSuccess,
         ParticipantActionTypes.UpdateParticipantSuccess,
-    )
-    .pipe(
+    ),
       map((participant) => {
         let link = ['/participant'];
         this.router.navigate(link);

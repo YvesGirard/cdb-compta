@@ -36,7 +36,7 @@ export class SelectedMailingListPageComponent {
   //mailinglistMembers$: Observable<MailingListMember[]>;
   dataSource$: MailinglistsMembersDataSource;
 
-  @ViewChild(MailingListsMembersComponent) _memberlist: MailingListsMembersComponent;
+  @ViewChild(MailingListsMembersComponent, {static: true}) _memberlist: MailingListsMembersComponent;
 
   constructor(private store: Store<fromMailinglists.State>) {
     this.mailinglist$ = store.pipe(select(fromMailinglists.getSelectedMailingList)) as Observable<MailingList>;

@@ -50,7 +50,8 @@ import * as fromMails from '../reducers';
 export class MailEffects {
 
     @Effect()
-    loadMails$ = this.actions$.ofType(MailActionTypes.LoadMail).pipe(
+    loadMails$ = this.actions$.pipe(
+        ofType(MailActionTypes.LoadMail),
         map((action: LoadMail) => action.payload),
         switchMap((id) => {
             return this.mailService
@@ -64,7 +65,8 @@ export class MailEffects {
 
 
     @Effect()
-    updateMail$ = this.actions$.ofType(MailActionTypes.UpdateMail).pipe(
+    updateMail$ = this.actions$.pipe(
+        ofType(MailActionTypes.UpdateMail),
         map((action: UpdateMail) => action.payload),
         switchMap(mail => {
             return this.mailService
@@ -77,7 +79,8 @@ export class MailEffects {
     );
 
     @Effect()
-    sendMail$ = this.actions$.ofType(MailActionTypes.SendMail).pipe(
+    sendMail$ = this.actions$.pipe(
+        ofType(MailActionTypes.SendMail),
         map((action: SendMail) => action.payload),
         switchMap(mail => {
             return this.mailService
@@ -103,12 +106,11 @@ export class MailEffects {
     );*/
 
     @Effect({ dispatch: false })
-    handleMailSuccess$ = this.actions$
-        .ofType(
+    handleMailSuccess$ = this.actions$.pipe(
+        ofType(
             MailActionTypes.DeleteMailSuccess,
             MailActionTypes.UpdateMailSuccess,
-        )
-        .pipe(
+        ),        
             map((mail) => {
                 let link = ['mailing/mails'];
                 this.router.navigate(link);

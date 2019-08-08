@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { JournalService } from "../../services/journal.service";
@@ -25,7 +25,8 @@ import {
 export class JournalEffects {
 
   @Effect()
-  loadJournals$ = this.actions$.ofType(JournalActionTypes.LoadJournals).pipe(
+  loadJournals$ = this.actions$.pipe(
+    ofType(JournalActionTypes.LoadJournals),
     switchMap(() => {
       return this.journalService
         .getJournals()
@@ -38,7 +39,8 @@ export class JournalEffects {
 
 
   @Effect()
-  createJournal$ = this.actions$.ofType(JournalActionTypes.AddJournal).pipe(
+  createJournal$ = this.actions$.pipe(
+    ofType(JournalActionTypes.AddJournal),
     map((action: AddJournal) => action.payload), 
     switchMap(journal => {
       
@@ -62,7 +64,8 @@ export class JournalEffects {
     );*/
 
   @Effect()
-  updateJournal$ = this.actions$.ofType(JournalActionTypes.UpdateJournal).pipe(
+  updateJournal$ = this.actions$.pipe(
+    ofType(JournalActionTypes.UpdateJournal),
     map((action: UpdateJournal) => action.payload),
     switchMap(journal => {
       return this.journalService
@@ -75,7 +78,8 @@ export class JournalEffects {
   );
 
   @Effect()
-  removeJournal$ = this.actions$.ofType(JournalActionTypes.RemoveJournal).pipe(
+  removeJournal$ = this.actions$.pipe(
+    ofType(JournalActionTypes.RemoveJournal),
     map((action: RemoveJournal) => action.payload),
     switchMap(journal => {
       return this.journalService

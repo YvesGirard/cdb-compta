@@ -60,7 +60,8 @@ export class MailCollectionEffects {
   );
 
   @Effect()
-  getTotal$ = this.actions$.ofType(MailCollectionActionTypes.GetTotal).pipe(
+  getTotal$ = this.actions$.pipe(
+    ofType(MailCollectionActionTypes.GetTotal),
     switchMap(() => {
       return this.mailService
         .getTotalMails()

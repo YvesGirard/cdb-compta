@@ -40,7 +40,7 @@ import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 })
 export class MailSearchComponent implements AfterViewInit {
 
-    @ViewChild('search') _search: ElementRef;
+    @ViewChild('search', {static: true}) _search: ElementRef;
     @Input() query = '';
 
     constructor() {

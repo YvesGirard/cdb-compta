@@ -53,8 +53,8 @@ export class MemberPageListComponent implements OnInit, AfterViewInit {
   pageIndex$: Observable<number>;
   pageSize$: Observable<number>;
 
-  @ViewChild(MemberSearchComponent) _search: MemberSearchComponent;
-  @ViewChild(MemberListComponent) _list: MemberListComponent;
+  @ViewChild(MemberSearchComponent, {static: true}) _search: MemberSearchComponent;
+  @ViewChild(MemberListComponent, {static: true}) _list: MemberListComponent;
 
   constructor(private store: Store<fromMembers.State>, public dialog: MatDialog, ) {
     this.total$ = this.store.pipe(select(fromMembers.getCollectionTotal));

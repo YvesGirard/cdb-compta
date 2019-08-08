@@ -11,7 +11,7 @@ import * as mongoose from "mongoose";
 
 
 if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').load();
+  require('dotenv').config();
 }
 
 var jwt = require('express-jwt');

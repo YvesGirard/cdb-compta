@@ -40,7 +40,8 @@ import { MailingList } from '../../../model/mail';
 export class MailingListEffects {
 
     @Effect()
-    loadMailingLists$ = this.actions$.ofType(MailingListActionTypes.LoadMailingList).pipe(
+    loadMailingLists$ = this.actions$.pipe(
+        ofType(MailingListActionTypes.LoadMailingList),
         switchMap(() => {
             console.log("loadMailingLists");
             return this.mailingListService
@@ -54,7 +55,8 @@ export class MailingListEffects {
 
 
     @Effect()
-    createMailingList$ = this.actions$.ofType(MailingListActionTypes.AddMailingList).pipe(
+    createMailingList$ = this.actions$.pipe(
+        ofType(MailingListActionTypes.AddMailingList),
         map((action: AddMailingList) => action.payload),
         switchMap(mailingList => {
             return this.mailingListService
@@ -68,7 +70,8 @@ export class MailingListEffects {
 
 
     @Effect()
-    updateMailingList$ = this.actions$.ofType(MailingListActionTypes.UpdateMailingList).pipe(
+    updateMailingList$ = this.actions$.pipe(
+        ofType(MailingListActionTypes.UpdateMailingList),
         map((action: UpdateMailingList) => action.payload),
         switchMap(mailingList => {
             return this.mailingListService
@@ -81,7 +84,8 @@ export class MailingListEffects {
     );
 
     @Effect()
-    removeMailingList$ = this.actions$.ofType(MailingListActionTypes.DeleteMailingList).pipe(
+    removeMailingList$ = this.actions$.pipe(
+        ofType(MailingListActionTypes.DeleteMailingList),
         map((action: DeleteMailingList) => action.payload),
         switchMap(mailingList => {
             return this.mailingListService
@@ -94,12 +98,11 @@ export class MailingListEffects {
     );
 
     @Effect({ dispatch: false })
-    handleMailingListSuccess$ = this.actions$
-    .ofType(
+    handleMailingListSuccess$ = this.actions$.pipe(
+    ofType(
         MailingListActionTypes.DeleteMailingListSuccess,
         MailingListActionTypes.UpdateMailingListSuccess,
-    )
-    .pipe(
+    ),    
       map((mailingList) => {
         let link = ['/mailinglist'];
         this.router.navigate(link);

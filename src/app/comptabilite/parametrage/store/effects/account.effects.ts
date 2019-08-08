@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { AccountService } from "../../services/account.service";
@@ -25,7 +25,8 @@ import {
 export class AccountEffects {
 
   @Effect()
-  loadAccounts$ = this.actions$.ofType(AccountActionTypes.LoadAccounts).pipe(
+  loadAccounts$ = this.actions$.pipe(
+    ofType(AccountActionTypes.LoadAccounts),
     switchMap(() => {
       return this.accountService
         .getAccounts()
@@ -38,7 +39,8 @@ export class AccountEffects {
 
 
   @Effect()
-  createAccount$ = this.actions$.ofType(AccountActionTypes.AddAccount).pipe(
+  createAccount$ = this.actions$.pipe(
+    ofType(AccountActionTypes.AddAccount),
     map((action: AddAccount) => action.payload), 
     switchMap(account => {
       
@@ -62,7 +64,8 @@ export class AccountEffects {
     );*/
 
   @Effect()
-  updateAccount$ = this.actions$.ofType(AccountActionTypes.UpdateAccount).pipe(
+  updateAccount$ = this.actions$.pipe(
+    ofType(AccountActionTypes.UpdateAccount),
     map((action: UpdateAccount) => action.payload),
     switchMap(account => {
       return this.accountService
@@ -75,7 +78,8 @@ export class AccountEffects {
   );
 
   @Effect()
-  removeAccount$ = this.actions$.ofType(AccountActionTypes.RemoveAccount).pipe(
+  removeAccount$ = this.actions$.pipe(
+    ofType(AccountActionTypes.RemoveAccount),
     map((action: RemoveAccount) => action.payload),
     switchMap(account => {
       return this.accountService

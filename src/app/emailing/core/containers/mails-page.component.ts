@@ -34,7 +34,7 @@ export class MailingListPageComponent implements OnInit, AfterViewInit {
     'access_level'
   ];
 
-  @ViewChild('search') search: ElementRef;
+  @ViewChild('search', {static: true}) search: ElementRef;
 
   constructor(private store: Store<fromMailingLists.State>, public dialog: MatDialog, ) {
 

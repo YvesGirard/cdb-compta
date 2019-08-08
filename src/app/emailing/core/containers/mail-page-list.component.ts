@@ -46,8 +46,8 @@ export class MailPageListComponent implements OnInit, AfterViewInit {
   pageIndex$: Observable<number>;
   pageSize$: Observable<number>;
 
-  @ViewChild(MailSearchComponent) _search: MailSearchComponent;
-  @ViewChild(MailListComponent) _list: MailListComponent;
+  @ViewChild(MailSearchComponent, {static: true}) _search: MailSearchComponent;
+  @ViewChild(MailListComponent, {static: true}) _list: MailListComponent;
 
   constructor(private store: Store<fromMails.State>, public dialog: MatDialog, ) {
     this.total$ = this.store.pipe(select(fromMails.getMailCollectionTotal));
