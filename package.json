@@ -42,7 +42,7 @@
     "@ngrx/store": "^8.1.0",
     "@ngrx/store-devtools": "^8.1.0",
     "@nguniversal/module-map-ngfactory-loader": "^8.1.1",
-    "auth0-js": "^9.11.3",
+    "auth0-js": "^9.13.2",
     "body-parser": "^1.19.0",
     "browser-sync": "^2.26.7",
     "core-js": "^3.1.4",
