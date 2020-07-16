@@ -54,7 +54,7 @@
     "gulp": "^4.0.2",
     "gulp-nodemon": "^2.4.2",
     "jwks-rsa": "^1.6.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "mailgun-js": "^0.22.0",
     "mailparser": "^2.7.1",
     "material": "^0.3.13",
